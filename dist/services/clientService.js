@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createClient = exports.getAllClients = void 0;
+exports.createClient = exports.getClient = exports.getAllClients = void 0;
 const database_1 = __importDefault(require("../utils/database"));
 const getAllClients = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -24,6 +24,19 @@ const getAllClients = () => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAllClients = getAllClients;
+const getClient = (idClient) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        return yield database_1.default.client.findUnique({
+            where: {
+                id: idClient
+            }
+        });
+    }
+    catch (error) {
+        console.error(error);
+    }
+});
+exports.getClient = getClient;
 const createClient = (input) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const moto = yield database_1.default.client.create({ data: input });

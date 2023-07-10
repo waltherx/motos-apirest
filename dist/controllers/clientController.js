@@ -20,6 +20,18 @@ router.get('/client', (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
     catch (error) {
         console.error(error);
+        res.status(500).json({ message: "Error fetching data Clients" });
+    }
+}));
+router.get('/client/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const client = yield (0, clientService_1.getClient)(id);
+        res.statusCode = 200;
+        res.json(client);
+    }
+    catch (error) {
+        next(error);
         res.status(500).json({ message: "Error fetching data Client" });
     }
 }));
