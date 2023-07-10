@@ -15,7 +15,7 @@ model User {
   status     Int
   token      String?
   created_at DateTime  @default(now())
-  update_at  DateTime? @updatedAt
+  update_at  DateTime? 
   roles      Role[]
 }
 
@@ -28,7 +28,7 @@ model Client {
   status     Int
   motos      Moto[]
   created_at DateTime  @default(now())
-  update_at  DateTime? @updatedAt
+  update_at  DateTime? 
 }
 
 model Role {
@@ -39,8 +39,8 @@ model Role {
   status     Int
   created_at DateTime  @default(now())
   update_at  DateTime? @updatedAt
-  user       User      @relation(fields: [userId], references: [id])
-  userId     Int
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id     Int
   menus      Menu[]
 }
 
@@ -48,8 +48,8 @@ model Menu {
   id       Int    @id @default(autoincrement())
   name     String @db.VarChar(20)
   sequence Int?
-  role     Role   @relation(fields: [roleId], references: [id])
-  roleId   Int
+  role     Role   @relation(fields: [role_id], references: [id])
+  role_id   Int
 }
 
 model Moto {
@@ -65,8 +65,8 @@ model Moto {
   estado        String?     @db.VarChar(50)
   fecha_compra  DateTime
   precio_compra Decimal    @db.Decimal(10, 2)
-  client        Client     @relation(fields: [clientId], references: [id])
-  clientId      Int
+  client        Client     @relation(fields: [client_id], references: [id])
+  client_id      Int
   positions     Position[]
 }
 
@@ -75,8 +75,8 @@ model Position {
   date      DateTime @default(now())
   latitude  Decimal  @db.Decimal(9, 6)
   longitude Decimal  @db.Decimal(9, 6)
-  moto      Moto     @relation(fields: [motoId], references: [id])
-  motoId    Int
+  moto      Moto     @relation(fields: [moto_id], references: [id])
+  moto_id    Int
 }
 
 datasource db {
