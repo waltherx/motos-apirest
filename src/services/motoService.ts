@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client"
+import prisma from "../utils/database";
 import { MotoCreateInput } from "../models/motoModel";
-
-const prisma = new PrismaClient();
 
 export const getAllMoto = async () => {
     try {
@@ -10,7 +8,6 @@ export const getAllMoto = async () => {
         console.error(error);
         return [];
     }
-
 }
 
 export const createMoto = async (input: MotoCreateInput): Promise<number> => {

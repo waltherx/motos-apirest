@@ -9,25 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const motoService_1 = require("../services/motoService");
-const router = (0, express_1.Router)();
-router.get('/moto', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const motos = yield (0, motoService_1.getAllMoto)();
-        res.statusCode = 200;
-        res.json(motos);
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error fetching data Moto" });
-    }
-}));
-router.post('/moto', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-    }
-    catch (error) {
-        console.error(error);
-    }
-}));
-exports.default = router;
+exports.comparePassword = exports.encryptPassword = void 0;
+const bcryptjs_1 = require("bcryptjs");
+const encryptPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
+    const salt = yield (0, bcryptjs_1.genSalt)(10);
+    return yield (0, bcryptjs_1.hash)(password, salt);
+});
+exports.encryptPassword = encryptPassword;
+const comparePassword = (password, hash) => __awaiter(void 0, void 0, void 0, function* () { return yield (0, bcryptjs_1.compare)(password, hash); });
+exports.comparePassword = comparePassword;

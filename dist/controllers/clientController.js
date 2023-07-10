@@ -10,20 +10,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const motoService_1 = require("../services/motoService");
+const clientService_1 = require("../services/clientService");
 const router = (0, express_1.Router)();
-router.get('/moto', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/client', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const motos = yield (0, motoService_1.getAllMoto)();
+        const clientes = yield (0, clientService_1.getAllClients)();
         res.statusCode = 200;
-        res.json(motos);
+        res.json(clientes);
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error fetching data Moto" });
+        res.status(500).json({ message: "Error fetching data Client" });
     }
 }));
-router.post('/moto', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.post('/client', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
     }
     catch (error) {

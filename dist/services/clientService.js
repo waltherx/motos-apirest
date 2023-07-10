@@ -8,26 +8,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const motoService_1 = require("../services/motoService");
-const router = (0, express_1.Router)();
-router.get('/moto', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createClient = exports.getAllClients = void 0;
+const database_1 = __importDefault(require("../utils/database"));
+const getAllClients = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const motos = yield (0, motoService_1.getAllMoto)();
-        res.statusCode = 200;
-        res.json(motos);
+        return yield database_1.default.client.findMany();
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error fetching data Moto" });
+        return [];
     }
-}));
-router.post('/moto', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.getAllClients = getAllClients;
+const createClient = (input) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const moto = yield database_1.default.client.create({ data: input });
+        return 1;
     }
     catch (error) {
         console.error(error);
+        return 0;
     }
-}));
-exports.default = router;
+});
+exports.createClient = createClient;

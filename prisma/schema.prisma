@@ -6,65 +6,65 @@ generator client {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique
-  realname   String
-  password   String
-  email      String   @unique
-  phone      String   @unique
+  id         Int       @id @default(autoincrement())
+  username   String    @unique
+  realname   String?   @db.VarChar(250)
+  password   String    @db.VarChar(2000)
+  email      String    @unique
+  phone      String?   @unique
   status     Int
-  token      String
-  created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
+  token      String?
+  created_at DateTime  @default(now())
+  update_at  DateTime? @updatedAt
   roles      Role[]
 }
 
 model Client {
-  id         Int      @id @default(autoincrement())
-  ci         Int      @unique
-  fullname   String
-  address    String
-  phone      String
+  id         Int       @id @default(autoincrement())
+  ci         Int       @unique
+  fullname   String    @db.VarChar(350)
+  address    String?   @db.VarChar(250)
+  phone      String?   @db.VarChar(20)
   status     Int
   motos      Moto[]
-  created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
+  created_at DateTime  @default(now())
+  update_at  DateTime? @updatedAt
 }
 
 model Role {
-  id         Int      @id @default(autoincrement())
-  name       String   @unique
-  sequence   String
-  memo       String
+  id         Int       @id @default(autoincrement())
+  name       String    @unique @db.VarChar(20)
+  sequence   String?   @db.VarChar(50)
+  memo       String?   @db.VarChar(50)
   status     Int
-  created_at DateTime @default(now())
-  update_at  DateTime @updatedAt
-  user       User     @relation(fields: [userId], references: [id])
+  created_at DateTime  @default(now())
+  update_at  DateTime? @updatedAt
+  user       User      @relation(fields: [userId], references: [id])
   userId     Int
   menus      Menu[]
 }
 
 model Menu {
   id       Int    @id @default(autoincrement())
-  name     String
-  sequence Int
+  name     String @db.VarChar(20)
+  sequence Int?
   role     Role   @relation(fields: [roleId], references: [id])
   roleId   Int
 }
 
 model Moto {
   id            Int        @id @default(autoincrement())
-  marca         String
-  modelo        String
-  anio          Int
-  placa         String
-  motor         String
-  color         String
-  peso          Decimal
-  kilometraje   Decimal
-  estado        String
+  marca         String?    @db.VarChar(100)
+  modelo        String     @db.VarChar(100)
+  anio          Int?
+  placa         String     @db.VarChar(15)
+  motor         String?    @db.VarChar(10)
+  color         String?    @db.VarChar(10)
+  peso          Decimal?   @db.Decimal(10, 2)
+  kilometraje   Decimal?   @db.Decimal(10, 2)
+  estado        String?     @db.VarChar(50)
   fecha_compra  DateTime
-  precio_compra Decimal
+  precio_compra Decimal    @db.Decimal(10, 2)
   client        Client     @relation(fields: [clientId], references: [id])
   clientId      Int
   positions     Position[]
@@ -73,8 +73,8 @@ model Moto {
 model Position {
   id        Int      @id @default(autoincrement())
   date      DateTime @default(now())
-  latitude  Decimal
-  longitude Decimal
+  latitude  Decimal  @db.Decimal(9, 6)
+  longitude Decimal  @db.Decimal(9, 6)
   moto      Moto     @relation(fields: [motoId], references: [id])
   motoId    Int
 }

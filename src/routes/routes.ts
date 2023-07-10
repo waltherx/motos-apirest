@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import  motoController from './motoRoute'
+import motoController from '../controllers/motoController'
+import clientController from '../controllers/clientController'
 
 const api = Router()
-
-  .use(motoController);
+  .use(motoController)
+  .use(clientController)
 
 export default Router().use('/api', api);

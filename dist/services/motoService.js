@@ -8,13 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createMoto = exports.getAllMoto = void 0;
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
+const database_1 = __importDefault(require("../utils/database"));
 const getAllMoto = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        return yield prisma.moto.findMany();
+        return yield database_1.default.moto.findMany();
     }
     catch (error) {
         console.error(error);
@@ -24,7 +26,7 @@ const getAllMoto = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.getAllMoto = getAllMoto;
 const createMoto = (input) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const moto = yield prisma.moto.create({ data: input });
+        const moto = yield database_1.default.moto.create({ data: input });
         return 1;
     }
     catch (error) {
