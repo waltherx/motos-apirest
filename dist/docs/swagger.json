@@ -2,16 +2,13 @@
     "openapi": "3.0.2",
     "info": {
         "title": "Motos-APIREST",
-        "description": "API de motos para el monitoreo\n**Stack**\n*Node.js ⚡,Typescript 🔗, Express.js 🍏, Prisma 🛠️, Postgresql 🐘, Swagger 📑*\n**",
+        "description": "API de motos para el monitoreo\n**Stack**\n*Node.js ⚡,Typescript 🔗, Express.js 🍏, Prisma 🛠️, Postgresql 🐘, Swagger 📑*\n",
         "version": "1.0.0"
     },
     "servers": [
         {
-            "url": "https://virtserver.swaggerhub.com/WALTERMJ2012/Motos/1.0.0",
+            "url": "https://motos-app.onrender.com",
             "description": "SwaggerHub API Auto Mocking"
-        },
-        {
-            "url": "https://motos-app.onrender.com"
         }
     ],
     "paths": {

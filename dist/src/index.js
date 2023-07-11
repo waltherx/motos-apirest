@@ -18,10 +18,10 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(routes_1.default);
 app.use(express_1.default.static(path_1.default.join(__dirname, '..', 'public')));
-app.get('/', function (req, res) {
-    res.sendFile(path_1.default.join(__dirname, 'public', 'index.html'));
-});
-app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
+/*app.get('/', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});*/
+app.use('/', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
 app.listen(port, function () {
     console.log("\u26A1\uFE0F[server]: Esta corriendo en -> \uD83E\uDD20 http://localhost:".concat(port, " \u26A1\uFE0F"));
 });
