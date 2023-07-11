@@ -5,7 +5,19 @@ import { ClientCreateInput, ClientUpdateInput } from "../models/clientModel";
 
 export const getAllClients = async () => {
     try {
-        return await prisma.client.findMany();
+        return await prisma.client.findMany({
+            select: {
+                id: true,
+                ci: true,
+                fullname: true,
+                address: true,
+                phone: true,
+                status: true,
+            },
+            orderBy: {
+                id: 'asc',
+            },
+        });
     } catch (error) {
         console.error(error);
         return [];
