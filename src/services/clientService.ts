@@ -16,6 +16,14 @@ export const getClient = async (id: number): Promise<ClientUpdateInput> => {
     try {
         return await prisma.client.findUnique({
             where: { id },
+            select: {
+                id: true,
+                ci: true,
+                fullname: true,
+                address: true,
+                phone: true,
+                status: true,
+            }
         });
     } catch (error) {
         console.error(error);
