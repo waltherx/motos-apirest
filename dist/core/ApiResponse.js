@@ -1,4 +1,19 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenRefreshResponse = exports.AccessTokenErrorResponse = exports.SuccessResponse = exports.FailureMsgResponse = exports.SuccessMsgResponse = exports.InternalErrorResponse = exports.BadRequestResponse = exports.ForbiddenResponse = exports.NotFoundResponse = exports.AuthFailureResponse = void 0;
 // Helper code for the API consumer to understand the error and handle is accordingly
@@ -18,105 +33,142 @@ var ResponseStatus;
     ResponseStatus[ResponseStatus["NOT_FOUND"] = 404] = "NOT_FOUND";
     ResponseStatus[ResponseStatus["INTERNAL_ERROR"] = 500] = "INTERNAL_ERROR";
 })(ResponseStatus || (ResponseStatus = {}));
-class ApiResponse {
-    constructor(statusCode, status, message) {
+var ApiResponse = /** @class */ (function () {
+    function ApiResponse(statusCode, status, message) {
         this.statusCode = statusCode;
         this.status = status;
         this.message = message;
     }
-    prepare(res, response, headers) {
-        for (const [key, value] of Object.entries(headers))
+    ApiResponse.prototype.prepare = function (res, response, headers) {
+        for (var _i = 0, _a = Object.entries(headers); _i < _a.length; _i++) {
+            var _b = _a[_i], key = _b[0], value = _b[1];
             res.append(key, value);
+        }
         return res.status(this.status).json(ApiResponse.sanitize(response));
-    }
-    send(res, headers = {}) {
+    };
+    ApiResponse.prototype.send = function (res, headers) {
+        if (headers === void 0) { headers = {}; }
         return this.prepare(res, this, headers);
-    }
-    static sanitize(response) {
-        const clone = {};
+    };
+    ApiResponse.sanitize = function (response) {
+        var clone = {};
         Object.assign(clone, response);
         // @ts-ignore
         delete clone.status;
-        for (const i in clone)
+        for (var i in clone)
             if (typeof clone[i] === 'undefined')
                 delete clone[i];
         return clone;
+    };
+    return ApiResponse;
+}());
+var AuthFailureResponse = /** @class */ (function (_super) {
+    __extends(AuthFailureResponse, _super);
+    function AuthFailureResponse(message) {
+        if (message === void 0) { message = 'Authentication Failure'; }
+        return _super.call(this, StatusCode.FAILURE, ResponseStatus.UNAUTHORIZED, message) || this;
     }
-}
-class AuthFailureResponse extends ApiResponse {
-    constructor(message = 'Authentication Failure') {
-        super(StatusCode.FAILURE, ResponseStatus.UNAUTHORIZED, message);
-    }
-}
+    return AuthFailureResponse;
+}(ApiResponse));
 exports.AuthFailureResponse = AuthFailureResponse;
-class NotFoundResponse extends ApiResponse {
-    constructor(message = 'Not Found') {
-        super(StatusCode.FAILURE, ResponseStatus.NOT_FOUND, message);
+var NotFoundResponse = /** @class */ (function (_super) {
+    __extends(NotFoundResponse, _super);
+    function NotFoundResponse(message) {
+        if (message === void 0) { message = 'Not Found'; }
+        return _super.call(this, StatusCode.FAILURE, ResponseStatus.NOT_FOUND, message) || this;
     }
-    send(res, headers = {}) {
-        return super.prepare(res, this, headers);
-    }
-}
+    NotFoundResponse.prototype.send = function (res, headers) {
+        if (headers === void 0) { headers = {}; }
+        return _super.prototype.prepare.call(this, res, this, headers);
+    };
+    return NotFoundResponse;
+}(ApiResponse));
 exports.NotFoundResponse = NotFoundResponse;
-class ForbiddenResponse extends ApiResponse {
-    constructor(message = 'Forbidden') {
-        super(StatusCode.FAILURE, ResponseStatus.FORBIDDEN, message);
+var ForbiddenResponse = /** @class */ (function (_super) {
+    __extends(ForbiddenResponse, _super);
+    function ForbiddenResponse(message) {
+        if (message === void 0) { message = 'Forbidden'; }
+        return _super.call(this, StatusCode.FAILURE, ResponseStatus.FORBIDDEN, message) || this;
     }
-}
+    return ForbiddenResponse;
+}(ApiResponse));
 exports.ForbiddenResponse = ForbiddenResponse;
-class BadRequestResponse extends ApiResponse {
-    constructor(message = 'Bad Parameters') {
-        super(StatusCode.FAILURE, ResponseStatus.BAD_REQUEST, message);
+var BadRequestResponse = /** @class */ (function (_super) {
+    __extends(BadRequestResponse, _super);
+    function BadRequestResponse(message) {
+        if (message === void 0) { message = 'Bad Parameters'; }
+        return _super.call(this, StatusCode.FAILURE, ResponseStatus.BAD_REQUEST, message) || this;
     }
-}
+    return BadRequestResponse;
+}(ApiResponse));
 exports.BadRequestResponse = BadRequestResponse;
-class InternalErrorResponse extends ApiResponse {
-    constructor(message = 'Internal Error') {
-        super(StatusCode.FAILURE, ResponseStatus.INTERNAL_ERROR, message);
+var InternalErrorResponse = /** @class */ (function (_super) {
+    __extends(InternalErrorResponse, _super);
+    function InternalErrorResponse(message) {
+        if (message === void 0) { message = 'Internal Error'; }
+        return _super.call(this, StatusCode.FAILURE, ResponseStatus.INTERNAL_ERROR, message) || this;
     }
-}
+    return InternalErrorResponse;
+}(ApiResponse));
 exports.InternalErrorResponse = InternalErrorResponse;
-class SuccessMsgResponse extends ApiResponse {
-    constructor(message) {
-        super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
+var SuccessMsgResponse = /** @class */ (function (_super) {
+    __extends(SuccessMsgResponse, _super);
+    function SuccessMsgResponse(message) {
+        return _super.call(this, StatusCode.SUCCESS, ResponseStatus.SUCCESS, message) || this;
     }
-}
+    return SuccessMsgResponse;
+}(ApiResponse));
 exports.SuccessMsgResponse = SuccessMsgResponse;
-class FailureMsgResponse extends ApiResponse {
-    constructor(message) {
-        super(StatusCode.FAILURE, ResponseStatus.SUCCESS, message);
+var FailureMsgResponse = /** @class */ (function (_super) {
+    __extends(FailureMsgResponse, _super);
+    function FailureMsgResponse(message) {
+        return _super.call(this, StatusCode.FAILURE, ResponseStatus.SUCCESS, message) || this;
     }
-}
+    return FailureMsgResponse;
+}(ApiResponse));
 exports.FailureMsgResponse = FailureMsgResponse;
-class SuccessResponse extends ApiResponse {
-    constructor(message, data) {
-        super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
-        this.data = data;
+var SuccessResponse = /** @class */ (function (_super) {
+    __extends(SuccessResponse, _super);
+    function SuccessResponse(message, data) {
+        var _this = _super.call(this, StatusCode.SUCCESS, ResponseStatus.SUCCESS, message) || this;
+        _this.data = data;
+        return _this;
     }
-    send(res, headers = {}) {
-        return super.prepare(res, this, headers);
-    }
-}
+    SuccessResponse.prototype.send = function (res, headers) {
+        if (headers === void 0) { headers = {}; }
+        return _super.prototype.prepare.call(this, res, this, headers);
+    };
+    return SuccessResponse;
+}(ApiResponse));
 exports.SuccessResponse = SuccessResponse;
-class AccessTokenErrorResponse extends ApiResponse {
-    constructor(message = 'Access token invalid') {
-        super(StatusCode.INVALID_ACCESS_TOKEN, ResponseStatus.UNAUTHORIZED, message);
-        this.instruction = 'refresh_token';
+var AccessTokenErrorResponse = /** @class */ (function (_super) {
+    __extends(AccessTokenErrorResponse, _super);
+    function AccessTokenErrorResponse(message) {
+        if (message === void 0) { message = 'Access token invalid'; }
+        var _this = _super.call(this, StatusCode.INVALID_ACCESS_TOKEN, ResponseStatus.UNAUTHORIZED, message) || this;
+        _this.instruction = 'refresh_token';
+        return _this;
     }
-    send(res, headers = {}) {
+    AccessTokenErrorResponse.prototype.send = function (res, headers) {
+        if (headers === void 0) { headers = {}; }
         headers.instruction = this.instruction;
-        return super.prepare(res, this, headers);
-    }
-}
+        return _super.prototype.prepare.call(this, res, this, headers);
+    };
+    return AccessTokenErrorResponse;
+}(ApiResponse));
 exports.AccessTokenErrorResponse = AccessTokenErrorResponse;
-class TokenRefreshResponse extends ApiResponse {
-    constructor(message, accessToken, refreshToken) {
-        super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+var TokenRefreshResponse = /** @class */ (function (_super) {
+    __extends(TokenRefreshResponse, _super);
+    function TokenRefreshResponse(message, accessToken, refreshToken) {
+        var _this = _super.call(this, StatusCode.SUCCESS, ResponseStatus.SUCCESS, message) || this;
+        _this.accessToken = accessToken;
+        _this.refreshToken = refreshToken;
+        return _this;
     }
-    send(res, headers = {}) {
-        return super.prepare(res, this, headers);
-    }
-}
+    TokenRefreshResponse.prototype.send = function (res, headers) {
+        if (headers === void 0) { headers = {}; }
+        return _super.prototype.prepare.call(this, res, this, headers);
+    };
+    return TokenRefreshResponse;
+}(ApiResponse));
 exports.TokenRefreshResponse = TokenRefreshResponse;

@@ -3,22 +3,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const cors_1 = __importDefault(require("cors"));
-const path_1 = __importDefault(require("path"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const routes_1 = __importDefault(require("./routes/routes"));
+var express_1 = __importDefault(require("express"));
+var cors_1 = __importDefault(require("cors"));
+var path_1 = __importDefault(require("path"));
+var dotenv_1 = __importDefault(require("dotenv"));
+var routes_1 = __importDefault(require("./routes/routes"));
 dotenv_1.default.config();
-const app = (0, express_1.default)();
-const port = process.env.PORT;
+var app = (0, express_1.default)();
+var port = process.env.PORT;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(routes_1.default);
 app.use(express_1.default.static(path_1.default.join(__dirname, '..', 'public')));
-app.get('/', (req, res) => {
+app.get('/', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, 'public', 'index.html'));
 });
-app.listen(port, () => {
-    console.log(`⚡️[server]: Esta corriendo en -> 🤠 http://localhost:${port} ⚡️`);
+app.listen(port, function () {
+    console.log("\u26A1\uFE0F[server]: Esta corriendo en -> \uD83E\uDD20 http://localhost:".concat(port, " \u26A1\uFE0F"));
 });

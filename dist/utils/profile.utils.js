@@ -1,4 +1,3 @@
-"use strict";
 /*import { Profile } from "../models/userModel";
 
 const profileMapper = (user: any, username: string | undefined): Profile => ({

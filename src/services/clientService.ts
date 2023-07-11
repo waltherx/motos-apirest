@@ -1,5 +1,7 @@
 import prisma from "../utils/database";
-import { ClientCreateInput } from "../models/clientModel";
+import { ClientCreateInput, ClientUpdateInput } from "../models/clientModel";
+
+
 
 export const getAllClients = async () => {
     try {
@@ -10,12 +12,10 @@ export const getAllClients = async () => {
     }
 }
 
-export const getClient = async (idClient: number) => {
+export const getClient = async (id: number): Promise<ClientUpdateInput> => {
     try {
         return await prisma.client.findUnique({
-            where: {
-                id: idClient
-            }
+            where: { id },
         });
     } catch (error) {
         console.error(error);
