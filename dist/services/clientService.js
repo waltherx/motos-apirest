@@ -47,7 +47,19 @@ var getAllClients = function () { return __awaiter(void 0, void 0, void 0, funct
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.client.findMany()];
+                return [4 /*yield*/, database_1.default.client.findMany({
+                        select: {
+                            id: true,
+                            ci: true,
+                            fullname: true,
+                            address: true,
+                            phone: true,
+                            status: true,
+                        },
+                        orderBy: {
+                            id: 'asc',
+                        },
+                    })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_1 = _a.sent();
@@ -66,6 +78,14 @@ var getClient = function (id) { return __awaiter(void 0, void 0, void 0, functio
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, database_1.default.client.findUnique({
                         where: { id: id },
+                        select: {
+                            id: true,
+                            ci: true,
+                            fullname: true,
+                            address: true,
+                            phone: true,
+                            status: true,
+                        }
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
