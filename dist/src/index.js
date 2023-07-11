@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var cors_1 = __importDefault(require("cors"));
-var path_1 = __importDefault(require("path"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 var swagger_json_1 = __importDefault(require("../docs/swagger.json"));
@@ -17,8 +16,9 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(routes_1.default);
-app.use(express_1.default.static(path_1.default.join(__dirname, '..', 'public')));
-/*app.get('/', (req: Request, res: Response) => {
+/*app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.get('/', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });*/
 app.use('/', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
