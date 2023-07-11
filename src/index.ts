@@ -21,9 +21,14 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
-    return res.send(
-        swaggerUi.generateHTML(await swaggerDocument)
-    );
+    try {
+        return res.send(
+            swaggerUi.generateHTML(await swaggerDocument, { explorer: true })
+        );
+    } catch (error) {
+        console.error(error.message);
+    }
+
 });
 
 app.listen(port, () => {
