@@ -1,7 +1,5 @@
 import { Prisma } from '@prisma/client';
+export type Client = Prisma.ClientCreateManyInput;
 
 export type ClientCreateInput = Prisma.ClientCreateInput;
-export type ClientSelect = Prisma.ClientSelect;
-export type ClientWhere = Prisma.ClientWhereUniqueInput;
-
 export type ClientUpdateInput = Partial<ClientCreateInput>;

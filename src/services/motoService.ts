@@ -1,21 +1,54 @@
 import prisma from "../utils/database";
-import { MotoCreateInput } from "../models/motoModel";
+import { MotoCreateInput, MotoUpdateInput } from "../models/motoModel";
 
-export const getAllMoto = async () => {
+export const getAllMotos = async () => {
     try {
-        return await prisma.moto.findMany();
+        return await prisma.moto.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        });
     } catch (error) {
-        console.error(error);
+        console.error(error.message);
         return [];
     }
 }
 
-export const createMoto = async (input: MotoCreateInput): Promise<number> => {
+export const getMoto = async (id: number): Promise<MotoUpdateInput> => {
     try {
-        const moto = await prisma.moto.create({ data: input })
-        return 1;
+        return await prisma.moto.findUnique({
+            where: { id },
+        });
     } catch (error) {
-        console.error(error);
-        return 0;
+        console.error(error.message);
+    }
+}
+
+export const createMoto = async (input: MotoCreateInput): Promise<MotoUpdateInput> => {
+    try {
+        return await prisma.moto.create({ data: input })
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+export const updateMoto = async (id: number, input: MotoCreateInput): Promise<MotoUpdateInput> => {
+    try {
+        return await prisma.moto.update({
+            where: { id },
+            data: input
+        })
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+export const deleteMoto = async (id: number): Promise<MotoUpdateInput> => {
+    try {
+        return await prisma.moto.delete({
+            where: { id }
+        })
+    } catch (error) {
+        console.error(error.message);
     }
 }

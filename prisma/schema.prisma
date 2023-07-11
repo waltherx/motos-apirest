@@ -15,8 +15,29 @@ model User {
   status     Int
   token      String?
   created_at DateTime  @default(now())
-  update_at  DateTime? 
-  roles      Role[]
+  update_at  DateTime?
+  role       Role      @relation(fields: [role_id], references: [id])
+  role_id    Int
+}
+
+model Role {
+  id         Int       @id @default(autoincrement())
+  name       String    @unique @db.VarChar(20)
+  sequence   String?   @db.VarChar(50)
+  memo       String?   @db.VarChar(50)
+  status     Int
+  created_at DateTime  @default(now())
+  update_at  DateTime? @updatedAt
+  users      User[]
+  menus      Menu[]
+}
+
+model Menu {
+  id       Int    @id @default(autoincrement())
+  name     String @db.VarChar(20)
+  sequence Int?
+  role     Role   @relation(fields: [role_id], references: [id])
+  role_id  Int
 }
 
 model Client {
@@ -28,28 +49,7 @@ model Client {
   status     Int
   motos      Moto[]
   created_at DateTime  @default(now())
-  update_at  DateTime? 
-}
-
-model Role {
-  id         Int       @id @default(autoincrement())
-  name       String    @unique @db.VarChar(20)
-  sequence   String?   @db.VarChar(50)
-  memo       String?   @db.VarChar(50)
-  status     Int
-  created_at DateTime  @default(now())
-  update_at  DateTime? @updatedAt
-  user       User      @relation(fields: [user_id], references: [id])
-  user_id     Int
-  menus      Menu[]
-}
-
-model Menu {
-  id       Int    @id @default(autoincrement())
-  name     String @db.VarChar(20)
-  sequence Int?
-  role     Role   @relation(fields: [role_id], references: [id])
-  role_id   Int
+  update_at  DateTime?
 }
 
 model Moto {
@@ -62,11 +62,11 @@ model Moto {
   color         String?    @db.VarChar(10)
   peso          Decimal?   @db.Decimal(10, 2)
   kilometraje   Decimal?   @db.Decimal(10, 2)
-  estado        String?     @db.VarChar(50)
+  estado        String?    @db.VarChar(50)
   fecha_compra  DateTime
   precio_compra Decimal    @db.Decimal(10, 2)
   client        Client     @relation(fields: [client_id], references: [id])
-  client_id      Int
+  client_id     Int
   positions     Position[]
 }
 
@@ -76,7 +76,7 @@ model Position {
   latitude  Decimal  @db.Decimal(9, 6)
   longitude Decimal  @db.Decimal(9, 6)
   moto      Moto     @relation(fields: [moto_id], references: [id])
-  moto_id    Int
+  moto_id   Int
 }
 
 datasource db {

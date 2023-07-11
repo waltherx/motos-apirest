@@ -2,7 +2,6 @@ import prisma from "../utils/database";
 import { ClientCreateInput, ClientUpdateInput } from "../models/clientModel";
 
 
-
 export const getAllClients = async () => {
     try {
         return await prisma.client.findMany({
@@ -19,7 +18,7 @@ export const getAllClients = async () => {
             },
         });
     } catch (error) {
-        console.error(error);
+        console.error(error.message);
         return [];
     }
 }
@@ -38,16 +37,35 @@ export const getClient = async (id: number): Promise<ClientUpdateInput> => {
             }
         });
     } catch (error) {
-        console.error(error);
+        console.error(error.message);
     }
 }
 
-export const createClient = async (input: ClientCreateInput): Promise<number> => {
+export const createClient = async (input: ClientCreateInput): Promise<ClientUpdateInput> => {
     try {
-        const moto = await prisma.client.create({ data: input })
-        return 1;
+        return await prisma.client.create({ data: input })
     } catch (error) {
-        console.error(error);
-        return 0;
+        console.error(error.message);
+    }
+}
+
+export const updateClient = async (id: number, input: ClientCreateInput): Promise<ClientUpdateInput> => {
+    try {
+        return await prisma.client.update({
+            where: { id },
+            data: input
+        })
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+export const deleteClient = async (id: number): Promise<ClientUpdateInput> => {
+    try {
+        return await prisma.client.delete({
+            where: { id }
+        })
+    } catch (error) {
+        console.error(error.message);
     }
 }
