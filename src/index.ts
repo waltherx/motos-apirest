@@ -14,13 +14,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
-/*app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});*/
+});
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
+    return res.send(
+        swaggerUi.generateHTML(await swaggerDocument)
+    );
+});
 
 app.listen(port, () => {
     console.log(`⚡️[server]: Esta corriendo en -> 🤠 http://localhost:${port} ⚡️`);
