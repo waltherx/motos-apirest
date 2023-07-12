@@ -58,21 +58,8 @@ app.get('/', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, 'public', 'index.html'));
 });
 app.use("/docs", swagger_ui_express_1.default.serve, function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, _b, _c, _d, error_1;
-    return __generator(this, function (_e) {
-        switch (_e.label) {
-            case 0:
-                _e.trys.push([0, 2, , 3]);
-                _b = (_a = res).send;
-                _d = (_c = swagger_ui_express_1.default).generateHTML;
-                return [4 /*yield*/, swagger_json_1.default];
-            case 1: return [2 /*return*/, _b.apply(_a, [_d.apply(_c, [_e.sent(), { explorer: true }])])];
-            case 2:
-                error_1 = _e.sent();
-                console.error(error_1.message);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
+    return __generator(this, function (_a) {
+        return [2 /*return*/, res.send(swagger_ui_express_1.default.generateHTML(swagger_json_1.default, { explorer: true }))];
     });
 }); });
 app.listen(port, function () {
