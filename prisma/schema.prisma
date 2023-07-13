@@ -6,18 +6,19 @@ generator client {
 }
 
 model User {
-  id         Int       @id @default(autoincrement())
-  username   String    @unique
-  realname   String?   @default("") @db.VarChar(250)
-  password   String    @db.VarChar(2000)
-  email      String    @unique
-  phone      String?   @unique @default("")
+  id         Int              @id @default(autoincrement())
+  username   String           @unique
+  realname   String?          @default("") @db.VarChar(250)
+  password   String           @db.VarChar(2000)
+  email      String           @unique
+  phone      String?          @unique @default("")
   status     Int
-  token      String?   @default("")
-  created_at DateTime  @default(now())
+  token      String?          @default("")
+  created_at DateTime         @default(now())
   update_at  DateTime?
-  role       Role      @relation(fields: [role_id], references: [id])
+  role       Role             @relation(fields: [role_id], references: [id])
   role_id    Int
+  sucrusals  UserOnSucrusal[]
 }
 
 model Role {
@@ -52,11 +53,23 @@ model Client {
   update_at  DateTime?
 }
 
+model UserOnSucrusal {
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     Int // relation scalar field (used in the `@relation` attribute above)
+  sucrusal    Sucrusal @relation(fields: [sucrusal_id], references: [id])
+  sucrusal_id Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt  DateTime @default(now())
+  assignedBy  String?   @default("") @db.VarChar(150)
+
+  @@id([user_id, sucrusal_id])
+}
+
 model Sucrusal {
-  id      Int    @id @default(autoincrement())
-  name    String @default("") @db.VarChar(100)
-  address String @default("") @db.VarChar(500)
+  id      Int              @id @default(autoincrement())
+  name    String           @default("") @db.VarChar(100)
+  address String?           @default("") @db.VarChar(500)
   motos   Moto[]
+  users   UserOnSucrusal[]
 }
 
 model Moto {
