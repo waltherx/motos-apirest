@@ -5,6 +5,7 @@ import positionController from '../controllers/positionController';
 import userController from '../controllers/userController';
 import roleController from '../controllers/roleController';
 import menuController from '../controllers/menuController';
+import sucrusalController from '../controllers/sucrusalController';
 
 
 const api = Router()
@@ -14,7 +15,6 @@ const api = Router()
   .use(userController)
   .use(roleController)
   .use(menuController)
-
-
+  .use(sucrusalController)
 
 export default Router().use('/api', api);
