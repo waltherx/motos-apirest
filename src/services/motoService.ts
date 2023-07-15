@@ -1,6 +1,27 @@
 import prisma from "../utils/database";
 import { MotoCreateInput, MotoUpdateInput } from "../models/motoModel";
 
+export const searchMotos = async (input: string) => {
+    try {
+        return await prisma.moto.findMany({
+            where: {
+                placa: {
+                    contains: input,
+                    mode: 'insensitive',
+                }
+            },
+            select: {
+                id: true,
+                placa: true,
+                positions: true,
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
+        return [];
+    }
+}
+
 export const getAllMotos = async () => {
     try {
         return await prisma.moto.findMany({

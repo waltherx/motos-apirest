@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
 }
 
 model User {
@@ -59,7 +59,7 @@ model UserOnSucrusal {
   sucrusal    Sucrusal @relation(fields: [sucrusal_id], references: [id])
   sucrusal_id Int // relation scalar field (used in the `@relation` attribute above)
   assignedAt  DateTime @default(now())
-  assignedBy  String?   @default("") @db.VarChar(150)
+  assignedBy  String?  @default("") @db.VarChar(150)
 
   @@id([user_id, sucrusal_id])
 }
@@ -67,7 +67,7 @@ model UserOnSucrusal {
 model Sucrusal {
   id      Int              @id @default(autoincrement())
   name    String           @default("") @db.VarChar(100)
-  address String?           @default("") @db.VarChar(500)
+  address String?          @default("") @db.VarChar(500)
   motos   Moto[]
   users   UserOnSucrusal[]
 }

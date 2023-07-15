@@ -39,25 +39,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMoto = exports.updateMoto = exports.createMoto = exports.getMoto = exports.getAllMotos = exports.searchMotos = void 0;
+exports.deleteSucrusal = exports.updateSucrusal = exports.createSucrusal = exports.getSucrusal = exports.getAllSucrusals = void 0;
 var database_1 = __importDefault(require("../utils/database"));
-var searchMotos = function (input) { return __awaiter(void 0, void 0, void 0, function () {
+var getAllSucrusals = function () { return __awaiter(void 0, void 0, void 0, function () {
     var error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.moto.findMany({
-                        where: {
-                            placa: {
-                                contains: input,
-                                mode: 'insensitive',
-                            }
-                        },
-                        select: {
-                            id: true,
-                            placa: true,
-                            positions: true,
+                return [4 /*yield*/, database_1.default.sucrusal.findMany({
+                        orderBy: {
+                            id: 'asc'
                         }
                     })];
             case 1: return [2 /*return*/, _a.sent()];
@@ -69,37 +61,33 @@ var searchMotos = function (input) { return __awaiter(void 0, void 0, void 0, fu
         }
     });
 }); };
-exports.searchMotos = searchMotos;
-var getAllMotos = function () { return __awaiter(void 0, void 0, void 0, function () {
+exports.getAllSucrusals = getAllSucrusals;
+var getSucrusal = function (id) { return __awaiter(void 0, void 0, void 0, function () {
     var error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.moto.findMany({
-                        orderBy: {
-                            id: 'asc'
-                        }
+                return [4 /*yield*/, database_1.default.sucrusal.findUnique({
+                        where: { id: id },
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_2 = _a.sent();
                 console.error(error_2.message);
-                return [2 /*return*/, []];
+                return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-exports.getAllMotos = getAllMotos;
-var getMoto = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getSucrusal = getSucrusal;
+var createSucrusal = function (input) { return __awaiter(void 0, void 0, void 0, function () {
     var error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.moto.findUnique({
-                        where: { id: id },
-                    })];
+                return [4 /*yield*/, database_1.default.sucrusal.create({ data: input })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_3 = _a.sent();
@@ -109,14 +97,17 @@ var getMoto = function (id) { return __awaiter(void 0, void 0, void 0, function 
         }
     });
 }); };
-exports.getMoto = getMoto;
-var createMoto = function (input) { return __awaiter(void 0, void 0, void 0, function () {
+exports.createSucrusal = createSucrusal;
+var updateSucrusal = function (id, input) { return __awaiter(void 0, void 0, void 0, function () {
     var error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.moto.create({ data: input })];
+                return [4 /*yield*/, database_1.default.sucrusal.update({
+                        where: { id: id },
+                        data: input
+                    })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_4 = _a.sent();
@@ -126,16 +117,15 @@ var createMoto = function (input) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); };
-exports.createMoto = createMoto;
-var updateMoto = function (id, input) { return __awaiter(void 0, void 0, void 0, function () {
+exports.updateSucrusal = updateSucrusal;
+var deleteSucrusal = function (id) { return __awaiter(void 0, void 0, void 0, function () {
     var error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.moto.update({
-                        where: { id: id },
-                        data: input
+                return [4 /*yield*/, database_1.default.sucrusal.delete({
+                        where: { id: id }
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
@@ -146,23 +136,4 @@ var updateMoto = function (id, input) { return __awaiter(void 0, void 0, void 0,
         }
     });
 }); };
-exports.updateMoto = updateMoto;
-var deleteMoto = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_6;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.moto.delete({
-                        where: { id: id }
-                    })];
-            case 1: return [2 /*return*/, _a.sent()];
-            case 2:
-                error_6 = _a.sent();
-                console.error(error_6.message);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.deleteMoto = deleteMoto;
+exports.deleteSucrusal = deleteSucrusal;

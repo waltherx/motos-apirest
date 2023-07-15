@@ -40,24 +40,32 @@ var client_1 = require("@prisma/client");
 var prisma = new client_1.PrismaClient();
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var cliente;
+        var Jusalian, Aldo;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, prisma.client.upsert({
-                        where: { ci: 97888 },
+                        where: { ci: 97388 },
                         update: {},
                         create: {
                             ci: 97388,
-                            fullname: 'Manuel Carrillo',
-                            address: 'la villa',
-                            phone: '7455664',
+                            fullname: 'Julian Albarez',
+                            address: 'la lujan',
+                            phone: '7245234',
                             status: 1,
                             motos: {
                                 create: {
-                                    modelo: 'xr200',
-                                    placa: '897DSA',
+                                    marca: 'Honda',
+                                    modelo: 'XR200',
+                                    placa: '197DSA',
+                                    anio: 2019,
+                                    color: 'Negro',
+                                    motor: '160',
+                                    peso: 254,
+                                    kilometraje: 5150,
+                                    estado: '1',
                                     fecha_compra: new Date().toISOString(),
                                     precio_compra: 14000,
+                                    sucrusal_id: 1,
                                     positions: {
                                         create: [
                                             {
@@ -83,7 +91,48 @@ function main() {
                         }
                     })];
                 case 1:
-                    cliente = _a.sent();
+                    Jusalian = _a.sent();
+                    return [4 /*yield*/, prisma.client.upsert({
+                            where: { ci: 66388 },
+                            update: {},
+                            create: {
+                                ci: 66388,
+                                fullname: 'Aldo Peña',
+                                address: 'av beni',
+                                phone: '7310234',
+                                status: 1,
+                                motos: {
+                                    create: {
+                                        marca: 'Hero',
+                                        modelo: 'Pulsar200',
+                                        placa: '427DSA',
+                                        anio: 2019,
+                                        color: 'Blanca',
+                                        motor: '150',
+                                        peso: 304,
+                                        kilometraje: 2150,
+                                        estado: '1',
+                                        fecha_compra: new Date().toISOString(),
+                                        precio_compra: 21000,
+                                        sucrusal_id: 1,
+                                        positions: {
+                                            create: [
+                                                {
+                                                    latitude: -17.752086,
+                                                    longitude: -63.162889
+                                                },
+                                                {
+                                                    latitude: -17.749882,
+                                                    longitude: -63.180113
+                                                },
+                                            ]
+                                        }
+                                    },
+                                }
+                            }
+                        })];
+                case 2:
+                    Aldo = _a.sent();
                     return [2 /*return*/];
             }
         });
