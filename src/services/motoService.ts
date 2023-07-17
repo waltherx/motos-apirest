@@ -22,6 +22,43 @@ export const searchMotos = async (input: string) => {
     }
 }
 
+export const searchMotosByPlaca = async (input: string) => {
+    try {
+        return await prisma.moto.findFirst({
+            where: {
+                placa: {
+                    contains: input,
+                    mode: 'insensitive',
+                }
+            },
+        });
+    } catch (error) {
+        console.error(error.message);
+        return {} as MotoCreateInput;
+    }
+}
+
+
+export const searchMotosPlacas = async (input: string) => {
+    try {
+        return await prisma.moto.findMany({
+            where: {
+                placa: {
+                    contains: input,
+                    mode: 'insensitive',
+                }
+            },
+            select: {
+                id: true,
+                placa: true,
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
+        return [];
+    }
+}
+
 export const getAllMotos = async () => {
     try {
         return await prisma.moto.findMany({

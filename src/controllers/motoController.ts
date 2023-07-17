@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { getAllMotos, createMoto, updateMoto, deleteMoto, getMoto, searchMotos } from '../services/motoService';
+import { getAllMotos, createMoto, updateMoto, deleteMoto, getMoto, searchMotos, searchMotosByPlaca, searchMotosPlacas } from '../services/motoService';
 import httpStatus from 'http-status';
 import { isIdValid } from '../utils/validator';
 import { MotoCreateInput } from '../models/motoModel';
@@ -14,6 +14,30 @@ router.get('/moto', async (req: Request, res: Response, next: NextFunction) => {
         console.error(error);
         next(error);
         res.status(500).json({ message: "Error fetching data Moto" });
+    }
+});
+
+router.get('/moto/placa/:placa', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const placa: string = req.params.placa;
+        const moto = await searchMotosByPlaca(placa);
+        res.status(httpStatus.OK).json(moto);
+    } catch (error) {
+        console.error(error.message);
+        next(error);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: "Error Moto" })
+    }
+});
+
+router.get('/moto/auto/:placa', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const placa: string = req.params.placa;
+        const moto = await searchMotosPlacas(placa);
+        res.status(httpStatus.OK).json(moto);
+    } catch (error) {
+        console.error(error.message);
+        next(error);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: "Error Moto" })
     }
 });
 
