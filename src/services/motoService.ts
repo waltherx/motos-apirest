@@ -31,6 +31,10 @@ export const searchMotosByPlaca = async (input: string) => {
                     mode: 'insensitive',
                 }
             },
+            include:{
+                positions:true
+
+            }
         });
     } catch (error) {
         console.error(error.message);
