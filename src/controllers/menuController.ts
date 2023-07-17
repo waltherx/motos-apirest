@@ -32,8 +32,8 @@ router.get('/menu/:id', async (req: Request, res: Response, next: NextFunction) 
 
 router.post('/menu', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const client = req.body as MenuCreateInput;
-        const newMenu = await createMenu(client);
+        const menu = req.body as MenuCreateInput;
+        const newMenu = await createMenu(menu);
         res.status(httpStatus.CREATED).json(newMenu);
     } catch (error) {
         console.error(error.message);
@@ -47,8 +47,8 @@ router.put('/menu/:id', async (req: Request, res: Response, next: NextFunction) 
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
 
-        const client = req.body as MenuCreateInput;
-        await updateMenu(id, client);
+        const menu = req.body as MenuCreateInput;
+        await updateMenu(id, menu);
         res.status(httpStatus.OK).json({ "message": "Menu actualizado.." });
     } catch (error) {
         console.error(error.message);
