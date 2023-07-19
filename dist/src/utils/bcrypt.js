@@ -36,24 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.comparePassword = exports.encryptPassword = void 0;
-var bcryptjs_1 = require("bcryptjs");
-var encryptPassword = function (password) { return __awaiter(void 0, void 0, void 0, function () {
-    var salt;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, bcryptjs_1.genSalt)(10)];
-            case 1:
-                salt = _a.sent();
-                return [4 /*yield*/, (0, bcryptjs_1.hash)(password, salt)];
-            case 2: return [2 /*return*/, _a.sent()];
-        }
-    });
-}); };
-exports.encryptPassword = encryptPassword;
+exports.comparePassword = void 0;
+var bcrypt_1 = require("bcrypt");
+/*export const encryptPassword = async (password: string) => {
+    const salt = await genSalt(10);
+    return await hash(password, salt);
+};*/
 var comparePassword = function (password, hash) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
     switch (_a.label) {
-        case 0: return [4 /*yield*/, (0, bcryptjs_1.compare)(password, hash)];
+        case 0: return [4 /*yield*/, (0, bcrypt_1.compare)(password, hash)];
         case 1: return [2 /*return*/, _a.sent()];
     }
 }); }); };

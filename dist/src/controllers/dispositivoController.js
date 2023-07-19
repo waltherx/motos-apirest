@@ -40,77 +40,77 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var menuService_1 = require("../services/menuService");
+var dispositivoService_1 = require("../services/dispositivoService");
 var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
 var router = (0, express_1.Router)();
-router.get('/menu', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var menus, error_1;
+router.get('/dispositivo', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var dispositivos, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, menuService_1.getAllMenus)()];
+                return [4 /*yield*/, (0, dispositivoService_1.getAllDispositivos)()];
             case 1:
-                menus = _a.sent();
-                res.status(http_status_1.default.OK).json(menus);
+                dispositivos = _a.sent();
+                res.status(http_status_1.default.OK).json(dispositivos);
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
                 console.error(error_1);
                 next(error_1);
-                res.status(500).json({ message: "Error fetching data Menu" });
+                res.status(500).json({ message: "Error fetching data Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-router.get('/menu/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, menu, error_2;
+router.get('/dispositivo/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, dispositivo, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 id = parseInt(req.params.id);
-                return [4 /*yield*/, (0, menuService_1.getMenu)(id)];
+                return [4 /*yield*/, (0, dispositivoService_1.getDispositivo)(id)];
             case 1:
-                menu = _a.sent();
-                res.status(http_status_1.default.OK).json(menu);
+                dispositivo = _a.sent();
+                res.status(http_status_1.default.OK).json(dispositivo);
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _a.sent();
                 console.error(error_2.message);
                 next(error_2);
-                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error Menu" });
+                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-router.post('/menu', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var menu, newMenu, error_3;
+router.post('/dispositivo', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var dispositivo, newDispositivo, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                menu = req.body;
-                return [4 /*yield*/, (0, menuService_1.createMenu)(menu)];
+                dispositivo = req.body;
+                return [4 /*yield*/, (0, dispositivoService_1.createDispositivo)(dispositivo)];
             case 1:
-                newMenu = _a.sent();
-                res.status(http_status_1.default.CREATED).json(newMenu);
+                newDispositivo = _a.sent();
+                res.status(http_status_1.default.CREATED).json(newDispositivo);
                 return [3 /*break*/, 3];
             case 2:
                 error_3 = _a.sent();
                 console.error(error_3.message);
                 next(error_3);
-                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error create Menu" });
+                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error create Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-router.put('/menu/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, menu, error_4;
+router.put('/dispositivo/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, dispositivo, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -118,23 +118,23 @@ router.put('/menu/:id', function (req, res, next) { return __awaiter(void 0, voi
                 id = parseInt(req.params.id);
                 if (!(0, validator_1.isIdValid)(id))
                     return [2 /*return*/, res.sendStatus(http_status_1.default.BAD_REQUEST)];
-                menu = req.body;
-                return [4 /*yield*/, (0, menuService_1.updateMenu)(id, menu)];
+                dispositivo = req.body;
+                return [4 /*yield*/, (0, dispositivoService_1.updateDispositivo)(id, dispositivo)];
             case 1:
                 _a.sent();
-                res.status(http_status_1.default.OK).json({ "message": "Menu actualizado.." });
+                res.status(http_status_1.default.OK).json({ "message": "Dispositivo actualizado.." });
                 return [3 /*break*/, 3];
             case 2:
                 error_4 = _a.sent();
                 console.error(error_4.message);
                 next(error_4);
-                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error update Menu" });
+                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error update Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-router.delete('/menu/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/dispositivo/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -143,16 +143,16 @@ router.delete('/menu/:id', function (req, res, next) { return __awaiter(void 0, 
                 id = parseInt(req.params.id);
                 if (!(0, validator_1.isIdValid)(id))
                     return [2 /*return*/, res.sendStatus(http_status_1.default.BAD_REQUEST)];
-                return [4 /*yield*/, (0, menuService_1.deleteMenu)(id)];
+                return [4 /*yield*/, (0, dispositivoService_1.deleteDispositivo)(id)];
             case 1:
                 _a.sent();
-                res.status(http_status_1.default.OK).json({ "message": "Menu eliminado.." });
+                res.status(http_status_1.default.OK).json({ "message": "Dispositivo eliminado.." });
                 return [3 /*break*/, 3];
             case 2:
                 error_5 = _a.sent();
                 console.error(error_5.message);
                 next(error_5);
-                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error delete Menu" });
+                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error delete Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

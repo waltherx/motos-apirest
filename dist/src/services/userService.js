@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.createUser = exports.getUser = exports.getAllUsers = void 0;
+var bcrypt_1 = __importDefault(require("bcrypt"));
 var database_1 = __importDefault(require("../utils/database"));
 var getAllUsers = function () { return __awaiter(void 0, void 0, void 0, function () {
     var error_1;
@@ -87,12 +88,14 @@ var createUser = function (input) { return __awaiter(void 0, void 0, void 0, fun
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
+                console.log(input.username);
+                input.password = bcrypt_1.default.hashSync(input.password, 8);
+                console.log(input.password);
                 return [4 /*yield*/, database_1.default.user.create({ data: input })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_3 = _a.sent();
-                console.error(error_3.message);
-                return [3 /*break*/, 3];
+                throw (error_3.message);
             case 3: return [2 /*return*/];
         }
     });

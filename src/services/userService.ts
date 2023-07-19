@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import prisma from "../utils/database";
 import { UserCreateInput, UserUpdateInput } from "../models/userModel";
 
@@ -26,9 +27,12 @@ export const getUser = async (id: number): Promise<UserUpdateInput> => {
 
 export const createUser = async (input: UserCreateInput): Promise<UserUpdateInput> => {
     try {
+        console.log(input.username);
+        input.password = bcrypt.hashSync(input.password, 8);
+        console.log(input.password);
         return await prisma.user.create({ data: input })
     } catch (error) {
-        console.error(error.message);
+        throw (error.message);
     }
 }
 

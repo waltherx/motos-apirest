@@ -83,6 +83,9 @@ var searchMotosByPlaca = function (input) { return __awaiter(void 0, void 0, voi
                                 mode: 'insensitive',
                             }
                         },
+                        include: {
+                            positions: true
+                        }
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:

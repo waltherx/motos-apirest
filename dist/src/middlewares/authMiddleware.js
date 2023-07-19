@@ -39,34 +39,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var cors_1 = __importDefault(require("cors"));
-var path_1 = __importDefault(require("path"));
-var dotenv_1 = __importDefault(require("dotenv"));
-var swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-var swagger_json_1 = __importDefault(require("../docs/swagger.json"));
-var routes_1 = __importDefault(require("./routes/routes"));
-var morgan_1 = __importDefault(require("morgan"));
-dotenv_1.default.config();
-var app = (0, express_1.default)();
-var port = process.env.PORT;
-morgan_1.default.token('host', function (req, res) {
-    return req.hostname;
-});
-app.use((0, morgan_1.default)(':method :host :status :res[content-length] - :response-time ms'));
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
-app.use(routes_1.default);
-app.use(express_1.default.static(path_1.default.join(__dirname, '..', 'public')));
-app.get('/', function (req, res) {
-    res.sendFile(path_1.default.join(__dirname, 'public', 'index.html'));
-});
-app.use("/docs", swagger_ui_express_1.default.serve, function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/, res.send(swagger_ui_express_1.default.generateHTML(swagger_json_1.default, { explorer: true }))];
+exports.auth = void 0;
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var http_status_1 = __importDefault(require("http-status"));
+var console_1 = require("console");
+var auth = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var token, decoded;
+    var _a;
+    return __generator(this, function (_b) {
+        try {
+            token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
+            if (!token) {
+                throw new Error();
+            }
+            decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+            req.token = decoded;
+            next();
+        }
+        catch (err) {
+            next(console_1.error);
+            res.status(http_status_1.default.UNAUTHORIZED).json({ message: 'Por favor autentifiquese..🤖' });
+        }
+        return [2 /*return*/];
     });
-}); });
-app.listen(port, function () {
-    console.log("\u26A1\uFE0F[server]: Esta corriendo en -> \uD83E\uDD20 http://localhost:".concat(port, " \u26A1\uFE0F"));
-});
+}); };
+exports.auth = auth;

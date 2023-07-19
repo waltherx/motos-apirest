@@ -10,9 +10,9 @@
     //"forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
     //"strict": true,
     //"skipLibCheck": true
-    "paths": {
+   /* "paths": {
       "@/*": ["*"]
-    }
+    }*/
   },
   "ts-node": {
     "esm": true

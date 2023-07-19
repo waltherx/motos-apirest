@@ -5,10 +5,19 @@ import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../docs/swagger.json';
 import routes from './routes/routes';
+import morgan from 'morgan';
+
 
 dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
+
+morgan.token('host', function (req: Request, res: Response) {
+    return req.hostname;
+});
+
+app.use(morgan(':method :host :status :res[content-length] - :response-time ms'));
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

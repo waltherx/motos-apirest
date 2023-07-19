@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { getAllUsers, createUser, updateUser, deleteUser, getUser } from '../services/userService';
+import { auth } from '../middlewares/authMiddleware';
 import httpStatus from 'http-status';
 import { isIdValid } from '../utils/validator';
 import { UserCreateInput } from '../models/userModel';
@@ -17,7 +18,7 @@ router.get('/user', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.get('/user/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/user/:id',auth , async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: number = parseInt(req.params.id);
         const user = await getUser(id);
@@ -32,8 +33,9 @@ router.get('/user/:id', async (req: Request, res: Response, next: NextFunction) 
 
 router.post('/user', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const client = req.body as UserCreateInput;
-        const newUser = await createUser(client);
+        const user = req.body as UserCreateInput;
+        console.log(user);
+        const newUser = await createUser(user);
         res.status(httpStatus.CREATED).json(newUser);
     } catch (error) {
         console.error(error.message);
@@ -46,9 +48,8 @@ router.put('/user/:id', async (req: Request, res: Response, next: NextFunction) 
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
-
-        const client = req.body as UserCreateInput;
-        await updateUser(id, client);
+        const user = req.body as UserCreateInput;
+        await updateUser(id, user);
         res.status(httpStatus.OK).json({ "message": "User actualizado.." });
     } catch (error) {
         console.error(error.message);

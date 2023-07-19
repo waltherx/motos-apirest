@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var userService_1 = require("../services/userService");
+var authMiddleware_1 = require("../middlewares/authMiddleware");
 var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
 var router = (0, express_1.Router)();
@@ -65,7 +66,7 @@ router.get('/user', function (req, res, next) { return __awaiter(void 0, void 0,
         }
     });
 }); });
-router.get('/user/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/user/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, user, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -88,13 +89,14 @@ router.get('/user/:id', function (req, res, next) { return __awaiter(void 0, voi
     });
 }); });
 router.post('/user', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var client, newUser, error_3;
+    var user, newUser, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                client = req.body;
-                return [4 /*yield*/, (0, userService_1.createUser)(client)];
+                user = req.body;
+                console.log(user);
+                return [4 /*yield*/, (0, userService_1.createUser)(user)];
             case 1:
                 newUser = _a.sent();
                 res.status(http_status_1.default.CREATED).json(newUser);
@@ -110,7 +112,7 @@ router.post('/user', function (req, res, next) { return __awaiter(void 0, void 0
     });
 }); });
 router.put('/user/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, client, error_4;
+    var id, user, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -118,8 +120,8 @@ router.put('/user/:id', function (req, res, next) { return __awaiter(void 0, voi
                 id = parseInt(req.params.id);
                 if (!(0, validator_1.isIdValid)(id))
                     return [2 /*return*/, res.sendStatus(http_status_1.default.BAD_REQUEST)];
-                client = req.body;
-                return [4 /*yield*/, (0, userService_1.updateUser)(id, client)];
+                user = req.body;
+                return [4 /*yield*/, (0, userService_1.updateUser)(id, user)];
             case 1:
                 _a.sent();
                 res.status(http_status_1.default.OK).json({ "message": "User actualizado.." });

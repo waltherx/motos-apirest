@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notFoundError = void 0;
+exports.getErrorMessage = exports.notFoundError = void 0;
 function notFoundError() {
     return {
         type: "NotFoundError",
@@ -8,3 +8,9 @@ function notFoundError() {
     };
 }
 exports.notFoundError = notFoundError;
+function getErrorMessage(error) {
+    if (error instanceof Error)
+        return error.message;
+    return String(error);
+}
+exports.getErrorMessage = getErrorMessage;
