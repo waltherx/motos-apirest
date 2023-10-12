@@ -13,7 +13,7 @@ export const searchMotos = async (input: string) => {
             select: {
                 id: true,
                 placa: true,
-                positions: true,
+                dispositivo: true,
             }
         });
     } catch (error) {
@@ -31,9 +31,8 @@ export const searchMotosByPlaca = async (input: string) => {
                     mode: 'insensitive',
                 }
             },
-            include:{
-                positions:true
-
+            include: {
+                dispositivo: true
             }
         });
     } catch (error) {
@@ -55,6 +54,19 @@ export const searchMotosPlacas = async (input: string) => {
             select: {
                 id: true,
                 placa: true,
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
+        return [];
+    }
+}
+
+export const getAllPlacas = async () => {
+    try {
+        return await prisma.moto.findMany({
+            select: {
+                placa: true
             }
         });
     } catch (error) {

@@ -43,6 +43,8 @@ var express_1 = require("express");
 var motoService_1 = require("../services/motoService");
 var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
+var express_validator_1 = require("express-validator");
+var validateMiddleware_1 = require("../middlewares/validateMiddleware");
 var router = (0, express_1.Router)();
 router.get('/moto', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var motos, error_1;
@@ -65,36 +67,35 @@ router.get('/moto', function (req, res, next) { return __awaiter(void 0, void 0,
         }
     });
 }); });
-router.get('/moto/placa/:placa', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var placa, moto, error_2;
+router.get('/moto/placas', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var motos, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                placa = req.params.placa;
-                return [4 /*yield*/, (0, motoService_1.searchMotosByPlaca)(placa)];
+                return [4 /*yield*/, (0, motoService_1.getAllPlacas)()];
             case 1:
-                moto = _a.sent();
-                res.status(http_status_1.default.OK).json(moto);
+                motos = _a.sent();
+                res.status(http_status_1.default.OK).json(motos);
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _a.sent();
-                console.error(error_2.message);
+                console.error(error_2);
                 next(error_2);
-                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error Moto" });
+                res.status(500).json({ message: "Error fetching data Moto" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); });
-router.get('/moto/auto/:placa', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto/placa/:placa', (0, express_validator_1.check)("placa", "Ingrese una placa valida.").isAlphanumeric().notEmpty().isLength({ min: 1, max: 10 }), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var placa, moto, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 placa = req.params.placa;
-                return [4 /*yield*/, (0, motoService_1.searchMotosPlacas)(placa)];
+                return [4 /*yield*/, (0, motoService_1.searchMotosByPlaca)(placa)];
             case 1:
                 moto = _a.sent();
                 res.status(http_status_1.default.OK).json(moto);
@@ -109,14 +110,14 @@ router.get('/moto/auto/:placa', function (req, res, next) { return __awaiter(voi
         }
     });
 }); });
-router.get('/moto/search/:placa', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto/auto/:placa', (0, express_validator_1.check)("placa", "placa no puede ser vacia o nula").notEmpty(), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var placa, moto, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 placa = req.params.placa;
-                return [4 /*yield*/, (0, motoService_1.searchMotos)(placa)];
+                return [4 /*yield*/, (0, motoService_1.searchMotosPlacas)(placa)];
             case 1:
                 moto = _a.sent();
                 res.status(http_status_1.default.OK).json(moto);
@@ -131,14 +132,14 @@ router.get('/moto/search/:placa', function (req, res, next) { return __awaiter(v
         }
     });
 }); });
-router.get('/moto/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, moto, error_5;
+router.get('/moto/search/:placa', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var placa, moto, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                id = parseInt(req.params.id);
-                return [4 /*yield*/, (0, motoService_1.getMoto)(id)];
+                placa = req.params.placa;
+                return [4 /*yield*/, (0, motoService_1.searchMotos)(placa)];
             case 1:
                 moto = _a.sent();
                 res.status(http_status_1.default.OK).json(moto);
@@ -153,8 +154,30 @@ router.get('/moto/:id', function (req, res, next) { return __awaiter(void 0, voi
         }
     });
 }); });
+router.get('/moto/:id', (0, express_validator_1.check)("id", "ID moto no puede ser nulo.").isNumeric().notEmpty(), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, moto, error_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = parseInt(req.params.id);
+                return [4 /*yield*/, (0, motoService_1.getMoto)(id)];
+            case 1:
+                moto = _a.sent();
+                res.status(http_status_1.default.OK).json(moto);
+                return [3 /*break*/, 3];
+            case 2:
+                error_6 = _a.sent();
+                console.error(error_6.message);
+                next(error_6);
+                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error Moto" });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 router.post('/moto', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var client, newMoto, error_6;
+    var client, newMoto, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -166,9 +189,9 @@ router.post('/moto', function (req, res, next) { return __awaiter(void 0, void 0
                 res.status(http_status_1.default.CREATED).json(newMoto);
                 return [3 /*break*/, 3];
             case 2:
-                error_6 = _a.sent();
-                console.error(error_6.message);
-                next(error_6);
+                error_7 = _a.sent();
+                console.error(error_7.message);
+                next(error_7);
                 res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error create Moto" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -176,7 +199,7 @@ router.post('/moto', function (req, res, next) { return __awaiter(void 0, void 0
     });
 }); });
 router.put('/moto/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, client, error_7;
+    var id, client, error_8;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -191,9 +214,9 @@ router.put('/moto/:id', function (req, res, next) { return __awaiter(void 0, voi
                 res.status(http_status_1.default.OK).json({ "message": "Moto actualizado.." });
                 return [3 /*break*/, 3];
             case 2:
-                error_7 = _a.sent();
-                console.error(error_7.message);
-                next(error_7);
+                error_8 = _a.sent();
+                console.error(error_8.message);
+                next(error_8);
                 res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error update Moto" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -201,7 +224,7 @@ router.put('/moto/:id', function (req, res, next) { return __awaiter(void 0, voi
     });
 }); });
 router.delete('/moto/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, error_8;
+    var id, error_9;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -215,9 +238,9 @@ router.delete('/moto/:id', function (req, res, next) { return __awaiter(void 0, 
                 res.status(http_status_1.default.OK).json({ "message": "Moto eliminado.." });
                 return [3 /*break*/, 3];
             case 2:
-                error_8 = _a.sent();
-                console.error(error_8.message);
-                next(error_8);
+                error_9 = _a.sent();
+                console.error(error_9.message);
+                next(error_9);
                 res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error delete Moto" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];

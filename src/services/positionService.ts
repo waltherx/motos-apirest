@@ -1,5 +1,5 @@
 import prisma from "../utils/database";
-import { PositionCreateInput, PositionUpdateInput } from "../models/positionModel";
+import { Position, PositionCreate, PositionCreateInput, PositionUpdateInput } from "../models/positionModel";
 
 export const getAllPositions = async () => {
     try {
@@ -14,10 +14,30 @@ export const getAllPositions = async () => {
     }
 }
 
-export const getPositionMoto = async (moto_id: number) => {
+export const getPositionLast = async (moto_id: number): Promise<Position> => {
+    try {
+        return await prisma.$queryRaw<Position>`select * from public."Position" p where p.moto_id =${moto_id} order by p.date desc limit 1;`
+    } catch (error) {
+        console.error(error.message);
+        throw (error.message);
+        //return {} as Position;
+    }
+}
+
+export const getPositionLimit = async (moto_id: number, limit: number = 5): Promise<Position> => {
+    try {
+        return await prisma.$queryRaw<Position>`select * from public."Position" p where p.moto_id =${moto_id} order by p.date desc limit ${limit};`
+    } catch (error) {
+        console.error(error.message);
+        throw (error.message);
+        //return {} as Position;
+    }
+}
+
+export const getPositionDispositivo = async (dispositivo_id: number) => {
     try {
         return await prisma.position.findMany({
-            where: { moto_id },
+            where: { dispositivo_id },
         });
     } catch (error) {
         console.error(error.message);
@@ -25,11 +45,12 @@ export const getPositionMoto = async (moto_id: number) => {
     }
 }
 
-export const createPosition = async (input: PositionCreateInput): Promise<PositionUpdateInput> => {
+export const createPosition = async (input: PositionCreate): Promise<PositionUpdateInput> => {
     try {
         return await prisma.position.create({ data: input })
     } catch (error) {
         console.error(error.message);
+        throw (error.message);
     }
 }
 
@@ -41,6 +62,7 @@ export const updatePosition = async (id: number, input: PositionCreateInput): Pr
         })
     } catch (error) {
         console.error(error.message);
+        throw (error.message);
     }
 }
 
@@ -51,5 +73,6 @@ export const deletePosition = async (id: number): Promise<PositionUpdateInput> =
         })
     } catch (error) {
         console.error(error.message);
+        throw (error.message);
     }
 }

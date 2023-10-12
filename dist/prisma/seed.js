@@ -65,26 +65,30 @@ function main() {
                                     estado: '1',
                                     fecha_compra: new Date().toISOString(),
                                     precio_compra: 14000,
-                                    sucrusal_id: 1,
-                                    positions: {
-                                        create: [
-                                            {
-                                                latitude: -17.752086,
-                                                longitude: -63.162889
-                                            },
-                                            {
-                                                latitude: -17.750179,
-                                                longitude: -63.173257
-                                            },
-                                            {
-                                                latitude: -17.749882,
-                                                longitude: -63.180113
-                                            },
-                                            {
-                                                latitude: -17.750507,
-                                                longitude: -63.186344
-                                            },
-                                        ]
+                                    dispositivo: {
+                                        create: {
+                                            serial: "7889999",
+                                            positions: {
+                                                create: [
+                                                    {
+                                                        latitude: -17.752086,
+                                                        longitude: -63.162889
+                                                    },
+                                                    {
+                                                        latitude: -17.750179,
+                                                        longitude: -63.173257
+                                                    },
+                                                    {
+                                                        latitude: -17.749882,
+                                                        longitude: -63.180113
+                                                    },
+                                                    {
+                                                        latitude: -17.750507,
+                                                        longitude: -63.186344
+                                                    },
+                                                ]
+                                            }
+                                        }
                                     }
                                 },
                             }
@@ -114,18 +118,22 @@ function main() {
                                         estado: '1',
                                         fecha_compra: new Date().toISOString(),
                                         precio_compra: 21000,
-                                        sucrusal_id: 1,
-                                        positions: {
-                                            create: [
-                                                {
-                                                    latitude: -17.752086,
-                                                    longitude: -63.162889
+                                        dispositivo: {
+                                            create: {
+                                                serial: "5144545",
+                                                positions: {
+                                                    create: [
+                                                        {
+                                                            latitude: -17.752086,
+                                                            longitude: -63.162889
+                                                        },
+                                                        {
+                                                            latitude: -17.749882,
+                                                            longitude: -63.180113
+                                                        },
+                                                    ]
                                                 },
-                                                {
-                                                    latitude: -17.749882,
-                                                    longitude: -63.180113
-                                                },
-                                            ]
+                                            },
                                         }
                                     },
                                 }

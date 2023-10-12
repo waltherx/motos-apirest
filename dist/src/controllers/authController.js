@@ -64,4 +64,23 @@ router.post('/login', function (req, res, nx) { return __awaiter(void 0, void 0,
         }
     });
 }); });
+router.post('/signup', function (req, res, nx) { return __awaiter(void 0, void 0, void 0, function () {
+    var foundUser, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, authService_1.signup)(req.body)];
+            case 1:
+                foundUser = _a.sent();
+                res.status(http_status_1.default.CREATED).send(foundUser);
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _a.sent();
+                nx(error_3);
+                return [2 /*return*/, res.status(http_status_1.default.INTERNAL_SERVER_ERROR).send((0, error_1.getErrorMessage)(error_3))];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = router;

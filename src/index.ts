@@ -16,7 +16,7 @@ morgan.token('host', function (req: Request, res: Response) {
     return req.hostname;
 });
 
-app.use(morgan(':method :host :status :res[content-length] - :response-time ms'));
+app.use(morgan(':method :host :url :status :res[content-length] - :response-time ms'));
 
 app.use(cors());
 app.use(express.json());
@@ -29,7 +29,7 @@ app.get('/', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.use("/docs", swaggerUi.serve, async (_req: Request, res: Response) => {
+app.use("/swagger", swaggerUi.serve, async (_req: Request, res: Response) => {
     return res.send(
         swaggerUi.generateHTML(swaggerDocument, { explorer: true })
     );
@@ -39,3 +39,5 @@ app.listen(port, () => {
     console.log(`⚡️[server]: Esta corriendo en -> 🤠 http://localhost:${port} ⚡️`);
 });
 
+
+//DATABASE_DEV="postgres://motos_user:rmWi8hFIsxaQ12iW9pqTMuvrFOOz9R5m@dpg-cilm0aenqqlfm4cgbcf0-a.oregon-postgres.render.com/motos"

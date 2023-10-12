@@ -1,13 +1,26 @@
-import { Client } from "../models/clientModel";
+import { MotoCreateInput } from "../models/motoModel";
 import joi from "joi";
 
-const clientSchema = joi.object<Client>({
-    //id: joi.number().required(),
-    ci: joi.number().required(),
-    fullname: joi.string().required(),
-    address: joi.string(),
-    phone: joi.string(),
-    status: joi.number().required()
+export const motoSchema = joi.object<MotoCreateInput>({
+    marca: joi.string().required(),
+    modelo: joi.string(),
+    anio: joi.number(),
+    placa: joi.string().max(10).alphanum().required(),
+    motor: joi.string(),
+    color: joi.string(),
+    peso: joi.number(),
+    kilometraje: joi.number(),
+    estado: joi.string(),
+    fecha_compra: joi.string().isoDate(),
+    precio_compra: joi.number()
 });
 
-export default clientSchema;
+type motoID = {
+    id: number;
+}
+
+export const motoIdSchema = joi.object<motoID>({
+    id: joi.number().min(1).required()
+});
+
+

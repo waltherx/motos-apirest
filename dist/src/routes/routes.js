@@ -9,9 +9,6 @@ var motoController_1 = __importDefault(require("../controllers/motoController"))
 var positionController_1 = __importDefault(require("../controllers/positionController"));
 var userController_1 = __importDefault(require("../controllers/userController"));
 var roleController_1 = __importDefault(require("../controllers/roleController"));
-var menuController_1 = __importDefault(require("../controllers/menuController"));
-var sucrusalController_1 = __importDefault(require("../controllers/sucrusalController"));
-var userSucrusalController_1 = __importDefault(require("../controllers/userSucrusalController"));
 var dispositivoController_1 = __importDefault(require("../controllers/dispositivoController"));
 var authController_1 = __importDefault(require("../controllers/authController"));
 var api = (0, express_1.Router)()
@@ -20,9 +17,6 @@ var api = (0, express_1.Router)()
     .use(positionController_1.default)
     .use(userController_1.default)
     .use(roleController_1.default)
-    .use(menuController_1.default)
-    .use(sucrusalController_1.default)
-    .use(userSucrusalController_1.default)
     .use(dispositivoController_1.default)
     .use(authController_1.default);
 exports.default = (0, express_1.Router)().use('/api', api);

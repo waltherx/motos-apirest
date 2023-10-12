@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteDispositivo = exports.updateDispositivo = exports.createDispositivo = exports.getDispositivo = exports.getAllDispositivos = void 0;
+exports.deleteDispositivo = exports.updateDispositivo = exports.createDispositivo = exports.getDispositivo = exports.getDispositivoSerial = exports.getAllDispositivos = void 0;
 var database_1 = __importDefault(require("../utils/database"));
 var getAllDispositivos = function () { return __awaiter(void 0, void 0, void 0, function () {
     var error_1;
@@ -62,14 +62,16 @@ var getAllDispositivos = function () { return __awaiter(void 0, void 0, void 0, 
     });
 }); };
 exports.getAllDispositivos = getAllDispositivos;
-var getDispositivo = function (id) { return __awaiter(void 0, void 0, void 0, function () {
+var getDispositivoSerial = function (id) { return __awaiter(void 0, void 0, void 0, function () {
     var error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.dispositivo.findUnique({
-                        where: { id: id },
+                return [4 /*yield*/, database_1.default.dispositivo.findFirst({
+                        where: {
+                            serial: id
+                        },
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
@@ -80,14 +82,16 @@ var getDispositivo = function (id) { return __awaiter(void 0, void 0, void 0, fu
         }
     });
 }); };
-exports.getDispositivo = getDispositivo;
-var createDispositivo = function (input) { return __awaiter(void 0, void 0, void 0, function () {
+exports.getDispositivoSerial = getDispositivoSerial;
+var getDispositivo = function (id) { return __awaiter(void 0, void 0, void 0, function () {
     var error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.dispositivo.create({ data: input })];
+                return [4 /*yield*/, database_1.default.dispositivo.findUnique({
+                        where: { id: id },
+                    })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_3 = _a.sent();
@@ -97,9 +101,26 @@ var createDispositivo = function (input) { return __awaiter(void 0, void 0, void
         }
     });
 }); };
+exports.getDispositivo = getDispositivo;
+var createDispositivo = function (input) { return __awaiter(void 0, void 0, void 0, function () {
+    var error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, database_1.default.dispositivo.create({ data: input })];
+            case 1: return [2 /*return*/, _a.sent()];
+            case 2:
+                error_4 = _a.sent();
+                console.error(error_4.message);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.createDispositivo = createDispositivo;
 var updateDispositivo = function (id, input) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_4;
+    var error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -110,8 +131,8 @@ var updateDispositivo = function (id, input) { return __awaiter(void 0, void 0, 
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_4 = _a.sent();
-                console.error(error_4.message);
+                error_5 = _a.sent();
+                console.error(error_5.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -119,7 +140,7 @@ var updateDispositivo = function (id, input) { return __awaiter(void 0, void 0, 
 }); };
 exports.updateDispositivo = updateDispositivo;
 var deleteDispositivo = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_5;
+    var error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -129,8 +150,8 @@ var deleteDispositivo = function (id) { return __awaiter(void 0, void 0, void 0,
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_5 = _a.sent();
-                console.error(error_5.message);
+                error_6 = _a.sent();
+                console.error(error_6.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

@@ -12,13 +12,11 @@ model User {
   password   String           @db.VarChar(2000)
   email      String           @unique
   phone      String?          @unique @default("")
-  status     Int
-  token      String?          @default("")
+  status     Int              @default(1)
   created_at DateTime         @default(now())
   update_at  DateTime?
   role       Role             @relation(fields: [role_id], references: [id])
   role_id    Int
-  sucrusals  UserOnSucrusal[]
 }
 
 model Role {
@@ -30,15 +28,6 @@ model Role {
   created_at DateTime  @default(now())
   update_at  DateTime? @updatedAt
   users      User[]
-  menus      Menu[]
-}
-
-model Menu {
-  id       Int    @id @default(autoincrement())
-  name     String @db.VarChar(20)
-  sequence Int?   @default(0)
-  role     Role   @relation(fields: [role_id], references: [id])
-  role_id  Int
 }
 
 model Client {
@@ -47,30 +36,12 @@ model Client {
   fullname   String    @db.VarChar(350)
   address    String?   @default("") @db.VarChar(250)
   phone      String?   @default("") @db.VarChar(20)
-  status     Int
+  status     Int       @default(1)
   motos      Moto[]
   created_at DateTime  @default(now())
   update_at  DateTime?
 }
 
-model UserOnSucrusal {
-  user        User     @relation(fields: [user_id], references: [id])
-  user_id     Int // relation scalar field (used in the `@relation` attribute above)
-  sucrusal    Sucrusal @relation(fields: [sucrusal_id], references: [id])
-  sucrusal_id Int // relation scalar field (used in the `@relation` attribute above)
-  assignedAt  DateTime @default(now())
-  assignedBy  String?  @default("") @db.VarChar(150)
-
-  @@id([user_id, sucrusal_id])
-}
-
-model Sucrusal {
-  id      Int              @id @default(autoincrement())
-  name    String           @default("") @db.VarChar(100)
-  address String?          @default("") @db.VarChar(500)
-  motos   Moto[]
-  users   UserOnSucrusal[]
-}
 
 model Moto {
   id            Int          @id @default(autoincrement())
@@ -87,17 +58,15 @@ model Moto {
   precio_compra Decimal      @default(-1) @db.Decimal(10, 2)
   client        Client       @relation(fields: [client_id], references: [id])
   client_id     Int
-  sucrusal      Sucrusal     @relation(fields: [sucrusal_id], references: [id])
-  sucrusal_id   Int
-  positions     Position[]
   dispositivo   Dispositivo?
 }
 
 model Dispositivo {
   id      Int    @id @default(autoincrement())
   serial  String
-  moto    Moto?   @relation(fields: [moto_id], references: [id])
-  moto_id Int?    @unique
+  moto    Moto?  @relation(fields: [moto_id], references: [id])
+  moto_id Int?   @unique
+  positions     Position[]
 }
 
 model Position {
@@ -105,11 +74,14 @@ model Position {
   date      DateTime @default(now())
   latitude  Decimal  @db.Decimal(9, 6)
   longitude Decimal  @db.Decimal(9, 6)
-  moto      Moto     @relation(fields: [moto_id], references: [id])
-  moto_id   Int
+  timestamp Int?
+  speed Decimal?  @db.Decimal(8, 6)
+  batt Decimal?  @db.Decimal(8, 6)
+  dispositivo      Dispositivo     @relation(fields: [dispositivo_id], references: [id])
+  dispositivo_id   Int
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_DEV")
+  url      = env("DATABASE_LOCAL")
 }

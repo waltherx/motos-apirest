@@ -39,10 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.signup = exports.login = void 0;
 var database_1 = __importDefault(require("../utils/database"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
+var userService_1 = require("./userService");
 function login(userIn) {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
@@ -81,3 +82,35 @@ function login(userIn) {
     });
 }
 exports.login = login;
+function signup(userIn) {
+    return __awaiter(this, void 0, void 0, function () {
+        var foundUser, newUser, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 5, , 6]);
+                    return [4 /*yield*/, database_1.default.user.findUnique({
+                            where: {
+                                username: userIn.username
+                            }
+                        })];
+                case 1:
+                    foundUser = _a.sent();
+                    if (!foundUser) return [3 /*break*/, 2];
+                    return [2 /*return*/, { "message": "Nombre de Usuario ya existe..😪" }];
+                case 2:
+                    console.log(userIn);
+                    return [4 /*yield*/, (0, userService_1.createUser)(userIn)];
+                case 3:
+                    newUser = _a.sent();
+                    return [2 /*return*/, newUser];
+                case 4: return [3 /*break*/, 6];
+                case 5:
+                    error_2 = _a.sent();
+                    throw error_2;
+                case 6: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.signup = signup;

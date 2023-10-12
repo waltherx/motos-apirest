@@ -3,3 +3,5 @@ export type Position = Prisma.PositionCreateManyInput;
 
 export type PositionCreateInput = Prisma.PositionCreateInput;
 export type PositionUpdateInput = Partial<Position>;
+
+export type PositionCreate = Omit<Position,"id">;

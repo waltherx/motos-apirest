@@ -15,6 +15,18 @@ export const getAllDispositivos = async () => {
     }
 }
 
+export const getDispositivoSerial = async (id: string): Promise<DispositivoUpdateInput> => {
+    try {
+        return await prisma.dispositivo.findFirst({
+            where: {
+                serial: id
+            },
+        });
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 export const getDispositivo = async (id: number): Promise<DispositivoUpdateInput> => {
     try {
         return await prisma.dispositivo.findUnique({

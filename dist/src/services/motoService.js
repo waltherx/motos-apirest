@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMoto = exports.updateMoto = exports.createMoto = exports.getMoto = exports.getAllMotos = exports.searchMotosPlacas = exports.searchMotosByPlaca = exports.searchMotos = void 0;
+exports.deleteMoto = exports.updateMoto = exports.createMoto = exports.getMoto = exports.getAllMotos = exports.getAllPlacas = exports.searchMotosPlacas = exports.searchMotosByPlaca = exports.searchMotos = void 0;
 var database_1 = __importDefault(require("../utils/database"));
 var searchMotos = function (input) { return __awaiter(void 0, void 0, void 0, function () {
     var error_1;
@@ -57,7 +57,7 @@ var searchMotos = function (input) { return __awaiter(void 0, void 0, void 0, fu
                         select: {
                             id: true,
                             placa: true,
-                            positions: true,
+                            dispositivo: true,
                         }
                     })];
             case 1: return [2 /*return*/, _a.sent()];
@@ -84,7 +84,7 @@ var searchMotosByPlaca = function (input) { return __awaiter(void 0, void 0, voi
                             }
                         },
                         include: {
-                            positions: true
+                            dispositivo: true
                         }
                     })];
             case 1: return [2 /*return*/, _a.sent()];
@@ -125,15 +125,15 @@ var searchMotosPlacas = function (input) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.searchMotosPlacas = searchMotosPlacas;
-var getAllMotos = function () { return __awaiter(void 0, void 0, void 0, function () {
+var getAllPlacas = function () { return __awaiter(void 0, void 0, void 0, function () {
     var error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 return [4 /*yield*/, database_1.default.moto.findMany({
-                        orderBy: {
-                            id: 'asc'
+                        select: {
+                            placa: true
                         }
                     })];
             case 1: return [2 /*return*/, _a.sent()];
@@ -145,9 +145,30 @@ var getAllMotos = function () { return __awaiter(void 0, void 0, void 0, functio
         }
     });
 }); };
+exports.getAllPlacas = getAllPlacas;
+var getAllMotos = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, database_1.default.moto.findMany({
+                        orderBy: {
+                            id: 'asc'
+                        }
+                    })];
+            case 1: return [2 /*return*/, _a.sent()];
+            case 2:
+                error_5 = _a.sent();
+                console.error(error_5.message);
+                return [2 /*return*/, []];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.getAllMotos = getAllMotos;
 var getMoto = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_5;
+    var error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -157,23 +178,6 @@ var getMoto = function (id) { return __awaiter(void 0, void 0, void 0, function 
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_5 = _a.sent();
-                console.error(error_5.message);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.getMoto = getMoto;
-var createMoto = function (input) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_6;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.moto.create({ data: input })];
-            case 1: return [2 /*return*/, _a.sent()];
-            case 2:
                 error_6 = _a.sent();
                 console.error(error_6.message);
                 return [3 /*break*/, 3];
@@ -181,9 +185,26 @@ var createMoto = function (input) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); };
+exports.getMoto = getMoto;
+var createMoto = function (input) { return __awaiter(void 0, void 0, void 0, function () {
+    var error_7;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, database_1.default.moto.create({ data: input })];
+            case 1: return [2 /*return*/, _a.sent()];
+            case 2:
+                error_7 = _a.sent();
+                console.error(error_7.message);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.createMoto = createMoto;
 var updateMoto = function (id, input) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_7;
+    var error_8;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -194,8 +215,8 @@ var updateMoto = function (id, input) { return __awaiter(void 0, void 0, void 0,
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_7 = _a.sent();
-                console.error(error_7.message);
+                error_8 = _a.sent();
+                console.error(error_8.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -203,7 +224,7 @@ var updateMoto = function (id, input) { return __awaiter(void 0, void 0, void 0,
 }); };
 exports.updateMoto = updateMoto;
 var deleteMoto = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_8;
+    var error_9;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -213,8 +234,8 @@ var deleteMoto = function (id) { return __awaiter(void 0, void 0, void 0, functi
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_8 = _a.sent();
-                console.error(error_8.message);
+                error_9 = _a.sent();
+                console.error(error_9.message);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

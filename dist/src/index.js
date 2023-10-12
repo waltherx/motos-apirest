@@ -53,7 +53,7 @@ var port = process.env.PORT;
 morgan_1.default.token('host', function (req, res) {
     return req.hostname;
 });
-app.use((0, morgan_1.default)(':method :host :status :res[content-length] - :response-time ms'));
+app.use((0, morgan_1.default)(':method :host :url :status :res[content-length] - :response-time ms'));
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -62,7 +62,7 @@ app.use(express_1.default.static(path_1.default.join(__dirname, '..', 'public'))
 app.get('/', function (req, res) {
     res.sendFile(path_1.default.join(__dirname, 'public', 'index.html'));
 });
-app.use("/docs", swagger_ui_express_1.default.serve, function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+app.use("/swagger", swagger_ui_express_1.default.serve, function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         return [2 /*return*/, res.send(swagger_ui_express_1.default.generateHTML(swagger_json_1.default, { explorer: true }))];
     });
@@ -70,3 +70,4 @@ app.use("/docs", swagger_ui_express_1.default.serve, function (_req, res) { retu
 app.listen(port, function () {
     console.log("\u26A1\uFE0F[server]: Esta corriendo en -> \uD83E\uDD20 http://localhost:".concat(port, " \u26A1\uFE0F"));
 });
+//DATABASE_DEV="postgres://motos_user:rmWi8hFIsxaQ12iW9pqTMuvrFOOz9R5m@dpg-cilm0aenqqlfm4cgbcf0-a.oregon-postgres.render.com/motos"

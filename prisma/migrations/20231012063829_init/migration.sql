@@ -6,8 +6,7 @@ CREATE TABLE "User" (
     "password" VARCHAR(2000) NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT DEFAULT '',
-    "status" INTEGER NOT NULL,
-    "token" TEXT DEFAULT '',
+    "status" INTEGER NOT NULL DEFAULT 1,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "update_at" TIMESTAMP(3),
     "role_id" INTEGER NOT NULL,
@@ -29,36 +28,17 @@ CREATE TABLE "Role" (
 );
 
 -- CreateTable
-CREATE TABLE "Menu" (
-    "id" SERIAL NOT NULL,
-    "name" VARCHAR(20) NOT NULL,
-    "sequence" INTEGER DEFAULT 0,
-    "role_id" INTEGER NOT NULL,
-
-    CONSTRAINT "Menu_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Client" (
     "id" SERIAL NOT NULL,
     "ci" INTEGER NOT NULL,
     "fullname" VARCHAR(350) NOT NULL,
     "address" VARCHAR(250) DEFAULT '',
     "phone" VARCHAR(20) DEFAULT '',
-    "status" INTEGER NOT NULL,
+    "status" INTEGER NOT NULL DEFAULT 1,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "update_at" TIMESTAMP(3),
 
     CONSTRAINT "Client_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Sucrusal" (
-    "id" SERIAL NOT NULL,
-    "name" VARCHAR(100) NOT NULL DEFAULT '',
-    "address" VARCHAR(500) NOT NULL DEFAULT '',
-
-    CONSTRAINT "Sucrusal_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -76,9 +56,17 @@ CREATE TABLE "Moto" (
     "fecha_compra" TIMESTAMP(3) NOT NULL,
     "precio_compra" DECIMAL(10,2) NOT NULL DEFAULT -1,
     "client_id" INTEGER NOT NULL,
-    "sucrusal_id" INTEGER NOT NULL,
 
     CONSTRAINT "Moto_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Dispositivo" (
+    "id" SERIAL NOT NULL,
+    "serial" TEXT NOT NULL,
+    "moto_id" INTEGER,
+
+    CONSTRAINT "Dispositivo_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -87,7 +75,10 @@ CREATE TABLE "Position" (
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "latitude" DECIMAL(9,6) NOT NULL,
     "longitude" DECIMAL(9,6) NOT NULL,
-    "moto_id" INTEGER NOT NULL,
+    "timestamp" INTEGER,
+    "speed" DECIMAL(8,6),
+    "batt" DECIMAL(8,6),
+    "dispositivo_id" INTEGER NOT NULL,
 
     CONSTRAINT "Position_pkey" PRIMARY KEY ("id")
 );
@@ -107,17 +98,17 @@ CREATE UNIQUE INDEX "Role_name_key" ON "Role"("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "Client_ci_key" ON "Client"("ci");
 
--- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+-- CreateIndex
+CREATE UNIQUE INDEX "Dispositivo_moto_id_key" ON "Dispositivo"("moto_id");
 
 -- AddForeignKey
-ALTER TABLE "Menu" ADD CONSTRAINT "Menu_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "User" ADD CONSTRAINT "User_role_id_fkey" FOREIGN KEY ("role_id") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Moto" ADD CONSTRAINT "Moto_client_id_fkey" FOREIGN KEY ("client_id") REFERENCES "Client"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Moto" ADD CONSTRAINT "Moto_sucrusal_id_fkey" FOREIGN KEY ("sucrusal_id") REFERENCES "Sucrusal"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Dispositivo" ADD CONSTRAINT "Dispositivo_moto_id_fkey" FOREIGN KEY ("moto_id") REFERENCES "Moto"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Position" ADD CONSTRAINT "Position_moto_id_fkey" FOREIGN KEY ("moto_id") REFERENCES "Moto"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Position" ADD CONSTRAINT "Position_dispositivo_id_fkey" FOREIGN KEY ("dispositivo_id") REFERENCES "Dispositivo"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

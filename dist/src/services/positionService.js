@@ -1,4 +1,8 @@
 "use strict";
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,7 +43,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePosition = exports.updatePosition = exports.createPosition = exports.getPositionMoto = exports.getAllPositions = void 0;
+exports.deletePosition = exports.updatePosition = exports.createPosition = exports.getPositionDispositivo = exports.getPositionLimit = exports.getPositionLast = exports.getAllPositions = void 0;
 var database_1 = __importDefault(require("../utils/database"));
 var getAllPositions = function () { return __awaiter(void 0, void 0, void 0, function () {
     var error_1;
@@ -62,27 +66,64 @@ var getAllPositions = function () { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.getAllPositions = getAllPositions;
-var getPositionMoto = function (moto_id) { return __awaiter(void 0, void 0, void 0, function () {
+var getPositionLast = function (moto_id) { return __awaiter(void 0, void 0, void 0, function () {
     var error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.position.findMany({
-                        where: { moto_id: moto_id },
-                    })];
+                return [4 /*yield*/, database_1.default.$queryRaw(templateObject_1 || (templateObject_1 = __makeTemplateObject(["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit 1;"], ["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit 1;"])), moto_id)];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_2 = _a.sent();
                 console.error(error_2.message);
+                throw (error_2.message);
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getPositionLast = getPositionLast;
+var getPositionLimit = function (moto_id, limit) {
+    if (limit === void 0) { limit = 5; }
+    return __awaiter(void 0, void 0, void 0, function () {
+        var error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, database_1.default.$queryRaw(templateObject_2 || (templateObject_2 = __makeTemplateObject(["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit ", ";"], ["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit ", ";"])), moto_id, limit)];
+                case 1: return [2 /*return*/, _a.sent()];
+                case 2:
+                    error_3 = _a.sent();
+                    console.error(error_3.message);
+                    throw (error_3.message);
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+};
+exports.getPositionLimit = getPositionLimit;
+var getPositionDispositivo = function (dispositivo_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, database_1.default.position.findMany({
+                        where: { dispositivo_id: dispositivo_id },
+                    })];
+            case 1: return [2 /*return*/, _a.sent()];
+            case 2:
+                error_4 = _a.sent();
+                console.error(error_4.message);
                 return [2 /*return*/, []];
             case 3: return [2 /*return*/];
         }
     });
 }); };
-exports.getPositionMoto = getPositionMoto;
+exports.getPositionDispositivo = getPositionDispositivo;
 var createPosition = function (input) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_3;
+    var error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -90,16 +131,16 @@ var createPosition = function (input) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, database_1.default.position.create({ data: input })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_3 = _a.sent();
-                console.error(error_3.message);
-                return [3 /*break*/, 3];
+                error_5 = _a.sent();
+                console.error(error_5.message);
+                throw (error_5.message);
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.createPosition = createPosition;
 var updatePosition = function (id, input) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_4;
+    var error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -110,16 +151,16 @@ var updatePosition = function (id, input) { return __awaiter(void 0, void 0, voi
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_4 = _a.sent();
-                console.error(error_4.message);
-                return [3 /*break*/, 3];
+                error_6 = _a.sent();
+                console.error(error_6.message);
+                throw (error_6.message);
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.updatePosition = updatePosition;
 var deletePosition = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var error_5;
+    var error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -129,11 +170,12 @@ var deletePosition = function (id) { return __awaiter(void 0, void 0, void 0, fu
                     })];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
-                error_5 = _a.sent();
-                console.error(error_5.message);
-                return [3 /*break*/, 3];
+                error_7 = _a.sent();
+                console.error(error_7.message);
+                throw (error_7.message);
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.deletePosition = deletePosition;
+var templateObject_1, templateObject_2;
