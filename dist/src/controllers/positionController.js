@@ -46,8 +46,9 @@ var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
 var express_validator_1 = require("express-validator");
 var validateMiddleware_1 = require("../middlewares/validateMiddleware");
+var authMiddleware_1 = require("middlewares/authMiddleware");
 var router = (0, express_1.Router)();
-router.get('/position', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/position', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var positions, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -68,7 +69,7 @@ router.get('/position', function (req, res, next) { return __awaiter(void 0, voi
         }
     });
 }); });
-router.get('/position/moto/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/position/moto/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, positions, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -90,7 +91,7 @@ router.get('/position/moto/:id', function (req, res, next) { return __awaiter(vo
         }
     });
 }); });
-router.get('/position/last/:id', (0, express_validator_1.check)("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/position/last/:id', authMiddleware_1.auth, (0, express_validator_1.check)("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, position, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -112,7 +113,7 @@ router.get('/position/last/:id', (0, express_validator_1.check)("id", "Ingresa u
         }
     });
 }); });
-router.get('/position/:id/limit/:limit', (0, express_validator_1.check)("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }), (0, express_validator_1.check)("limit", "Ingresa un Limite valido").isNumeric().notEmpty().isLength({ min: 1 }), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/position/:id/limit/:limit', authMiddleware_1.auth, (0, express_validator_1.check)("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }), (0, express_validator_1.check)("limit", "Ingresa un Limite valido").isNumeric().notEmpty().isLength({ min: 1 }), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, limit, position, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -142,17 +143,13 @@ router.post('/position', function (req, res, next) { return __awaiter(void 0, vo
             case 0:
                 _a.trys.push([0, 3, , 4]);
                 position = req.body;
-                console.log(req.body);
                 return [4 /*yield*/, (0, dispositivoService_1.getDispositivoSerial)(position.dispositivo_id.toString())];
             case 1:
                 dispositivo = _a.sent();
-                console.log("Serial", dispositivo === null || dispositivo === void 0 ? void 0 : dispositivo.serial);
                 position.dispositivo_id = dispositivo.id;
-                console.log("Id", dispositivo === null || dispositivo === void 0 ? void 0 : dispositivo.id);
                 return [4 /*yield*/, (0, positionService_1.createPosition)(position)];
             case 2:
                 newPosition = _a.sent();
-                console.log("new -> ", newPosition);
                 res.status(http_status_1.default.CREATED).json(newPosition);
                 return [3 /*break*/, 4];
             case 3:
@@ -165,7 +162,7 @@ router.post('/position', function (req, res, next) { return __awaiter(void 0, vo
         }
     });
 }); });
-router.put('/position/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/position/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, client, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -190,7 +187,7 @@ router.put('/position/:id', function (req, res, next) { return __awaiter(void 0,
         }
     });
 }); });
-router.delete('/position/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/position/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
