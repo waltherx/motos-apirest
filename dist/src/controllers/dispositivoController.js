@@ -43,7 +43,7 @@ var express_1 = require("express");
 var dispositivoService_1 = require("../services/dispositivoService");
 var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
-var authMiddleware_1 = require("middlewares/authMiddleware");
+var authMiddleware_1 = require("../middlewares/authMiddleware");
 var router = (0, express_1.Router)();
 router.get('/dispositivo', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var dispositivos, error_1;

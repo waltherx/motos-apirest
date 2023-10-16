@@ -43,7 +43,7 @@ var express_1 = require("express");
 var http_status_1 = __importDefault(require("http-status"));
 var clientService_1 = require("../services/clientService");
 var validator_1 = require("../utils/validator");
-var authMiddleware_1 = require("middlewares/authMiddleware");
+var authMiddleware_1 = require("../middlewares/authMiddleware");
 var router = (0, express_1.Router)();
 router.get('/client', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var clients, error_1;

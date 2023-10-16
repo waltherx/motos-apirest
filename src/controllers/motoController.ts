@@ -5,7 +5,7 @@ import { isIdValid } from '../utils/validator';
 import { MotoCreateInput } from '../models/motoModel';
 import { check } from 'express-validator';
 import { validationInputs } from '../middlewares/validateMiddleware';
-import { auth } from 'middlewares/authMiddleware';
+import { auth } from '../middlewares/authMiddleware';
 
 const router = Router();
 

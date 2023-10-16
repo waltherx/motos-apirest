@@ -45,7 +45,7 @@ var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
 var express_validator_1 = require("express-validator");
 var validateMiddleware_1 = require("../middlewares/validateMiddleware");
-var authMiddleware_1 = require("middlewares/authMiddleware");
+var authMiddleware_1 = require("../middlewares/authMiddleware");
 var router = (0, express_1.Router)();
 router.get('/moto', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var motos, error_1;

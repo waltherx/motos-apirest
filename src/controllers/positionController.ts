@@ -6,7 +6,7 @@ import { isIdValid } from '../utils/validator';
 import { PositionCreate, PositionCreateInput } from '../models/positionModel';
 import { check } from 'express-validator';
 import { validationInputs } from '../middlewares/validateMiddleware';
-import { auth } from 'middlewares/authMiddleware';
+import { auth } from '../middlewares/authMiddleware';
 
 
 const router = Router();

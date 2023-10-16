@@ -3,7 +3,7 @@ import { getAllDispositivos, createDispositivo, updateDispositivo, deleteDisposi
 import httpStatus from 'http-status';
 import { isIdValid } from '../utils/validator';
 import { DispositivoCreateInput } from '../models/dispositivoModels';
-import { auth } from 'middlewares/authMiddleware';
+import { auth } from '../middlewares/authMiddleware';
 
 const router = Router();
 

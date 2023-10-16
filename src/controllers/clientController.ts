@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import { getAllClients, getClient, createClient, updateClient, deleteClient } from '../services/clientService';
 import { isIdValid } from '../utils/validator';
 import { ClientCreateInput } from '../models/clientModel';
-import { auth } from 'middlewares/authMiddleware';
+import { auth } from '../middlewares/authMiddleware';
 
 const router = Router();
 
