@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { getAllRoles, createRole, updateRole, deleteRole, getRole } from '../services/roleService';
 import httpStatus from 'http-status';
+import { auth } from '../middlewares/authMiddleware';
 import { isIdValid } from '../utils/validator';
 import { RoleCreateInput } from '../models/roleModel';
 
 const router = Router();
 
-router.get('/role', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/role',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const roles = await getAllRoles();
         res.status(httpStatus.OK).json(roles);
@@ -17,7 +18,7 @@ router.get('/role', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.get('/role/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/role/:id',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: number = parseInt(req.params.id);
         const role = await getRole(id);
@@ -30,7 +31,7 @@ router.get('/role/:id', async (req: Request, res: Response, next: NextFunction) 
 });
 
 
-router.post('/role', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/role',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const client = req.body as RoleCreateInput;
         const newRole = await createRole(client);
@@ -42,7 +43,7 @@ router.post('/role', async (req: Request, res: Response, next: NextFunction) => 
     }
 });
 
-router.put('/role/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/role/:id',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -57,7 +58,7 @@ router.put('/role/:id', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.delete('/role/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/role/:id',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);

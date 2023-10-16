@@ -9,7 +9,7 @@ import { auth } from 'middlewares/authMiddleware';
 
 const router = Router();
 
-router.get('/moto', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/moto', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const motos = await getAllMotos();
         res.status(httpStatus.OK).json(motos);
@@ -20,7 +20,7 @@ router.get('/moto', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.get('/moto/placas', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/moto/placas', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const motos = await getAllPlacas();
         res.status(httpStatus.OK).json(motos);
@@ -32,6 +32,7 @@ router.get('/moto/placas', async (req: Request, res: Response, next: NextFunctio
 });
 
 router.get('/moto/placa/:placa',
+    auth,
     check("placa", "Ingrese una placa valida.").isAlphanumeric().notEmpty().isLength({ min: 1, max: 10 }),
     validationInputs
     , async (req: Request, res: Response, next: NextFunction) => {
@@ -47,6 +48,7 @@ router.get('/moto/placa/:placa',
     });
 
 router.get('/moto/auto/:placa',
+    auth,
     check("placa", "placa no puede ser vacia o nula").notEmpty(),
     validationInputs,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -61,7 +63,7 @@ router.get('/moto/auto/:placa',
         }
     });
 
-router.get('/moto/search/:placa', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/moto/search/:placa', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const placa: string = req.params.placa;
         const moto = await searchMotos(placa);
@@ -74,6 +76,7 @@ router.get('/moto/search/:placa', async (req: Request, res: Response, next: Next
 });
 
 router.get('/moto/:id',
+    auth,
     check("id", "ID moto no puede ser nulo.").isNumeric().notEmpty(),
     validationInputs,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -89,7 +92,7 @@ router.get('/moto/:id',
     });
 
 
-router.post('/moto', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/moto', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const client = req.body as MotoCreateInput;
         const newMoto = await createMoto(client);
@@ -101,7 +104,7 @@ router.post('/moto', async (req: Request, res: Response, next: NextFunction) => 
     }
 });
 
-router.put('/moto/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/moto/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -116,7 +119,7 @@ router.put('/moto/:id', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.delete('/moto/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/moto/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);

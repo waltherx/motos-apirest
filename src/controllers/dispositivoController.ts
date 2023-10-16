@@ -3,6 +3,7 @@ import { getAllDispositivos, createDispositivo, updateDispositivo, deleteDisposi
 import httpStatus from 'http-status';
 import { isIdValid } from '../utils/validator';
 import { DispositivoCreateInput } from '../models/dispositivoModels';
+import { auth } from 'middlewares/authMiddleware';
 
 const router = Router();
 
@@ -17,7 +18,7 @@ router.get('/dispositivo', async (req: Request, res: Response, next: NextFunctio
     }
 });
 
-router.get('/dispositivo/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/dispositivo/:id',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: number = parseInt(req.params.id);
         const dispositivo = await getDispositivo(id);
@@ -30,7 +31,7 @@ router.get('/dispositivo/:id', async (req: Request, res: Response, next: NextFun
 });
 
 
-router.post('/dispositivo', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/dispositivo',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const dispositivo = req.body as DispositivoCreateInput;
         const newDispositivo = await createDispositivo(dispositivo);
@@ -42,7 +43,7 @@ router.post('/dispositivo', async (req: Request, res: Response, next: NextFuncti
     }
 });
 
-router.put('/dispositivo/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/dispositivo/:id',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -57,7 +58,7 @@ router.put('/dispositivo/:id', async (req: Request, res: Response, next: NextFun
     }
 });
 
-router.delete('/dispositivo/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/dispositivo/:id',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);

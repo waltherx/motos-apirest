@@ -7,7 +7,7 @@ import { UserCreateInput } from '../models/userModel';
 
 const router = Router();
 
-router.get('/user', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/user', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await getAllUsers();
         res.status(httpStatus.OK).json(users);
@@ -18,7 +18,7 @@ router.get('/user', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-router.get('/user/:id',auth , async (req: Request, res: Response, next: NextFunction) => {
+router.get('/user/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: number = parseInt(req.params.id);
         const user = await getUser(id);
@@ -31,7 +31,7 @@ router.get('/user/:id',auth , async (req: Request, res: Response, next: NextFunc
 });
 
 
-router.post('/user', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/user', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = req.body as UserCreateInput;
         console.log(user);
@@ -44,7 +44,7 @@ router.post('/user', async (req: Request, res: Response, next: NextFunction) => 
     }
 });
 
-router.put('/user/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/user/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -58,7 +58,7 @@ router.put('/user/:id', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.delete('/user/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/user/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);

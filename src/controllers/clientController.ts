@@ -3,11 +3,12 @@ import httpStatus from 'http-status';
 import { getAllClients, getClient, createClient, updateClient, deleteClient } from '../services/clientService';
 import { isIdValid } from '../utils/validator';
 import { ClientCreateInput } from '../models/clientModel';
+import { auth } from 'middlewares/authMiddleware';
 
 const router = Router();
 
 
-router.get('/client', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/client',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const clients = await getAllClients();
         res.statusCode = httpStatus.OK;
@@ -18,7 +19,7 @@ router.get('/client', async (req: Request, res: Response, next: NextFunction) =>
     }
 });
 
-router.get('/client/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/client/:id',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: number = parseInt(req.params.id);
         const client = await getClient(id);
@@ -32,7 +33,7 @@ router.get('/client/:id', async (req: Request, res: Response, next: NextFunction
 });
 
 
-router.post('/client', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/client',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const client = req.body as ClientCreateInput;
         const newClient = await createClient(client);
@@ -44,7 +45,7 @@ router.post('/client', async (req: Request, res: Response, next: NextFunction) =
     }
 });
 
-router.put('/client', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/client',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -59,7 +60,7 @@ router.put('/client', async (req: Request, res: Response, next: NextFunction) =>
     }
 });
 
-router.delete('/client', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/client',auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
