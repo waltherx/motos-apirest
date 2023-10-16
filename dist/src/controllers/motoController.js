@@ -45,8 +45,9 @@ var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
 var express_validator_1 = require("express-validator");
 var validateMiddleware_1 = require("../middlewares/validateMiddleware");
+var authMiddleware_1 = require("middlewares/authMiddleware");
 var router = (0, express_1.Router)();
-router.get('/moto', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var motos, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -67,7 +68,7 @@ router.get('/moto', function (req, res, next) { return __awaiter(void 0, void 0,
         }
     });
 }); });
-router.get('/moto/placas', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto/placas', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var motos, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -88,7 +89,7 @@ router.get('/moto/placas', function (req, res, next) { return __awaiter(void 0, 
         }
     });
 }); });
-router.get('/moto/placa/:placa', (0, express_validator_1.check)("placa", "Ingrese una placa valida.").isAlphanumeric().notEmpty().isLength({ min: 1, max: 10 }), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto/placa/:placa', authMiddleware_1.auth, (0, express_validator_1.check)("placa", "Ingrese una placa valida.").isAlphanumeric().notEmpty().isLength({ min: 1, max: 10 }), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var placa, moto, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -110,7 +111,7 @@ router.get('/moto/placa/:placa', (0, express_validator_1.check)("placa", "Ingres
         }
     });
 }); });
-router.get('/moto/auto/:placa', (0, express_validator_1.check)("placa", "placa no puede ser vacia o nula").notEmpty(), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto/auto/:placa', authMiddleware_1.auth, (0, express_validator_1.check)("placa", "placa no puede ser vacia o nula").notEmpty(), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var placa, moto, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -132,7 +133,7 @@ router.get('/moto/auto/:placa', (0, express_validator_1.check)("placa", "placa n
         }
     });
 }); });
-router.get('/moto/search/:placa', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto/search/:placa', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var placa, moto, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -154,7 +155,7 @@ router.get('/moto/search/:placa', function (req, res, next) { return __awaiter(v
         }
     });
 }); });
-router.get('/moto/:id', (0, express_validator_1.check)("id", "ID moto no puede ser nulo.").isNumeric().notEmpty(), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/moto/:id', authMiddleware_1.auth, (0, express_validator_1.check)("id", "ID moto no puede ser nulo.").isNumeric().notEmpty(), validateMiddleware_1.validationInputs, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, moto, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -176,7 +177,7 @@ router.get('/moto/:id', (0, express_validator_1.check)("id", "ID moto no puede s
         }
     });
 }); });
-router.post('/moto', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.post('/moto', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var client, newMoto, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -198,7 +199,7 @@ router.post('/moto', function (req, res, next) { return __awaiter(void 0, void 0
         }
     });
 }); });
-router.put('/moto/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/moto/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, client, error_8;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -223,7 +224,7 @@ router.put('/moto/:id', function (req, res, next) { return __awaiter(void 0, voi
         }
     });
 }); });
-router.delete('/moto/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/moto/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, error_9;
     return __generator(this, function (_a) {
         switch (_a.label) {

@@ -43,6 +43,7 @@ var express_1 = require("express");
 var dispositivoService_1 = require("../services/dispositivoService");
 var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
+var authMiddleware_1 = require("middlewares/authMiddleware");
 var router = (0, express_1.Router)();
 router.get('/dispositivo', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var dispositivos, error_1;
@@ -65,7 +66,7 @@ router.get('/dispositivo', function (req, res, next) { return __awaiter(void 0, 
         }
     });
 }); });
-router.get('/dispositivo/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, dispositivo, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -87,7 +88,7 @@ router.get('/dispositivo/:id', function (req, res, next) { return __awaiter(void
         }
     });
 }); });
-router.post('/dispositivo', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.post('/dispositivo', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var dispositivo, newDispositivo, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -109,7 +110,7 @@ router.post('/dispositivo', function (req, res, next) { return __awaiter(void 0,
         }
     });
 }); });
-router.put('/dispositivo/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, dispositivo, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -134,7 +135,7 @@ router.put('/dispositivo/:id', function (req, res, next) { return __awaiter(void
         }
     });
 }); });
-router.delete('/dispositivo/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {

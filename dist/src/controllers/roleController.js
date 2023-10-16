@@ -42,9 +42,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var roleService_1 = require("../services/roleService");
 var http_status_1 = __importDefault(require("http-status"));
+var authMiddleware_1 = require("../middlewares/authMiddleware");
 var validator_1 = require("../utils/validator");
 var router = (0, express_1.Router)();
-router.get('/role', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/role', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var roles, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -65,7 +66,7 @@ router.get('/role', function (req, res, next) { return __awaiter(void 0, void 0,
         }
     });
 }); });
-router.get('/role/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/role/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, role, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -87,7 +88,7 @@ router.get('/role/:id', function (req, res, next) { return __awaiter(void 0, voi
         }
     });
 }); });
-router.post('/role', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.post('/role', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var client, newRole, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -109,7 +110,7 @@ router.post('/role', function (req, res, next) { return __awaiter(void 0, void 0
         }
     });
 }); });
-router.put('/role/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/role/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, client, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -134,7 +135,7 @@ router.put('/role/:id', function (req, res, next) { return __awaiter(void 0, voi
         }
     });
 }); });
-router.delete('/role/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/role/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {

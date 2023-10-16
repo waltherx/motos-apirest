@@ -6,11 +6,12 @@ import { isIdValid } from '../utils/validator';
 import { PositionCreate, PositionCreateInput } from '../models/positionModel';
 import { check } from 'express-validator';
 import { validationInputs } from '../middlewares/validateMiddleware';
+import { auth } from 'middlewares/authMiddleware';
 
 
 const router = Router();
 
-router.get('/position', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/position', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const positions = await getAllPositions();
         res.status(httpStatus.OK).json(positions);
@@ -21,7 +22,7 @@ router.get('/position', async (req: Request, res: Response, next: NextFunction) 
     }
 });
 
-router.get('/position/moto/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/position/moto/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: number = parseInt(req.params.id);
         const positions = await getPositionDispositivo(id);
@@ -34,6 +35,7 @@ router.get('/position/moto/:id', async (req: Request, res: Response, next: NextF
 });
 
 router.get('/position/last/:id',
+    auth,
     check("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }),
     validationInputs,
     async (req: Request, res: Response, next: NextFunction) => {
@@ -49,6 +51,7 @@ router.get('/position/last/:id',
     });
 
 router.get('/position/:id/limit/:limit',
+    auth,
     check("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }),
     check("limit", "Ingresa un Limite valido").isNumeric().notEmpty().isLength({ min: 1 }),
     validationInputs,
@@ -69,13 +72,9 @@ router.get('/position/:id/limit/:limit',
 router.post('/position', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const position = req.body as PositionCreate;
-        console.log(req.body);
         const dispositivo = await getDispositivoSerial(position.dispositivo_id.toString());
-        console.log("Serial", dispositivo?.serial);
         position.dispositivo_id = dispositivo.id;
-        console.log("Id", dispositivo?.id);
         const newPosition = await createPosition(position);
-        console.log("new -> ",newPosition);
         res.status(httpStatus.CREATED).json(newPosition);
     } catch (error) {
         console.error(error.message);
@@ -84,7 +83,7 @@ router.post('/position', async (req: Request, res: Response, next: NextFunction)
     }
 });
 
-router.put('/position/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.put('/position/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
@@ -99,7 +98,7 @@ router.put('/position/:id', async (req: Request, res: Response, next: NextFuncti
     }
 });
 
-router.delete('/position/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.delete('/position/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
         if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);

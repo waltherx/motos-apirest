@@ -43,8 +43,9 @@ var express_1 = require("express");
 var http_status_1 = __importDefault(require("http-status"));
 var clientService_1 = require("../services/clientService");
 var validator_1 = require("../utils/validator");
+var authMiddleware_1 = require("middlewares/authMiddleware");
 var router = (0, express_1.Router)();
-router.get('/client', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/client', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var clients, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -65,7 +66,7 @@ router.get('/client', function (req, res, next) { return __awaiter(void 0, void 
         }
     });
 }); });
-router.get('/client/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/client/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, client, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -88,7 +89,7 @@ router.get('/client/:id', function (req, res, next) { return __awaiter(void 0, v
         }
     });
 }); });
-router.post('/client', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.post('/client', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var client, newClient, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -110,7 +111,7 @@ router.post('/client', function (req, res, next) { return __awaiter(void 0, void
         }
     });
 }); });
-router.put('/client', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/client', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, client, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -135,7 +136,7 @@ router.put('/client', function (req, res, next) { return __awaiter(void 0, void 
         }
     });
 }); });
-router.delete('/client', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/client', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {

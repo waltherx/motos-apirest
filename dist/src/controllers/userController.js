@@ -45,7 +45,7 @@ var authMiddleware_1 = require("../middlewares/authMiddleware");
 var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
 var router = (0, express_1.Router)();
-router.get('/user', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/user', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var users, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -88,7 +88,7 @@ router.get('/user/:id', authMiddleware_1.auth, function (req, res, next) { retur
         }
     });
 }); });
-router.post('/user', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.post('/user', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var user, newUser, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -111,7 +111,7 @@ router.post('/user', function (req, res, next) { return __awaiter(void 0, void 0
         }
     });
 }); });
-router.put('/user/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.put('/user/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, user, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -136,7 +136,7 @@ router.put('/user/:id', function (req, res, next) { return __awaiter(void 0, voi
         }
     });
 }); });
-router.delete('/user/:id', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.delete('/user/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
