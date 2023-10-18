@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { getDispositivo, getDispositivoSerial } from '../services/dispositivoService';
-import { getAllPositions, createPosition, updatePosition, deletePosition, getPositionDispositivo, getPositionLast, getPositionLimit } from '../services/positionService';
-import httpStatus from 'http-status';
-import { isIdValid } from '../utils/validator';
-import { PositionCreate, PositionCreateInput } from '../models/positionModel';
 import { check } from 'express-validator';
-import { validationInputs } from '../middlewares/validateMiddleware';
+import httpStatus from 'http-status';
 import { auth } from '../middlewares/authMiddleware';
-
+import { validationInputs } from '../middlewares/validateMiddleware';
+import { PositionCreate, PositionCreateInput } from '../models/positionModel';
+import { getDispositivoSerial } from '../services/dispositivoService';
+import { createPosition, deletePosition, getAllPositions, getPositionDispositivo, getPositionLast, getPositionLimit, updatePosition } from '../services/positionService';
+import { isIdValid } from '../utils/validator';
 
 const router = Router();
 
@@ -42,6 +41,7 @@ router.get('/position/last/:id',
         try {
             const id: number = parseInt(req.params.id);
             const position = await getPositionLast(id);
+            console.log(position);
             res.status(httpStatus.OK).json(position);
         } catch (error) {
             console.error(error.message);

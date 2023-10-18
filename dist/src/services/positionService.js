@@ -66,13 +66,13 @@ var getAllPositions = function () { return __awaiter(void 0, void 0, void 0, fun
     });
 }); };
 exports.getAllPositions = getAllPositions;
-var getPositionLast = function (moto_id) { return __awaiter(void 0, void 0, void 0, function () {
+var getPositionLast = function (dispositivo_id) { return __awaiter(void 0, void 0, void 0, function () {
     var error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, database_1.default.$queryRaw(templateObject_1 || (templateObject_1 = __makeTemplateObject(["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit 1;"], ["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit 1;"])), moto_id)];
+                return [4 /*yield*/, database_1.default.$queryRaw(templateObject_1 || (templateObject_1 = __makeTemplateObject(["select * from public.\"Position\" p where p.dispositivo_id =", " order by p.date desc limit 1;"], ["select * from public.\"Position\" p where p.dispositivo_id =", " order by p.date desc limit 1;"])), dispositivo_id)];
             case 1: return [2 /*return*/, _a.sent()];
             case 2:
                 error_2 = _a.sent();
@@ -83,7 +83,7 @@ var getPositionLast = function (moto_id) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.getPositionLast = getPositionLast;
-var getPositionLimit = function (moto_id, limit) {
+var getPositionLimit = function (dispositivo_id, limit) {
     if (limit === void 0) { limit = 5; }
     return __awaiter(void 0, void 0, void 0, function () {
         var error_3;
@@ -91,7 +91,7 @@ var getPositionLimit = function (moto_id, limit) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, database_1.default.$queryRaw(templateObject_2 || (templateObject_2 = __makeTemplateObject(["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit ", ";"], ["select * from public.\"Position\" p where p.moto_id =", " order by p.date desc limit ", ";"])), moto_id, limit)];
+                    return [4 /*yield*/, database_1.default.$queryRaw(templateObject_2 || (templateObject_2 = __makeTemplateObject(["select * from public.\"Position\" p where p.dispositivo_id =", " order by p.date desc limit ", ";"], ["select * from public.\"Position\" p where p.dispositivo_id =", " order by p.date desc limit ", ";"])), dispositivo_id, limit)];
                 case 1: return [2 /*return*/, _a.sent()];
                 case 2:
                     error_3 = _a.sent();

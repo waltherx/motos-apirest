@@ -40,13 +40,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
+var express_validator_1 = require("express-validator");
+var http_status_1 = __importDefault(require("http-status"));
+var authMiddleware_1 = require("../middlewares/authMiddleware");
+var validateMiddleware_1 = require("../middlewares/validateMiddleware");
 var dispositivoService_1 = require("../services/dispositivoService");
 var positionService_1 = require("../services/positionService");
-var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
-var express_validator_1 = require("express-validator");
-var validateMiddleware_1 = require("../middlewares/validateMiddleware");
-var authMiddleware_1 = require("../middlewares/authMiddleware");
 var router = (0, express_1.Router)();
 router.get('/position', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var positions, error_1;
@@ -101,6 +101,7 @@ router.get('/position/last/:id', authMiddleware_1.auth, (0, express_validator_1.
                 return [4 /*yield*/, (0, positionService_1.getPositionLast)(id)];
             case 1:
                 position = _a.sent();
+                console.log(position);
                 res.status(http_status_1.default.OK).json(position);
                 return [3 /*break*/, 3];
             case 2:

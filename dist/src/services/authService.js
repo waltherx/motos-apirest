@@ -64,10 +64,23 @@ function login(userIn) {
                     }
                     isMatch = bcrypt_1.default.compareSync(userIn.password, foundUser.password);
                     if (isMatch) {
-                        token = jsonwebtoken_1.default.sign({ id: (_a = foundUser.id) === null || _a === void 0 ? void 0 : _a.toString(), username: foundUser.username }, process.env.JWT_SECRET, {
+                        token = jsonwebtoken_1.default.sign({
+                            id: (_a = foundUser.id) === null || _a === void 0 ? void 0 : _a.toString(),
+                            username: foundUser.username,
+                            realname: foundUser.realname,
+                            status: foundUser.status,
+                            role: foundUser.role_id
+                        }, process.env.JWT_SECRET, {
                             expiresIn: '7 days',
                         });
-                        return [2 /*return*/, { user: { id: foundUser.id, username: foundUser.username }, token: token }];
+                        return [2 /*return*/, {
+                                user: {
+                                    id: foundUser.id,
+                                    username: foundUser.username,
+                                    role: foundUser.role_id
+                                },
+                                token: token
+                            }];
                     }
                     else {
                         throw new Error('Contraseña incorrecta');

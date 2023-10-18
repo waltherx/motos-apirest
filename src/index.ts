@@ -1,11 +1,11 @@
-import express, { Express, Request, Response } from 'express';
+import { hostname } from 'os';
 import cors from 'cors';
-import path from 'path';
 import dotenv from 'dotenv';
-import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../docs/swagger.json';
-import routes from './routes/routes';
+import express, { Express, Request, Response } from 'express';
+import { createServer } from 'http';
 import morgan from 'morgan';
+import { Server } from 'socket.io';
+import routes from './routes/routes';
 
 
 dotenv.config();
@@ -23,21 +23,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
+const server = createServer(app);
+const io = new Server(server);
 
 app.get('/', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.json({ "message": "Hola 😃" });
 });
 
-app.use("/swagger", swaggerUi.serve, async (_req: Request, res: Response) => {
-    return res.send(
-        swaggerUi.generateHTML(swaggerDocument, { explorer: true })
-    );
+io.on("connection", (...params) => {
+    console.log(params);
 });
 
-app.listen(port, () => {
-    console.log(`⚡️[server]: Esta corriendo en -> 🤠 http://localhost:${port} ⚡️`);
+server.listen(port, () => {
+    console.log(`⚡️[server]: Esta corriendo en -> 🤠 http://${hostname()}:${port} ⚡️`);
 });
-
-
-//DATABASE_DEV="postgres://motos_user:rmWi8hFIsxaQ12iW9pqTMuvrFOOz9R5m@dpg-cilm0aenqqlfm4cgbcf0-a.oregon-postgres.render.com/motos"
