@@ -24,9 +24,9 @@ export const getPositionLast = async (dispositivo_id: number): Promise<Position>
     }
 }
 
-export const getPositionLimit = async (dispositivo_id: number, limit: number = 5): Promise<Position> => {
+export const getPositionLimit = async (dispositivo_id: number, limit: number = 5): Promise<Position[]> => {
     try {
-        return await prisma.$queryRaw<Position>`select * from public."Position" p where p.dispositivo_id =${dispositivo_id} order by p.date desc limit ${limit};`
+        return await prisma.$queryRaw<Position[]>`select * from public."Position" p where p.dispositivo_id =${dispositivo_id} order by p.date desc limit ${limit};`
     } catch (error) {
         console.error(error.message);
         throw (error.message);
