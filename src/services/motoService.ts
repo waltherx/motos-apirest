@@ -1,5 +1,5 @@
 import prisma from "../utils/database";
-import { MotoCreateInput, MotoUpdateInput } from "../models/motoModel";
+import { MotoCreateInput, MotoSelect, MotoUpdateInput } from "../models/motoModel";
 
 export const searchMotos = async (input: string) => {
     try {
@@ -85,6 +85,20 @@ export const getAllMotos = async () => {
     } catch (error) {
         console.error(error.message);
         return [];
+    }
+}
+
+export const getMotoDevice = async (id: number) => {
+    try {
+        return await prisma.moto.findUnique({
+            where: { id },
+            include: {
+                dispositivo: true
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
+        return {};
     }
 }
 

@@ -1,4 +1,4 @@
-import { UserCreateInput, UserData } from "../models/userModel";
+import { UserChangeData, UserCreateInput, UserData } from "../models/userModel";
 import prisma from "../utils/database";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -59,6 +59,37 @@ export async function signup(userIn: UserCreateInput) {
             console.log(userIn);
             const newUser = await createUser(userIn);
             return newUser;
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function changePassword(userIn: UserChangeData) {
+    try {
+        const foundUser = await prisma.user.findUnique({
+            where: {
+                username: userIn.username
+            }
+        });
+
+        if (foundUser) {
+            const isMatch = bcrypt.compareSync(userIn.password_old, foundUser.password);
+            if (isMatch) {
+                const new_pass = foundUser.password = bcrypt.hashSync(userIn.password_new, 8);
+                return await prisma.user.update({
+                    where: {
+                        id: foundUser.id,
+                    },
+                    data: {
+                        password: new_pass
+                    }
+                });
+            } else {
+                return { "message": "La nueva contraseña es igual a la anterior..😪" };
+            }
+        } else {
+            return { "message": "El nombre de usuario que ingresaste no está registrado..😪" };
         }
     } catch (error) {
         throw error;
