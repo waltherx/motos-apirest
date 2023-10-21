@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signup = exports.login = void 0;
+exports.changePassword = exports.signup = exports.login = void 0;
 var database_1 = __importDefault(require("../utils/database"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
@@ -127,3 +127,43 @@ function signup(userIn) {
     });
 }
 exports.signup = signup;
+function changePassword(userIn) {
+    return __awaiter(this, void 0, void 0, function () {
+        var foundUser, isMatch, new_pass, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 7, , 8]);
+                    return [4 /*yield*/, database_1.default.user.findUnique({
+                            where: {
+                                username: userIn.username
+                            }
+                        })];
+                case 1:
+                    foundUser = _a.sent();
+                    if (!foundUser) return [3 /*break*/, 5];
+                    isMatch = bcrypt_1.default.compareSync(userIn.password_old, foundUser.password);
+                    if (!isMatch) return [3 /*break*/, 3];
+                    new_pass = foundUser.password = bcrypt_1.default.hashSync(userIn.password_new, 8);
+                    return [4 /*yield*/, database_1.default.user.update({
+                            where: {
+                                id: foundUser.id,
+                            },
+                            data: {
+                                password: new_pass
+                            }
+                        })];
+                case 2: return [2 /*return*/, _a.sent()];
+                case 3: return [2 /*return*/, { "message": "La nueva contraseña es igual a la anterior..😪" }];
+                case 4: return [3 /*break*/, 6];
+                case 5: return [2 /*return*/, { "message": "El nombre de usuario que ingresaste no está registrado..😪" }];
+                case 6: return [3 /*break*/, 8];
+                case 7:
+                    error_3 = _a.sent();
+                    throw error_3;
+                case 8: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.changePassword = changePassword;

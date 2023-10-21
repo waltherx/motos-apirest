@@ -44,6 +44,7 @@ var dispositivoService_1 = require("../services/dispositivoService");
 var http_status_1 = __importDefault(require("http-status"));
 var validator_1 = require("../utils/validator");
 var authMiddleware_1 = require("../middlewares/authMiddleware");
+var motoService_1 = require("../services/motoService");
 var router = (0, express_1.Router)();
 router.get('/dispositivo', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var dispositivos, error_1;
@@ -66,17 +67,21 @@ router.get('/dispositivo', function (req, res, next) { return __awaiter(void 0, 
         }
     });
 }); });
-router.get('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+router.get('/dispositivo/moto/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var id, dispositivo, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 id = parseInt(req.params.id);
-                return [4 /*yield*/, (0, dispositivoService_1.getDispositivo)(id)];
+                return [4 /*yield*/, (0, motoService_1.getMotoDevice)(id)];
             case 1:
                 dispositivo = _a.sent();
-                res.status(http_status_1.default.OK).json(dispositivo);
+                console.log(dispositivo);
+                if (dispositivo)
+                    res.status(http_status_1.default.OK).json(dispositivo);
+                else
+                    res.status(http_status_1.default.NOT_FOUND).json({});
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _a.sent();
@@ -88,8 +93,30 @@ router.get('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) 
         }
     });
 }); });
+router.get('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, dispositivo, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = parseInt(req.params.id);
+                return [4 /*yield*/, (0, dispositivoService_1.getDispositivo)(id)];
+            case 1:
+                dispositivo = _a.sent();
+                res.status(http_status_1.default.OK).json(dispositivo);
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _a.sent();
+                console.error(error_3.message);
+                next(error_3);
+                res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error Dispositivo" });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 router.post('/dispositivo', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var dispositivo, newDispositivo, error_3;
+    var dispositivo, newDispositivo, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -101,9 +128,9 @@ router.post('/dispositivo', authMiddleware_1.auth, function (req, res, next) { r
                 res.status(http_status_1.default.CREATED).json(newDispositivo);
                 return [3 /*break*/, 3];
             case 2:
-                error_3 = _a.sent();
-                console.error(error_3.message);
-                next(error_3);
+                error_4 = _a.sent();
+                console.error(error_4.message);
+                next(error_4);
                 res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error create Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -111,7 +138,7 @@ router.post('/dispositivo', authMiddleware_1.auth, function (req, res, next) { r
     });
 }); });
 router.put('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, dispositivo, error_4;
+    var id, dispositivo, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -126,9 +153,9 @@ router.put('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) 
                 res.status(http_status_1.default.OK).json({ "message": "Dispositivo actualizado.." });
                 return [3 /*break*/, 3];
             case 2:
-                error_4 = _a.sent();
-                console.error(error_4.message);
-                next(error_4);
+                error_5 = _a.sent();
+                console.error(error_5.message);
+                next(error_5);
                 res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error update Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
@@ -136,7 +163,7 @@ router.put('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) 
     });
 }); });
 router.delete('/dispositivo/:id', authMiddleware_1.auth, function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, error_5;
+    var id, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -150,9 +177,9 @@ router.delete('/dispositivo/:id', authMiddleware_1.auth, function (req, res, nex
                 res.status(http_status_1.default.OK).json({ "message": "Dispositivo eliminado.." });
                 return [3 /*break*/, 3];
             case 2:
-                error_5 = _a.sent();
-                console.error(error_5.message);
-                next(error_5);
+                error_6 = _a.sent();
+                console.error(error_6.message);
+                next(error_6);
                 res.status(http_status_1.default.INTERNAL_SERVER_ERROR).json({ message: "Error delete Dispositivo" });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
