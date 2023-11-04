@@ -30,8 +30,6 @@ export const getPositionLimit = async (dispositivo_id: number, limit: number = 5
     } catch (error) {
         console.error(error.message);
         throw (error.message);
-        console.log(error.message)
-
     }
 }
 
