@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 import { createServer } from 'http';
 import morgan from 'morgan';
-import { Server } from 'socket.io';
 import routes from './routes/routes';
 
 
@@ -24,14 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(routes);
 
 const server = createServer(app);
-const io = new Server(server);
 
 app.get('/', (req: Request, res: Response) => {
     res.json({ "message": "Hola 😃" });
-});
-
-io.on("connection", (...params) => {
-    console.log(params);
 });
 
 server.listen(port, () => {

@@ -7,6 +7,7 @@ import { PositionCreate, PositionCreateInput } from '../models/positionModel';
 import { getDispositivoSerial } from '../services/dispositivoService';
 import { createPosition, deletePosition, getAllPositions, getPositionDispositivo, getPositionLast, getPositionLimit, updatePosition } from '../services/positionService';
 import { isIdValid } from '../utils/validator';
+import { radioAllow } from '../utils/distance';
 
 const router = Router();
 
@@ -72,10 +73,15 @@ router.get('/position/:id/limit/:limit',
 router.post('/position', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const position = req.body as PositionCreate;
-        const dispositivo = await getDispositivoSerial(position.dispositivo_id.toString());
-        position.dispositivo_id = dispositivo.id;
-        const newPosition = await createPosition(position);
-        res.status(httpStatus.CREATED).json(newPosition);
+        const allow = radioAllow(Number(position.latitude), Number(position.longitude));
+        if (allow) {
+            const dispositivo = await getDispositivoSerial(position.dispositivo_id.toString());
+            position.dispositivo_id = dispositivo.id;
+            const newPosition = await createPosition(position);
+            res.status(httpStatus.CREATED).json(newPosition);
+        } else {
+            res.status(httpStatus.BAD_REQUEST).json({ message: "Error Position no valida" });
+        }
     } catch (error) {
         console.error(error.message);
         next(error);

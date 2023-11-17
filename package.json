@@ -1,10 +1,17 @@
 {
   "name": "motos-apirest",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.1.0",
+  "keywords": [],
+  "author": "@mddx",
+  "license": "MIT",
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "scripts": {
+    "clean": "npx prisma generate && npx tsc --build --clean",
+    "build": "npx prisma generate && npx tsc --build",
+    "start": "node dist/src/index.js",
+    "dev": "ts-node src/index.ts"
   },
   "dependencies": {
     "@prisma/client": "4.16.2",
@@ -14,30 +21,19 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
-    "http-status": "^1.6.2",
+    "http-status": "^1.7.3",
     "joi": "^17.9.2",
-    "jsonwebtoken": "^9.0.1",
-    "morgan": "^1.10.0",
-    "socket.io": "^4.7.2",
-    "swagger-ui-express": "^5.0.0"
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/cors": "^2.8.13",
-    "@types/express": "^4.17.17",
-    "@types/jsonwebtoken": "^9.0.2",
-    "@types/node": "^20.4.1",
-    "@types/swagger-ui-express": "^4.1.3",
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.16",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.9.0",
     "prisma": "4.16.2",
-    "typescript": "^5.1.6"
-  },
-  "scripts": {
-    "clean": "npx prisma generate && npx tsc --build --clean",
-    "build": "npx prisma generate && npx tsc --build",
-    "start": "node dist/src/index.js",
-    "dev": "ts-node-dev src/index.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
 }

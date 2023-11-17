@@ -4,17 +4,19 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "module": "commonjs",
+    "module": "CommonJS",
     "moduleResolution": "Node",
-    "baseUrl": "src",
+    "baseUrl": "src"
     //"forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
     //"strict": true,
     //"skipLibCheck": true
-   /* "paths": {
+    /* "paths": {
       "@/*": ["*"]
     }*/
   },
   "ts-node": {
     "esm": true
-  }
+  },
+  //"include": ["/**/*.ts"],
+  //"exclude": ["node_modules"]
 }
