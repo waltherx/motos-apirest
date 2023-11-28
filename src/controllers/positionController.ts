@@ -2,12 +2,14 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { check } from 'express-validator';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/authMiddleware';
+import { validateSchema } from '../middlewares/schemaMiddleware';
 import { validationInputs } from '../middlewares/validateMiddleware';
-import { PositionCreate, PositionCreateInput } from '../models/positionModel';
+import { PositionCreate, PositionCreateInput, PositionSearchDate } from '../models/positionModel';
+import { positionSearhDateSchema } from '../schemas/positionSchema';
 import { getDispositivoSerial } from '../services/dispositivoService';
-import { createPosition, deletePosition, getAllPositions, getPositionDispositivo, getPositionLast, getPositionLimit, updatePosition } from '../services/positionService';
-import { isIdValid } from '../utils/validator';
+import { createPosition, deletePosition, getAllPositions, getPositionDayBegin, getPositionDayEnd, getPositionDispositivo, getPositionLast, getPositionLimit, updatePosition } from '../services/positionService';
 import { radioAllow } from '../utils/distance';
+import { isIdValid } from '../utils/validator';
 
 const router = Router();
 
@@ -51,6 +53,9 @@ router.get('/position/last/:id',
         }
     });
 
+
+
+
 router.get('/position/:id/limit/:limit',
     auth,
     check("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }),
@@ -69,6 +74,37 @@ router.get('/position/:id/limit/:limit',
         }
     });
 
+router.get('/position/day/begin',
+    auth,
+    validateSchema(positionSearhDateSchema),
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = req.body as PositionSearchDate;
+            console.log(data);
+            const positions = await getPositionDayBegin(data.id, data.fecha, data?.limit)
+            return res.status(httpStatus.OK).json(positions);
+        } catch (error) {
+            console.error(error.message);
+            next(error);
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: "Error Position" })
+        }
+    });
+
+router.get('/position/day/end',
+    auth,
+    validateSchema(positionSearhDateSchema),
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const data = req.body as PositionSearchDate;
+            console.log(data);
+            const positions = await getPositionDayEnd(data.id, data.fecha, data?.limit)
+            return res.status(httpStatus.OK).json(positions);
+        } catch (error) {
+            console.error(error.message);
+            next(error);
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: "Error Position" })
+        }
+    });
 
 router.post('/position', async (req: Request, res: Response, next: NextFunction) => {
     try {

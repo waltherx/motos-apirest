@@ -2,13 +2,14 @@ import { NextFunction, Request, Response, Router } from 'express';
 import httpStatus from 'http-status';
 import { changePassword, login, signup } from '../services/authService';
 import { getErrorMessage } from '../utils/error';
+import userLoginSchema from '../schemas/userSchema';
+import { validateSchema } from '../middlewares/schemaMiddleware';
 
 const router = Router();
 
-router.post('/login', async (req: Request, res: Response, nx: NextFunction) => {
+router.post('/login', validateSchema(userLoginSchema), async (req: Request, res: Response, nx: NextFunction) => {
     try {
         const foundUser = await login(req.body);
-        console.log('user ->', foundUser);
         res.status(httpStatus.OK).send(foundUser);
     } catch (error) {
         nx(error);

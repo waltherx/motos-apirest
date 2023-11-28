@@ -1,22 +1,19 @@
 {
   "compilerOptions": {
-    // "target": "es2016",
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "rootDirs": ["src"],
+    "outDir": "dist",
+    "lib": ["es2020"],
+    "target": "es2020",
+    "allowJs": false,
     "module": "CommonJS",
-    "moduleResolution": "Node",
-    "baseUrl": "src"
-    //"forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-    //"strict": true,
-    //"skipLibCheck": true
-    /* "paths": {
-      "@/*": ["*"]
-    }*/
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node"]
   },
-  "ts-node": {
+  /*"ts-node": {
     "esm": true
-  },
-  //"include": ["/**/*.ts"],
-  //"exclude": ["node_modules"]
+  },*/
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

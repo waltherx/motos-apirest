@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "D:\\motos-apirest\\logs\\.9ab4c5c3eae31a86f96c639dd361f774252f9591-audit.json",
+    "files": [
+        {
+            "date": 1701024968409,
+            "name": "D:\\motos-apirest\\logs\\2023-11-26.log",
+            "hash": "159a4dc98a7a515c459b00aa638eb447404084446ff24942f7ed553e50ab637b"
+        }
+    ],
+    "hashType": "sha256"
+}

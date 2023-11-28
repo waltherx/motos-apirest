@@ -1,13 +1,16 @@
-import { Client } from "../models/clientModel";
+import { UserData } from "../models/userModel";
 import joi from "joi";
 
-const clientSchema = joi.object<Client>({
-    //id: joi.number().required(),
-    ci: joi.number().required(),
-    fullname: joi.string().required(),
-    address: joi.string(),
-    phone: joi.string(),
-    status: joi.number().required()
+const userLoginSchema = joi.object<UserData>({
+    username: joi.string()
+        .alphanum()
+        .min(5)
+        .max(30)
+        .required(),
+    password: joi.string()
+        .min(8)
+        .max(30)
+        .required(),
 });
 
-export default clientSchema;
+export default userLoginSchema;

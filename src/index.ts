@@ -1,33 +1,33 @@
-import { hostname } from 'os';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import express, { Express, Request, Response } from 'express';
-import { createServer } from 'http';
-import morgan from 'morgan';
-import routes from './routes/routes';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import app from './app';
+import { port } from './config';
+import Logger from './core/Logger';
+import { resolvers, typeDefs } from './graphql/query';
 
+const initServer = async () => {
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers
+  });
 
-dotenv.config();
-const app: Express = express();
-const port = process.env.PORT;
+  await server.start();
 
-morgan.token('host', function (req: Request, res: Response) {
-    return req.hostname;
-});
+  app.use('/graphql', expressMiddleware(server));
 
-app.use(morgan(':method :host :url :status :res[content-length] - :response-time ms'));
+  app.listen({ port: process.env.PORT }, () => {
+    Logger.info(`server running on port : ${port}`);
+    console.log(`⚡️[server express]: Esta corriendo en -> 🤠 http://127.0.0.1:${port} ⚡️`);
+    console.log(`⚡️[server graphql]: Esta corriendo en -> 🤠 http://127.0.0.1:${port}/graphql ⚡️`);
+  }).on('error', (e) => Logger.error(e));
+};
 
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(routes);
+initServer();
 
-const server = createServer(app);
-
-app.get('/', (req: Request, res: Response) => {
-    res.json({ "message": "Hola 😃" });
-});
-
-server.listen(port, () => {
+/*
+app
+  .listen(port, () => {
+    Logger.info(`server running on port : ${port}`);
     console.log(`⚡️[server]: Esta corriendo en -> 🤠 http://${hostname()}:${port} ⚡️`);
-});
+  })
+  .on('error', (e) => Logger.error(e));*/
