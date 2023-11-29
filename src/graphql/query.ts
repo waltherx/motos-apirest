@@ -57,52 +57,47 @@ type Query {
 export const resolvers = {
   Query: {
     allClients: () => {
-      return prisma.client.findMany()
+      return prisma.client.findMany();
     },
     allMotos: () => {
-      return prisma.moto.findMany()
+      return prisma.moto.findMany();
     },
     allDispositivos: () => {
-      return prisma.dispositivo.findMany()
+      return prisma.dispositivo.findMany();
     },
     allPositions: () => {
-      return prisma.position.findMany()
+      return prisma.position.findMany();
     },
   },
   Moto: {
     client: (parent, args, context) => {
-      return prisma.client
-        .findUnique({
-          where: { id: parent.id },
-        })
+      return prisma.client.findUnique({
+        where: { id: parent.id },
+      });
     },
     dispositivo: (parent, args, context) => {
-      return prisma.dispositivo
-        .findUnique({
-          where: { id: parent.id },
-        })
+      return prisma.dispositivo.findUnique({
+        where: { id: parent.id },
+      });
     },
   },
   Dispositivo: {
     moto: (parent, args, context) => {
-      return prisma.moto
-        .findUnique({
-          where: { id: parent.id },
-        })
+      return prisma.moto.findUnique({
+        where: { id: parent.id },
+      });
     },
     positions: (parent, args, context) => {
-      return prisma.position
-        .findUnique({
-          where: { id: parent.id },
-        })
+      return prisma.position.findUnique({
+        where: { id: parent.id },
+      });
     },
   },
   Position: {
     dispositivo: (parent, args, context) => {
-      return prisma.dispositivo
-        .findUnique({
-          where: { id: parent.id },
-        })
-    }
-  }
+      return prisma.dispositivo.findUnique({
+        where: { id: parent.id },
+      });
+    },
+  },
 };
