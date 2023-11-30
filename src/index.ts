@@ -1,22 +1,25 @@
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
+import { createServer } from "http";
 import app from "./app";
 import { port } from "./config";
 import Logger from "./core/Logger";
 import { resolvers, typeDefs } from "./graphql/query";
 
 const initServer = async () => {
-  const server = new ApolloServer({
+  const serverQl = new ApolloServer({
     typeDefs,
     resolvers,
   });
 
-  await server.start();
+  await serverQl.start();
 
-  app.use("/graphql", expressMiddleware(server));
+  app.use("/graphql", expressMiddleware(serverQl));
 
-  app
-    .listen({ port: process.env.PORT }, () => {
+  const serverHttp = createServer(app);
+
+  serverHttp
+    .listen({ port: port }, () => {
       Logger.info(`server running on port : ${port}`);
       console.log(
         `⚡️[server express]: Esta corriendo en -> 🤠 http://127.0.0.1:${port} ⚡️`

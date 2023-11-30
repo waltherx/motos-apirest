@@ -1,6 +1,6 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
-import morgan from "morgan";
+import { pinoHttp } from "pino-http";
 import Logger from "./core/Logger";
 import routes from "./routes/routes";
 
@@ -13,18 +13,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// Routes
-app.use(routes);
-
-morgan.token("host", function (req: Request, res: Response) {
-  return req.hostname;
-});
 
 app.use(
-  morgan(
-    ":remote-user [:date[clf]] :method :host :url :status :res[content-length] - :response-time ms :user-agent"
-  )
+  pinoHttp({
+    serializers: {
+      req: (req) => ({
+        method: req.method,
+        url: req.url,
+        query: req.query,
+        params: req.params,
+      }),
+      res: (res) => ({
+        statusCode: res.statusCode,
+        message: res.message,
+      }),
+    },
+  })
 );
+// Routes
+app.use(routes);
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Hola 😃" });
