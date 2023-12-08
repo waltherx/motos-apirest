@@ -1,6 +1,5 @@
-import prisma from "../utils/database";
 import { ClientCreateInput, ClientUpdateInput } from "../models/clientModel";
-import { GetResult } from "@prisma/client/runtime";
+import prisma from "../utils/database";
 
 export const getAllClients = async () => {
   try {
@@ -11,7 +10,6 @@ export const getAllClients = async () => {
         fullname: true,
         address: true,
         phone: true,
-        status: true,
       },
       orderBy: {
         id: "asc",
@@ -33,7 +31,6 @@ export const getClient = async (id: number): Promise<ClientUpdateInput> => {
         fullname: true,
         address: true,
         phone: true,
-        status: true,
       },
     });
   } catch (error) {
@@ -51,7 +48,6 @@ export const getClientMotos = async (id: number) => {
         fullname: true,
         address: true,
         phone: true,
-        status: true,
         motos: true,
       },
     });

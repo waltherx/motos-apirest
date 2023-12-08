@@ -6,8 +6,7 @@ const clientSchema = joi.object<Client>({
     ci: joi.number().required(),
     fullname: joi.string().required(),
     address: joi.string(),
-    phone: joi.string(),
-    status: joi.number().required()
+    phone: joi.string()
 });
 
 export default clientSchema;

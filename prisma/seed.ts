@@ -1,91 +1,151 @@
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 async function main() {
 
-    /*const Admin = await prisma.role.upsert({
-        where: { name: 'Admin' },
+    const Admin = await prisma.role.upsert({
+        where: { nombre: 'Admin' },
         update: {},
         create: {
-            name: 'Admin',
-            sequence: '1',
-            memo: '2',
-            status: 1,
+            nombre: 'Admin',
+            descripcion: 'El administrador tiene poderes amplios para supervisar, mantener y asegurar el correcto funcionamiento del sistema, gestionando usuarios, seguridad, actualizaciones y resolviendo problemas técnicos, además de tomar decisiones cruciales para el sistema o la organización.',
             users: {
-                create: {
+                create: [{
                     username: 'admin',
                     realname: 'admin',
-                    password: '123',
+                    password: bcrypt.hashSync('11223344', 8),
                     email: 'admin@prisma.io',
                     phone: '969',
-                    status: 1,
-                    created_at: '2023-07-11 01:53:30.152'
+                    status: 'ACTIVO',
+                    isAdmin: true
+
                 },
+                {
+                    username: 'vian1',
+                    realname: 'Vian Honda',
+                    password: bcrypt.hashSync('11223344', 8),
+                    email: 'vian@honda.com',
+                    phone: '000000',
+                    status: 'ACTIVO',
+                    isAdmin: true
+                },
+                ]
             }
         }
-    })*/
+    })
 
-    /* const Manuel = await prisma.client.upsert({
-         where: { ci: 77888 },
-         update: {},
-         create: {
-             ci: 97388,
-             fullname: 'Manuel Carrillo',
-             address: 'la villa',
-             phone: '7455664',
-             status: 1,
-             motos: {
-                 create: {
-                     marca:'Honda',
-                     modelo: 'CB20',
-                     placa: '497DSA',
-                     anio:2020,
-                     color:'Rpja',
-                     motor:'200',
-                     peso:244,
-                     kilometraje:1150,
-                     estado:'1',
-                     fecha_compra: new Date().toISOString(),
-                     precio_compra: 17000,
-                     sucrusal_id: 1,
-                     positions: {
-                         create: [
-                             {
-                                 
-                                 latitude: -17.752086,
-                                 longitude: -63.162889
-                             },
-                             {
-                                 
-                                 latitude: -17.750179,
-                                 longitude: -63.173257
-                             },
-                             {
-                                 
-                                 latitude: -17.749882,
-                                 longitude: -63.180113
-                             },
-                             {
-                                 
-                                 latitude: -17.750507,
-                                 longitude: -63.186344
-                             },
-                         ]
-                     }
-                 },
-             }
-         }
-     });*/
 
-    const Jusalian = await prisma.client.upsert({
+    const D1 = await prisma.dispositivo.upsert({
+        where: { id: 1 },
+        update: {},
+        create: {
+            serial: "867959034960467",
+            chipgsm: "7312254",
+            estado: 'ENUSO',
+            positions: {
+                create: [
+                    {
+                        latitude: -17.752086,
+                        longitude: -63.162889
+                    },
+                    {
+                        latitude: -17.750179,
+                        longitude: -63.173257
+                    },
+                    {
+
+                        latitude: -17.749882,
+                        longitude: -63.180113
+                    },
+                    {
+                        latitude: -17.750507,
+                        longitude: -63.186344
+                    },
+                ]
+            }
+        }
+    })
+
+    const Mensa = await prisma.role.upsert({
+        where: { nombre: 'Mensajero' },
+        update: {},
+        create: {
+            nombre: 'Mensajero',
+            descripcion: '',
+            users: {
+                create: [{
+                    username: 'eduardo',
+                    realname: 'eduardo',
+                    password: bcrypt.hashSync('11223344', 8),
+                    email: 'Edu@prisma.io',
+                    phone: '009',
+                    status: 'ACTIVO',
+
+                }
+                ]
+            }
+        }
+    })
+
+    const sucrusales = [
+        {
+            nombre: 'SUCURSAL HONDA 3ER ANILLO CRISTO REDENTOR',
+            direccion: 'Cristo redentor 3er Anillo',
+            latitude: -17.7581273,
+            longitude: -63.1790394
+        },
+        {
+            nombre: 'SUCURSAL HONDA 6TO ANILLO CRISTO REDENTOR',
+            direccion: 'Cristo redentor 6to anillo',
+            latitude: -17.7415412,
+            longitude: -63.1711989
+        },
+        {
+            nombre: 'SUCURSAL HONDA 4TO ANILLO VENTURA',
+            direccion: '4to anillo zona Ventura Mall',
+            latitude: -17.7534277,
+            longitude: -63.1962728
+        },
+        {
+            nombre: 'SUCURSAL HONDA 2DO ANILLO AV. BRASIL',
+            direccion: '2do anillo Av. Brasil',
+            latitude: -17.7903577,
+            longitude: -63.1655984
+        },
+        {
+            nombre: 'SUCURSAL HONDA URUBÓ',
+            direccion: 'Carretera Santa Cruz camino a Porongo',
+            latitude: -17.7630691,
+            longitude: -63.2357575
+        },
+        {
+            nombre: 'SUCURSAL HONDA 3ER ANILLO INDANA',
+            direccion: 'Av. Roque Aguilera 3er anillo frente comercial Indana',
+            latitude: -17.7972818,
+            longitude: -63.2091615
+        }
+    ]
+    const sucrus = prisma.sucrusal.createMany(
+        {
+            data: sucrusales
+        }
+    );
+
+    sucrus.then((sa) => {
+        console.log('sucrusales creadas..', sa);
+    }).catch((e) => {
+        console.error(e);
+    })
+
+    const Eduardo = await prisma.client.upsert({
         where: { ci: 97388 },
         update: {},
         create: {
             ci: 97388,
-            fullname: 'Julian Albarez',
+            fullname: 'Eduardo',
             address: 'la lujan',
             phone: '7245234',
-            status: 1,
             motos: {
                 create: {
                     marca: 'Honda',
@@ -101,89 +161,13 @@ async function main() {
                     precio_compra: 14000,
                     dispositivo: {
                         create: {
-                            serial: "7889999",
-                            positions: {
-                                create: [
-                                    {
-
-                                        latitude: -17.752086,
-                                        longitude: -63.162889
-                                    },
-                                    {
-
-                                        latitude: -17.750179,
-                                        longitude: -63.173257
-                                    },
-                                    {
-
-                                        latitude: -17.749882,
-                                        longitude: -63.180113
-                                    },
-                                    {
-
-                                        latitude: -17.750507,
-                                        longitude: -63.186344
-                                    },
-                                ]
-                            }
+                            dispositivo_id: D1.id
                         }
                     }
-
-                },
-            }
+                }
+            },
         }
     })
-
-
-    const Aldo = await prisma.client.upsert({
-        where: { ci: 66388 },
-        update: {},
-        create: {
-            ci: 66388,
-            fullname: 'Aldo Peña',
-            address: 'av beni',
-            phone: '7310234',
-            status: 1,
-            motos: {
-                create: {
-                    marca: 'Hero',
-                    modelo: 'Pulsar200',
-                    placa: '427DSA',
-                    anio: 2019,
-                    color: 'Blanca',
-                    motor: '150',
-                    peso: 304,
-                    kilometraje: 2150,
-                    estado: '1',
-                    fecha_compra: new Date().toISOString(),
-                    precio_compra: 21000,
-                    dispositivo: {
-                        create: {
-                            serial: "5144545",
-                            positions: {
-                                create: [
-                                    {
-
-                                        latitude: -17.752086,
-                                        longitude: -63.162889
-                                    },
-
-                                    {
-
-                                        latitude: -17.749882,
-                                        longitude: -63.180113
-                                    },
-
-                                ]
-                            },
-                        },
-
-                    }
-                },
-            }
-        }
-    })
-
 }
 main()
     .then(async () => {

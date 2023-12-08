@@ -37,3 +37,7 @@ export const caching = {
     process.env.CONTENT_CACHE_DURATION_MILLIS || "600000"
   ),
 };
+
+export const bootTelegram = process.env.BOOT_TELEGRAM;
+
+export const groupTelegram = process.env.GROUP_TELEGRAM;

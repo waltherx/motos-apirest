@@ -6,15 +6,22 @@ import { port } from "./config";
 import Logger from "./core/Logger";
 import { resolvers, typeDefs } from "./graphql/query";
 
+import cron from './core/Cron';
+
+
+
 const initServer = async () => {
-  const serverQl = new ApolloServer({
-    typeDefs,
-    resolvers,
-  });
 
-  await serverQl.start();
+  cron.start();
 
-  app.use("/graphql", expressMiddleware(serverQl));
+  /* const serverQl = new ApolloServer({
+     typeDefs,
+     resolvers,
+   });
+ 
+   await serverQl.start();
+ 
+   app.use("/graphql", expressMiddleware(serverQl));*/
 
   const serverHttp = createServer(app);
 
@@ -24,9 +31,7 @@ const initServer = async () => {
       console.log(
         `⚡️[server express]: Esta corriendo en -> 🤠 http://127.0.0.1:${port} ⚡️`
       );
-      console.log(
-        `⚡️[server graphql]: Esta corriendo en -> 🤠 http://127.0.0.1:${port}/graphql ⚡️`
-      );
+      //console.log(        `⚡️[server graphql]: Esta corriendo en -> 🤠 http://127.0.0.1:${port}/graphql ⚡️`      );
     })
     .on("error", (e) => Logger.error(e));
 };
