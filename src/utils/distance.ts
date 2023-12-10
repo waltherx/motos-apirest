@@ -21,6 +21,32 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
     return radioTierraKm * c;
 }
 
+//const radioTierraKm: number = 6371; // Radio de la Tierra en kilómetros
+
+function calculateDistanceMt(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const lat1Rad: number = degreesToRadians(lat1);
+    const lon1Rad: number = degreesToRadians(lon1);
+    const lat2Rad: number = degreesToRadians(lat2);
+    const lon2Rad: number = degreesToRadians(lon2);
+
+    const differenceLon: number = lon2Rad - lon1Rad;
+    const differenceLat: number = lat2Rad - lat1Rad;
+
+    const a: number =
+        Math.pow(Math.sin(differenceLat / 2), 2) +
+        Math.cos(lat1Rad) * Math.cos(lat2Rad) * Math.pow(Math.sin(differenceLon / 2), 2);
+    const c: number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distanceInKm: number = radioTierraKm * c;
+    const distanceInMeters: number = distanceInKm * 1000; // Convertir de kilómetros a metros
+
+    return distanceInMeters;
+}
+
+export const positionAllowMeters = (lat1: number, lon1: number, lat2: number, lon2: number, distance: number): boolean => {
+    return calculateDistanceMt(lat1, lon1, lat2, lon2) <= distance;
+}
+
 export function radioAllow(lat2: number, lon2: number): boolean {
     const lat1: number = -17.783309;
     const lon1: number = -63.182122;

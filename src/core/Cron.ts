@@ -8,6 +8,9 @@ const bot = new TelegramBotHandler();
 const validarAlarma = async () => {
     try {
         const alarmas = await prisma.alarma.findMany();
+
+        
+
         bot
             .enviarMensaje(JSON.stringify(alarmas))
             .then(() => {

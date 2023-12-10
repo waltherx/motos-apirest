@@ -15,6 +15,18 @@ export const getAllAlarmas = async (): Promise<AlarmaUpdateInput[]> => {
     }
 };
 
+export const getAlarmasActivas = async (): Promise<AlarmaUpdateInput[]> => {
+    try {
+        return await prisma.alarma.findMany({
+            where: { estado: 'ACTIVADA' }
+        });
+    } catch (error) {
+        console.error(error.message);
+        return [];
+    }
+};
+
+
 export const getAlarma = async (id: string): Promise<AlarmaUpdateInput> => {
     try {
         return await prisma.alarma.findUnique({

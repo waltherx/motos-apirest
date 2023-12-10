@@ -21,8 +21,6 @@ model Role {
   id          Int       @id @default(autoincrement())
   nombre      String    @unique @db.VarChar(20)
   descripcion String?   @default("")
-  created_at  DateTime  @default(now())
-  update_at   DateTime? @updatedAt
   users       User[]
 }
 
@@ -51,11 +49,13 @@ model Moto {
   estado        String?     @default("") @db.VarChar(50)
   fecha_compra  DateTime?
   precio_compra Decimal?    @default(0) @db.Decimal(10, 2)
+  created_at DateTime  @default(now())
+  update_at  DateTime? @updatedAt
   client        Client      @relation(fields: [client_id], references: [id])
   client_id     Int
   sucrusal_id   String?     @db.Uuid
   sucrusal      Sucrusal?   @relation(fields: [sucrusal_id], references: [id])
-  dispositivo   MotoDispo[]
+  dispositivos   MotoDispo[]
 }
 
 model Dispositivo {
@@ -64,8 +64,10 @@ model Dispositivo {
   chipgsm   String       @db.VarChar(20)
   megas     DateTime?
   estado    EstadoDevice @default(DISPONIBLE)
+  created_at DateTime  @default(now())
+  update_at  DateTime? @updatedAt
   positions Position[]
-  moto      MotoDispo[]
+  motos      MotoDispo[]
 }
 
 model MotoDispo {
@@ -97,6 +99,8 @@ model Alarma {
   nombre  String       @db.VarChar(40)
   inicio  DateTime     @db.Time()
   fin     DateTime     @db.Time()
+  created_at DateTime  @default(now())
+  update_at  DateTime? @updatedAt
   devices String[]
   estado  EstadoAlarma @default(DESACTIVADA)
 }

@@ -13,7 +13,11 @@ export const searchMotos = async (input: string) => {
             select: {
                 id: true,
                 placa: true,
-                dispositivo: true,
+                dispositivos: {
+                    select: {
+                        dispositivo: true
+                    }
+                },
             }
         });
     } catch (error) {
@@ -32,7 +36,9 @@ export const searchMotosByPlaca = async (input: string) => {
                 }
             },
             include: {
-                dispositivo: true
+                dispositivos: {
+                    select: { dispositivo: true }
+                }
             }
         });
     } catch (error) {
@@ -93,7 +99,11 @@ export const getMotoDevice = async (id: number) => {
         return await prisma.moto.findUnique({
             where: { id },
             include: {
-                dispositivo: true
+                dispositivos: {
+                    select: {
+                        dispositivo: true
+                    }
+                }
             }
         });
     } catch (error) {
