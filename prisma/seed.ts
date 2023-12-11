@@ -159,7 +159,7 @@ async function main() {
                     estado: '1',
                     fecha_compra: new Date().toISOString(),
                     precio_compra: 14000,
-                    dispositivo: {
+                    dispositivos: {
                         create: {
                             dispositivo_id: D1.id
                         }
