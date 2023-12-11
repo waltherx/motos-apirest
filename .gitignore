@@ -7,4 +7,3 @@ logs/
 
 package-lock.json
 /prisma/migrations
-.env
