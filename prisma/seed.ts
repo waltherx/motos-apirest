@@ -16,7 +16,7 @@ async function main() {
                     realname: 'admin',
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'admin@prisma.io',
-                    phone: '969',
+
                     status: 'ACTIVO',
                     isAdmin: true
 
@@ -26,7 +26,7 @@ async function main() {
                     realname: 'Vian Honda',
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'vian@honda.com',
-                    phone: '000000',
+
                     status: 'ACTIVO',
                     isAdmin: true
                 },
@@ -79,7 +79,7 @@ async function main() {
                     realname: 'eduardo',
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'Edu@prisma.io',
-                    phone: '009',
+
                     status: 'ACTIVO',
 
                 }
