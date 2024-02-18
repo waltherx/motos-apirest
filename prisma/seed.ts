@@ -4,6 +4,21 @@ const prisma = new PrismaClient()
 
 async function main() {
 
+    const adminClient = {
+        ci: 1234,
+        fullname: 'admin',
+        address: '-',
+        phone: '',
+    }
+
+
+    const vianClient = {
+        ci: 12345,
+        fullname: 'vian1',
+        address: '-',
+        phone: '',
+    }
+
     const Admin = await prisma.role.upsert({
         where: { nombre: 'Admin' },
         update: {},
@@ -13,20 +28,25 @@ async function main() {
             users: {
                 create: [{
                     username: 'admin',
-                    realname: 'admin',
+                    //realname: 'admin',
+
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'admin@prisma.io',
-
+                    cliente: {
+                        create: adminClient
+                    },
                     status: 'ACTIVO',
                     isAdmin: true
 
                 },
                 {
                     username: 'vian1',
-                    realname: 'Vian Honda',
+                    //realname: 'Vian Honda',
+                    cliente: {
+                        create: vianClient
+                    },
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'vian@honda.com',
-
                     status: 'ACTIVO',
                     isAdmin: true
                 },
@@ -67,6 +87,13 @@ async function main() {
         }
     })
 
+    const eduClient = {
+        ci: 123456,
+        fullname: 'eduardo',
+        address: '-',
+        phone: '',
+    }
+
     const Mensa = await prisma.role.upsert({
         where: { nombre: 'Mensajero' },
         update: {},
@@ -76,10 +103,12 @@ async function main() {
             users: {
                 create: [{
                     username: 'eduardo',
-                    realname: 'eduardo',
+                    //realname: 'eduardo',
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'Edu@prisma.io',
-
+                    cliente: {
+                        create: eduClient
+                    },
                     status: 'ACTIVO',
 
                 }
@@ -138,36 +167,37 @@ async function main() {
         console.error(e);
     })
 
-    const Eduardo = await prisma.client.upsert({
-        where: { ci: 97388 },
-        update: {},
-        create: {
-            ci: 97388,
-            fullname: 'Eduardo',
-            address: 'la lujan',
-            phone: '7245234',
-            motos: {
-                create: {
-                    marca: 'Honda',
-                    modelo: 'XR200',
-                    placa: '197DSA',
-                    anio: 2019,
-                    color: 'Negro',
-                    motor: '160',
-                    peso: 254,
-                    kilometraje: 5150,
-                    estado: '1',
-                    fecha_compra: new Date().toISOString(),
-                    precio_compra: 14000,
-                    dispositivos: {
-                        create: {
-                            dispositivo_id: D1.id
+    /*
+        const Eduardo = await prisma.client.upsert({
+            where: { ci: 97388 },
+            update: {},
+            create: {
+                ci: 97388,
+                fullname: 'Eduardo',
+                address: 'la lujan',
+                phone: '7245234',
+                motos: {
+                    create: {
+                        marca: 'Honda',
+                        modelo: 'XR200',
+                        placa: '197DSA',
+                        anio: 2019,
+                        color: 'Negro',
+                        motor: '160',
+                        peso: 254,
+                        kilometraje: 5150,
+                        estado: '1',
+                        fecha_compra: new Date().toISOString(),
+                        precio_compra: 14000,
+                        dispositivos: {
+                            create: {
+                                dispositivo_id: D1.id
+                            }
                         }
                     }
-                }
-            },
-        }
-    })
+                },
+            }
+        })*/
 }
 main()
     .then(async () => {
