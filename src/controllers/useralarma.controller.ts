@@ -4,7 +4,6 @@ import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { isIdValid } from '../utils/validator.utils';
 import { UserAlarmaCreateInput } from '../models/useralarma.model';
-import { check } from 'express-validator';
 
 const router = Router();
 
@@ -21,7 +20,6 @@ router.get('/useralarma', auth, async (req: Request, res: Response, next: NextFu
 
 router.get('/useralarma/:id',
     auth,
-    check("id", "id no puede ser vacio o nula").isUUID(),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id: string = req.params.id as string;

@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { check } from 'express-validator';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { validateSchema } from '../middlewares/schema.middleware';
-import { validationInputs } from '../middlewares/validate.middleware';
 import { PositionCreate, PositionCreateInput, PositionSearchDate } from '../models/position.model';
 import { positionSearhDateSchema } from '../schemas/position.schema';
 import { getDispositivoSerial } from '../services/dispositivo.service';
@@ -38,8 +36,6 @@ router.get('/position/moto/:id', auth, async (req: Request, res: Response, next:
 
 router.get('/position/last/:id',
     auth,
-    check("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }),
-    validationInputs,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id: number = parseInt(req.params.id);
@@ -58,9 +54,6 @@ router.get('/position/last/:id',
 
 router.get('/position/:id/limit/:limit',
     auth,
-    check("id", "Ingresa un ID valido").isNumeric().notEmpty().isLength({ min: 1 }),
-    check("limit", "Ingresa un Limite valido").isNumeric().notEmpty().isLength({ min: 1 }),
-    validationInputs,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id: number = parseInt(req.params.id);

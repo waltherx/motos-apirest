@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { check } from 'express-validator';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
-import { validationInputs } from '../middlewares/validate.middleware';
+
 import { MotoCreateInput } from '../models/moto.model';
 import { createMoto, deleteMoto, getAllMotos, getAllPlacas, getMoto, searchMotos, searchMotosByPlaca, searchMotosPlacas, updateMoto } from '../services/moto.service';
 import { isIdValid } from '../utils/validator.utils';
@@ -32,9 +31,7 @@ router.get('/moto/placas', auth, async (req: Request, res: Response, next: NextF
 });
 
 router.get('/moto/placa/:placa',
-    auth,
-    check("placa", "Ingrese una placa valida.").isAlphanumeric().notEmpty().isLength({ min: 1, max: 10 }),
-    validationInputs
+    auth
     , async (req: Request, res: Response, next: NextFunction) => {
         try {
             const placa: string = req.params.placa;
@@ -49,8 +46,6 @@ router.get('/moto/placa/:placa',
 
 router.get('/moto/auto/:placa',
     auth,
-    check("placa", "placa no puede ser vacia o nula").notEmpty(),
-    validationInputs,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const placa: string = req.params.placa;
@@ -77,8 +72,7 @@ router.get('/moto/search/:placa', auth, async (req: Request, res: Response, next
 
 router.get('/moto/:id',
     auth,
-    check("id", "ID moto no puede ser nulo.").isAlphanumeric().notEmpty(),
-    validationInputs,
+
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id: string = req.params.id as string;
