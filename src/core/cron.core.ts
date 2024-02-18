@@ -1,16 +1,16 @@
 import * as cron from 'node-cron';
 import { getErrorMessage } from '../utils/error.utils';
 import TelegramBotHandler from './bootTelegram.core';
-import { getAlarmasActivas } from '../services/alarma.service';
+import { getAllAlarmasActives } from '../services/alarma.service';
 
 const bot = new TelegramBotHandler();
 
 const validarAlarma = async () => {
     try {
-        const alarmas = await getAlarmasActivas();
+        const alarmas = await getAllAlarmasActives();
 
         alarmas.map((a) => {
-            console.log( a.devices);
+            console.log(a.devices);
         });
 
         bot

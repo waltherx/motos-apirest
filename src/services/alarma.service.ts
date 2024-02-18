@@ -1,5 +1,6 @@
 import { AlarmaCreateInput, AlarmaUpdateInput } from "../models/alarma.model";
 import prisma from "../utils/database.utils";
+import { estadoAlarma } from "../utils/constans";
 
 export const getAllAlarmas = async (): Promise<AlarmaUpdateInput[]> => {
     try {
@@ -14,17 +15,18 @@ export const getAllAlarmas = async (): Promise<AlarmaUpdateInput[]> => {
     }
 };
 
-export const getAlarmasActivas = async (): Promise<AlarmaUpdateInput[]> => {
+export const getAllAlarmasActives = async (): Promise<AlarmaUpdateInput[]> => {
     try {
         return await prisma.alarma.findMany({
-            where: { estado: 'ACTIVADA' }
+            where: {
+                estado: estadoAlarma.On,
+            },
         });
     } catch (error) {
         console.error(error.message);
         return [];
     }
 };
-
 
 export const getAlarma = async (id: string): Promise<AlarmaUpdateInput> => {
     try {

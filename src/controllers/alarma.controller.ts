@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import httpStatus from "http-status";
 import { auth } from "../middlewares/auth.middleware";
 import { AlarmaCreateInput } from "../models/alarma.model";
-import { createAlarma, deleteAlarma, getAlarma, getAllAlarmas, updateAlarma } from "../services/alarma.service";
+import { createAlarma, deleteAlarma, getAlarma, getAllAlarmas, getAllAlarmasActives, updateAlarma } from "../services/alarma.service";
 
 const router = Router();
 
@@ -32,6 +32,24 @@ router.get(
             const alarma = await getAlarma(id);
             res.statusCode = httpStatus.OK;
             res.json(alarma);
+        } catch (error) {
+            console.error(error.message);
+            next(error);
+            res
+                .status(httpStatus.INTERNAL_SERVER_ERROR)
+                .json({ message: "Error Alarma" });
+        }
+    }
+);
+
+router.get(
+    "/alarmas/actives",
+    auth,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const alarmas = await getAllAlarmasActives();
+            res.statusCode = httpStatus.OK;
+            res.json(alarmas);
         } catch (error) {
             console.error(error.message);
             next(error);
