@@ -13,4 +13,6 @@ const userLoginSchema = joi.object<UserData>({
         .required(),
 });
 
+
+
 export default userLoginSchema;

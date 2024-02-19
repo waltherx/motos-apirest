@@ -1,6 +1,6 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
-import { pinoHttp } from "pino-http";
+import morgan from 'morgan';
 import routes from "../api/routes.api";
 import Logger from "./logger.core";
 
@@ -13,22 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  pinoHttp({
-    serializers: {
-      req: (req) => ({
-        method: req.method,
-        url: req.url,
-        query: req.query,
-        params: req.params,
-      }),
-      res: (res) => ({
-        statusCode: res.statusCode,
-        message: res.message,
-      }),
-    },
-  })
-);
+app.use(morgan('tiny'));
 // Routes
 app.use(routes);
 

@@ -3,12 +3,15 @@ import httpStatus from "http-status";
 import { auth } from "../middlewares/auth.middleware";
 import { AlarmaCreateInput } from "../models/alarma.model";
 import { createAlarma, deleteAlarma, getAlarma, getAllAlarmas, getAllAlarmasActives, updateAlarma } from "../services/alarma.service";
+import { validateData } from "../middlewares/validate.middleware";
+import { alarmaSchema } from "../schemas/alarma.schema";
 
 const router = Router();
 
 router.get(
     "/alarmas",
     auth,
+
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const alarmas = await getAllAlarmas();
@@ -63,6 +66,7 @@ router.get(
 router.post(
     "/alarma",
     auth,
+    validateData(alarmaSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const alarma = req.body as AlarmaCreateInput;
