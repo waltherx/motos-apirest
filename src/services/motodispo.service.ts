@@ -24,6 +24,18 @@ export const getMotoDispo = async (id: string): Promise<MotoDispoUpdateInput> =>
     }
 }
 
+export const getMotoDispoById = async (id: number): Promise<MotoDispoUpdateInput> => {
+    try {
+        return await prisma.motoDispo.findFirst({
+            where: {
+                dispositivo_id: id
+            },
+        });
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 export const createMotoDispo = async (input: MotoDispoCreateInput): Promise<MotoDispoUpdateInput> => {
     try {
         return await prisma.motoDispo.create({ data: input })

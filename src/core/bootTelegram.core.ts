@@ -4,7 +4,8 @@ import { bootTelegram, groupTelegram } from "../config";
 class TelegramBotHandler {
   bot: TelegramBot;
   constructor() {
-    this.bot = new TelegramBot(bootTelegram, { polling: true });
+    this.bot = new TelegramBot(bootTelegram, { polling: false });
+    //this.bot.setWebHook('');
   }
 
   async enviarMensaje(mensaje: string) {

@@ -35,21 +35,35 @@ model Alarma {
 }
 
 model UserAlarma {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  inicio     DateTime? @db.Time()
-  fin        DateTime? @db.Time()
-  isTemp     Boolean   @default(false)
+  id         String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  inicio     DateTime?     @db.Time()
+  fin        DateTime?     @db.Time()
+  estado     EstadoAlarma  @default(DESACTIVADA)
+  isTemp     Boolean       @default(false)
   emails     String[]
-  discord    Boolean   @default(false)
-  telegram   Boolean   @default(false)
-  alarma     Alarma?   @relation(fields: [alarma_id], references: [id])
-  user       User?     @relation(fields: [user_id], references: [id])
-  alarma_id  String?   @db.Uuid
-  user_id    String?   @db.Uuid
-  created_at DateTime  @default(now())
-  update_at  DateTime? @updatedAt
+  discord    Boolean       @default(false)
+  telegram   Boolean       @default(false)
+  alarma     Alarma?       @relation(fields: [alarma_id], references: [id])
+  user       User?         @relation(fields: [user_id], references: [id])
+  alarma_id  String?       @db.Uuid
+  user_id    String?       @db.Uuid
+  created_at DateTime      @default(now())
+  update_at  DateTime?     @updatedAt
+  polygons   UserPolygon[]
 
   @@index([alarma_id, user_id])
+}
+
+model UserPolygon {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  useralarm_id String?     @db.Uuid
+  polygon_id   String?     @db.Uuid
+  created_at   DateTime    @default(now())
+  update_at    DateTime?   @updatedAt
+  user_alarma  UserAlarma? @relation(fields: [useralarm_id], references: [id])
+  polygon      Polygon?    @relation(fields: [polygon_id], references: [id])
+
+  @@index([useralarm_id, polygon_id])
 }
 
 model Sucrusal {
@@ -96,11 +110,12 @@ model Location {
 }
 
 model Polygon {
-  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  typegeo_id String     @db.Uuid
-  typegeo    Geofence   @relation(fields: [typegeo_id], references: [id])
+  id         String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  typegeo_id String        @db.Uuid
+  typegeo    Geofence      @relation(fields: [typegeo_id], references: [id])
   puntos     Location[]
   Circle     Circle[]
+  users      UserPolygon[]
 }
 
 model Circle {

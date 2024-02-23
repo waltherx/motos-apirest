@@ -1,4 +1,5 @@
 import { UserAlarmaCreateInput, UserAlarmaUpdateInput } from "../models/useralarma.model";
+import { estadoAlarma } from "../utils/constans";
 import prisma from "../utils/database.utils";
 
 export const getAllUserAlarmas = async () => {
@@ -23,6 +24,19 @@ export const getUserAlarma = async (id: string): Promise<UserAlarmaUpdateInput> 
         console.error(error.message);
     }
 }
+
+export const getAllUserAlarmasActives = async () => {
+    try {
+        return await prisma.userAlarma.findMany({
+            where: {
+                estado: estadoAlarma.On
+            },
+        });
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 
 export const createUserAlarma = async (input: UserAlarmaCreateInput): Promise<UserAlarmaUpdateInput> => {
     try {

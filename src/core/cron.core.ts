@@ -2,15 +2,18 @@ import * as cron from 'node-cron';
 import { getErrorMessage } from '../utils/error.utils';
 import TelegramBotHandler from './bootTelegram.core';
 import { getAllAlarmasActives } from '../services/alarma.service';
+import { Alarma, UserAlarma } from '@prisma/client';
+import { getAllUserAlarmasActives } from '../services/useralarma.service';
 
 const bot = new TelegramBotHandler();
 
 const validarAlarma = async () => {
     try {
-        const alarmas = await getAllAlarmasActives();
+        const alarmas = await getAllUserAlarmasActives();
 
-        alarmas.map((a) => {
-            console.log(a.devices);
+        alarmas.map((a: UserAlarma) => {
+            console.log(a.inicio);
+            console.log(a.fin);
         });
 
         bot
@@ -27,12 +30,9 @@ const validarAlarma = async () => {
     }
 }
 
-//'0 */15 * * * *' 15 minutos
-//*/10 * * * * *  10 segundos
 const task = cron.schedule('0 */03 * * * *', validarAlarma, {
     scheduled: false,
     timezone: 'America/La_Paz'
 });
-
 
 export default task;

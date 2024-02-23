@@ -112,10 +112,22 @@ export const getMotoDevice = async (id: string) => {
     }
 }
 
-export const getMoto = async (id: string): Promise<MotoUpdateInput> => {
+export const getMoto = async (id: string) => {
     try {
         return await prisma.moto.findUnique({
             where: { id },
+            include: {
+                client: {
+                    select: {
+                        id: true,
+                        fullname: true,
+                        ci: true,
+                        phone: true,
+                        address: true,
+                        user_id: true
+                    }
+                }
+            }
         });
     } catch (error) {
         console.error(error.message);

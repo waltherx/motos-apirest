@@ -18,7 +18,7 @@ router.get('/motodispo', auth, async (req: Request, res: Response, next: NextFun
     }
 });
 
-router.get('/motodispo/:id',
+router.get('/motodisp/:id',
     auth,
     async (req: Request, res: Response, next: NextFunction) => {
         try {

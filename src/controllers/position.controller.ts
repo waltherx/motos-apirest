@@ -2,12 +2,15 @@ import { NextFunction, Request, Response, Router } from 'express';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { validateSchema } from '../middlewares/schema.middleware';
-import { PositionCreate, PositionCreateInput, PositionSearchDate } from '../models/position.model';
+import { Position, PositionCreate, PositionCreateInput, PositionSearchDate } from '../models/position.model';
 import { positionSearhDateSchema } from '../schemas/position.schema';
 import { getDispositivoSerial } from '../services/dispositivo.service';
 import { createPosition, deletePosition, getAllPositions, getPositionDayBegin, getPositionDayEnd, getPositionDispositivo, getPositionLast, getPositionLimit, updatePosition } from '../services/position.service';
 import { radioAllow } from '../utils/distance.utils';
 import { isIdValid } from '../utils/validator.utils';
+import { getMotoDispoById } from '../services/motodispo.service';
+import { getMoto } from '../services/moto.service';
+import { getClient } from '../services/client.service';
 
 const router = Router();
 
@@ -40,7 +43,6 @@ router.get('/position/last/:id',
         try {
             const id: number = parseInt(req.params.id);
             const position = await getPositionLast(id);
-            console.log(position);
             res.status(httpStatus.OK).json(position);
         } catch (error) {
             console.error(error.message);
@@ -49,8 +51,21 @@ router.get('/position/last/:id',
         }
     });
 
-
-
+router.get('/position/last/2/:id',
+    auth,
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const id: number = parseInt(req.params.id);
+            const position = await getPositionLast(id);
+            const motodispo = await getMotoDispoById(id);
+            const moto = await getMoto(motodispo.moto_id);
+            res.status(httpStatus.OK).json({ "position": position, "moto": moto });
+        } catch (error) {
+            console.error(error.message);
+            next(error);
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: "Error Position" })
+        }
+    });
 
 router.get('/position/:id/limit/:limit',
     auth,
