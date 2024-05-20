@@ -3,7 +3,7 @@ import { getAllUsers, createUser, updateUser, deleteUser, getUser } from '../ser
 import { auth } from '../middlewares/auth.middleware';
 import httpStatus from 'http-status';
 import { isIdValid } from '../utils/validator.utils';
-import { UserCreateInput } from '../models/user.model';
+import { UserCreateInput } from '../entities/user.model';
 
 const router = Router();
 

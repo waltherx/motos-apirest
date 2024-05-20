@@ -1,12 +1,12 @@
-import { Client } from "../models/client.model";
-import joi from "joi";
+import { z } from "zod";
 
-const clientSchema = joi.object<Client>({
-    //id: joi.number().required(),
-    ci: joi.number().required(),
-    fullname: joi.string().required(),
-    address: joi.string(),
-    phone: joi.string()
-});
+const clientSchema = z
+    .object({
+        id: z.string().optional(),
+        ci: z.string().min(8, 'minimo'),
+        fullname: z.string(),
+        address: z.string().email('email').optional(),
+        phone: z.string().optional()
+    });
 
 export default clientSchema;

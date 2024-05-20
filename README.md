@@ -1,6 +1,6 @@
 #Backend Motos
 servicios de administracion 🥀🥀🥀
-version node 18.12.0
+version node 20.09.0
 
 #comandos
 

@@ -1,4 +1,4 @@
-import { DispositivoCreateInput, DispositivoUpdateInput } from "../models/dispositivo.models";
+import { DispositivoCreateInput, DispositivoUpdateInput } from "../entities/dispositivo.models";
 import prisma from "../utils/database.utils";
 
 

@@ -1,40 +1,56 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import httpStatus from 'http-status';
-import { changePassword, login, signup } from '../services/auth.service';
+import { validateData } from '../middlewares/validate.middleware';
+import { refreshSchema, userLoginSchema, userSchema } from '../schemas/user.schema';
+import { changePassword, login, refresh, signup } from '../services/auth.service';
 import { getErrorMessage } from '../utils/error.utils';
-import userLoginSchema from '../schemas/user.schema';
-import { validateSchema } from '../middlewares/schema.middleware';
 
 const router = Router();
 
-router.post('/login', validateSchema(userLoginSchema), async (req: Request, res: Response, nx: NextFunction) => {
+router.post('/login', validateData(userLoginSchema), async (req: Request, res: Response, nx: NextFunction) => {
     try {
         const foundUser = await login(req.body);
-        res.status(httpStatus.OK).send(foundUser);
+        if (foundUser) return res.status(httpStatus.OK).send(foundUser);
+        else return res.status(httpStatus.OK).send({ "error": "no se encontro" });
     } catch (error) {
         nx(error);
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(getErrorMessage(error));
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
     }
 });
 
-router.post('/signup', async (req: Request, res: Response, nx: NextFunction) => {
+router.post('/refresh', validateData(refreshSchema), async (req: Request, res: Response, nx: NextFunction) => {
     try {
-        const foundUser = await signup(req.body);
-        res.status(httpStatus.CREATED).send(foundUser);
+        const ttoken = req.body.token;
+        await refresh(ttoken)
+            .then((newJwt) => {
+                console.log(newJwt);
+                res.status(httpStatus.OK).send(newJwt)
+            })
+            .catch((err => res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(err) })));
     } catch (error) {
         nx(error);
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(getErrorMessage(error));
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
+    }
+});
+
+router.post('/signup', validateData(userSchema), async (req: Request, res: Response, nx: NextFunction) => {
+    try {
+        const foundUser = await signup(req.body);
+        return res.status(httpStatus.CREATED).send(foundUser);
+    } catch (error) {
+        nx(error);
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
     }
 });
 
 router.post('/changepassword', async (req: Request, res: Response, nx: NextFunction) => {
     try {
         const foundUser = await changePassword(req.body);
-        res.status(httpStatus.CREATED).send(foundUser);
+        return res.status(httpStatus.CREATED).send(foundUser);
     } catch (error) {
         nx(error);
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(getErrorMessage(error));
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
     }
 });
 
-export default router;
+export default router; 

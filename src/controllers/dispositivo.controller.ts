@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { getAllDispositivos, createDispositivo, updateDispositivo, deleteDispositivo, getDispositivo } from '../services/dispositivo.service';
 import httpStatus from 'http-status';
 import { isIdValid } from '../utils/validator.utils';
-import { DispositivoCreateInput } from '../models/dispositivo.models';
+import { DispositivoCreateInput } from '../entities/dispositivo.models';
 import { auth } from '../middlewares/auth.middleware';
 import { getMotoDevice } from '../services/moto.service';
 

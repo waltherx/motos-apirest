@@ -1,18 +1,24 @@
-import { UserData } from "../models/user.model";
-import joi from "joi";
+import { z } from 'zod';
 
-const userLoginSchema = joi.object<UserData>({
-    username: joi.string()
-        .alphanum()
-        .min(5)
-        .max(30)
-        .required(),
-    password: joi.string()
-        .min(8)
-        .max(30)
-        .required(),
+const userLoginSchema = z.object({
+    username: z.string({
+        required_error: "requerido.",
+        invalid_type_error: "UserName es invalido.",
+    }).trim().min(5).max(20),
+    password: z.string().min(8).max(30),
 });
 
-
-
-export default userLoginSchema;
+const refreshSchema = z.object({
+    token: z.string()
+});
+const userSchema = z.object({
+    username: z.string().min(5).max(20),
+    password: z.string().min(8).max(30),
+    email: z.string().email(),
+    avatar: z.string().optional(),
+    isAdmin: z.boolean().optional(),
+    //status: z.string().op,
+    role_id: z.string().uuid(),
+    sucrusal_id: z.string().optional()
+})
+export { refreshSchema, userLoginSchema, userSchema };

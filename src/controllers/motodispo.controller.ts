@@ -3,7 +3,7 @@ import { getAllMotoDispos, createMotoDispo, updateMotoDispo, deleteMotoDispo, ge
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { isIdValid } from '../utils/validator.utils';
-import { MotoDispoCreateInput } from '../models/motodispo.model';
+import { MotoDispoCreateInput } from '../entities/motodispo.model';
 
 const router = Router();
 

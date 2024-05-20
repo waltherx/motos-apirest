@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import httpStatus from "http-status";
 import { auth } from "../middlewares/auth.middleware";
-import { AlarmaCreateInput } from "../models/alarma.model";
+import { AlarmaCreateInput } from "../entities/alarma.model";
 import { createAlarma, deleteAlarma, getAlarma, getAllAlarmas, getAllAlarmasActives, updateAlarma } from "../services/alarma.service";
 import { validateData } from "../middlewares/validate.middleware";
 import { alarmaSchema } from "../schemas/alarma.schema";

@@ -1,4 +1,4 @@
-import { UserAlarmaCreateInput, UserAlarmaUpdateInput } from "../models/useralarma.model";
+/*import { UserAlarmaCreateInput, UserAlarmaUpdateInput } from "../models/useralarma.model";
 import { estadoAlarma } from "../utils/constans";
 import prisma from "../utils/database.utils";
 
@@ -65,4 +65,4 @@ export const deleteUserAlarma = async (id: string): Promise<UserAlarmaUpdateInpu
     } catch (error) {
         console.error(error.message);
     }
-}
+}*/

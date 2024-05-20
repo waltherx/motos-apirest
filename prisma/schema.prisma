@@ -14,91 +14,42 @@ model Position {
   dispositivo_id Int
 }
 
-model TypeAlarma {
-  id           String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String
-  alarmas      Alarma[]
-  Typegeofence Typegeofence[]
-  Typeparked   Typeparked[]
-}
-
 model Alarma {
-  id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nombre        String       @db.VarChar(40)
-  created_at    DateTime     @default(now())
-  update_at     DateTime?    @updatedAt
-  devices       String[]
-  estado        EstadoAlarma @default(DESACTIVADA)
-  typealarma_id String       @db.Uuid
-  typealarma    TypeAlarma   @relation(fields: [typealarma_id], references: [id])
-  users         UserAlarma[]
-}
-
-model UserAlarma {
-  id         String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  inicio     DateTime?     @db.Time()
-  fin        DateTime?     @db.Time()
-  estado     EstadoAlarma  @default(DESACTIVADA)
-  isTemp     Boolean       @default(false)
-  emails     String[]
-  discord    Boolean       @default(false)
-  telegram   Boolean       @default(false)
-  alarma     Alarma?       @relation(fields: [alarma_id], references: [id])
-  user       User?         @relation(fields: [user_id], references: [id])
-  alarma_id  String?       @db.Uuid
-  user_id    String?       @db.Uuid
-  created_at DateTime      @default(now())
-  update_at  DateTime?     @updatedAt
-  polygons   UserPolygon[]
-
-  @@index([alarma_id, user_id])
-}
-
-model UserPolygon {
-  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  useralarm_id String?     @db.Uuid
-  polygon_id   String?     @db.Uuid
-  created_at   DateTime    @default(now())
-  update_at    DateTime?   @updatedAt
-  user_alarma  UserAlarma? @relation(fields: [useralarm_id], references: [id])
-  polygon      Polygon?    @relation(fields: [polygon_id], references: [id])
-
-  @@index([useralarm_id, polygon_id])
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre      String       @db.VarChar(40)
+  inicio      DateTime?    @db.Time()
+  fin         DateTime?    @db.Time()
+  isTemp      Boolean      @default(false)
+  estado      EstadoAlarma @default(DESACTIVADA)
+  sucrusal_id String       @db.Uuid
+  sucrusal    Sucrusal     @relation(fields: [sucrusal_id], references: [id])
+  created_at  DateTime     @default(now())
+  update_at   DateTime?    @updatedAt
+  Geofence    Geofence[]
 }
 
 model Sucrusal {
-  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nombre    String  @db.VarChar(120)
-  direccion String  @db.VarChar(250)
-  latitude  Decimal @db.Decimal(9, 6)
-  longitude Decimal @db.Decimal(9, 6)
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre    String   @db.VarChar(120)
+  direccion String   @db.VarChar(250)
+  latitude  Decimal  @db.Decimal(9, 6)
+  longitude Decimal  @db.Decimal(9, 6)
+  radio     Int?     @default(10)
   motos     Moto[]
+  Alarma    Alarma[]
+  User      User[]
 }
 
 model Geofence {
-  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nombre         String       @db.VarChar(120)
-  tipo           Typegeofence @relation(fields: [typegeofenceId], references: [id])
-  created_at     DateTime     @default(now())
-  update_at      DateTime?    @updatedAt
-  typegeofenceId String       @db.Uuid
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre         String    @db.VarChar(120)
+  tipo           String
+  created_at     DateTime  @default(now())
+  update_at      DateTime? @updatedAt
+  typegeofenceId String    @db.Uuid
   Polygon        Polygon[]
-}
-
-model Typegeofence {
-  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  in_out        Boolean    @default(false)
-  isBoth        Boolean    @default(false)
-  typealarma_id String     @db.Uuid
-  typealarma    TypeAlarma @relation(fields: [typealarma_id], references: [id])
-  Geofence      Geofence[]
-}
-
-model Typeparked {
-  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  limit_minutes Int        @default(0)
-  typealarma_id String     @db.Uuid
-  typealarma    TypeAlarma @relation(fields: [typealarma_id], references: [id])
+  alarm_id       String    @db.Uuid
+  alarm          Alarma    @relation(fields: [alarm_id], references: [id])
 }
 
 model Location {
@@ -110,12 +61,11 @@ model Location {
 }
 
 model Polygon {
-  id         String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  typegeo_id String        @db.Uuid
-  typegeo    Geofence      @relation(fields: [typegeo_id], references: [id])
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  typegeo_id String     @db.Uuid
+  typegeo    Geofence   @relation(fields: [typegeo_id], references: [id])
   puntos     Location[]
   Circle     Circle[]
-  users      UserPolygon[]
 }
 
 model Circle {
@@ -129,37 +79,30 @@ model Circle {
 
 model Client {
   id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  ci         Int       @unique
+  ci         String    @unique @db.VarChar(12)
   fullname   String    @db.VarChar(350)
   address    String?   @default("") @db.VarChar(250)
   phone      String?   @default("") @db.VarChar(20)
   motos      Moto[]
   created_at DateTime  @default(now())
   update_at  DateTime? @updatedAt
-  user       User?     @relation(fields: [user_id], references: [id])
-  user_id    String?   @unique @db.Uuid
 }
 
 model Moto {
-  id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  marca         String?     @default("") @db.VarChar(100)
-  modelo        String      @db.VarChar(100)
-  anio          Int?        @default(0)
-  placa         String      @db.VarChar(15)
-  motor         String?     @default("") @db.VarChar(10)
-  color         String?     @default("") @db.VarChar(10)
-  peso          Decimal?    @default(0) @db.Decimal(10, 2)
-  kilometraje   Decimal?    @default(0) @db.Decimal(10, 2)
-  estado        String?     @default("") @db.VarChar(50)
-  fecha_compra  DateTime?
-  precio_compra Decimal?    @default(0) @db.Decimal(10, 2)
-  created_at    DateTime    @default(now())
-  update_at     DateTime?   @updatedAt
-  client        Client      @relation(fields: [client_id], references: [id])
-  client_id     String      @db.Uuid
-  sucrusal_id   String?     @db.Uuid
-  sucrusal      Sucrusal?   @relation(fields: [sucrusal_id], references: [id])
-  dispositivos  MotoDispo[]
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  modelo       String      @db.VarChar(150)
+  marca        Marca?      @default(Honda)
+  placa        String      @unique @db.VarChar(12)
+  descripcion  String?     @default("") @db.VarChar(450)
+  litrokm      Decimal?    @default(0) @db.Decimal(10, 2)
+  estado       MotoEstado  @default(SN)
+  created_at   DateTime    @default(now())
+  update_at    DateTime?   @updatedAt
+  client       Client      @relation(fields: [client_id], references: [id])
+  client_id    String      @db.Uuid
+  sucrusal_id  String?     @db.Uuid
+  sucrusal     Sucrusal?   @relation(fields: [sucrusal_id], references: [id])
+  dispositivos MotoDispo[]
 }
 
 model MotoDispo {
@@ -176,10 +119,10 @@ model MotoDispo {
 
 model Dispositivo {
   id         Int          @id @default(autoincrement())
-  serial     String
-  chipgsm    String       @db.VarChar(20)
-  megas      DateTime?
-  estado     EstadoDevice @default(DISPONIBLE)
+  serial     String       @unique @db.VarChar(100)
+  chipgsm    String       @unique @db.VarChar(20)
+  megas_fin  DateTime?
+  estado     EstadoDevice @default(Disponible)
   created_at DateTime     @default(now())
   update_at  DateTime?    @updatedAt
   positions  Position[]
@@ -193,20 +136,26 @@ model Role {
   users       User[]
 }
 
+model TokenHeader {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token      String   @unique
+  created_at DateTime @default(now())
+}
+
 model User {
-  id         String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username   String       @unique
-  password   String       @db.VarChar(2000)
-  email      String       @unique
-  avatar     String?      @default("") @db.VarChar(30)
-  isAdmin    Boolean      @default(false)
-  status     EstadoUser   @default(ACTIVO)
-  created_at DateTime     @default(now())
-  update_at  DateTime?    @updatedAt
-  role       Role         @relation(fields: [role_id], references: [id])
-  role_id    String       @db.Uuid
-  cliente    Client?
-  alarmas    UserAlarma[]
+  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username    String     @unique
+  password    String     @db.VarChar(2000)
+  email       String     @unique
+  avatar      String?    @default("") @db.VarChar(30)
+  isAdmin     Boolean    @default(false)
+  status      EstadoUser @default(ACTIVO)
+  created_at  DateTime   @default(now())
+  update_at   DateTime?  @updatedAt
+  role        Role       @relation(fields: [role_id], references: [id])
+  role_id     String     @db.Uuid
+  sucrusal    Sucrusal?  @relation(fields: [sucrusal_id], references: [id])
+  sucrusal_id String?    @db.Uuid
 }
 
 enum EstadoUser {
@@ -217,10 +166,27 @@ enum EstadoUser {
   ELIMINADO
 }
 
+enum MotoEstado {
+  Nueva
+  SemiNueva
+  Particular
+  Trabajo
+  Mantenimiento
+  SN
+}
+
 enum EstadoDevice {
-  DISPONIBLE
-  ENUSO
-  MANTENIMIENTO
+  Disponible
+  Monitoreo
+  Mantenimiento
+}
+
+enum Marca {
+  Honda
+  Hero
+  KTM
+  Vespa
+  Atul
 }
 
 enum EstadoAlarma {

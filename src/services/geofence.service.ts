@@ -1,4 +1,4 @@
-import { GeofenceCreateInput, GeofenceUpdateInput } from "../models/geofence.model";
+import { GeofenceCreateInput, GeofenceUpdateInput } from "../entities/geofence.model";
 import prisma from "../utils/database.utils";
 
 export const getAllGeofences = async () => {

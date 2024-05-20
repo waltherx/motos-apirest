@@ -3,7 +3,7 @@ import { getAllLocations, createLocation, updateLocation, deleteLocation, getLoc
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { isIdValid } from '../utils/validator.utils';
-import { LocationCreateInput } from '../models/location.model';
+import { LocationCreateInput } from '../entities/location.model';
 
 const router = Router();
 

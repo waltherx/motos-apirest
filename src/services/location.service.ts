@@ -1,5 +1,5 @@
 import prisma from "../utils/database.utils";
-import { LocationCreateInput, LocationUpdateInput } from "../models/location.model";
+import { LocationCreateInput, LocationUpdateInput } from "../entities/location.model";
 
 export const getAllLocations = async () => {
     try {

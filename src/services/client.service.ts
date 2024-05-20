@@ -1,4 +1,4 @@
-import { ClientCreateInput, ClientUpdateInput } from "../models/client.model";
+import { ClientCreateInput, ClientUpdateInput } from "../entities/client.model";
 import prisma from "../utils/database.utils";
 
 export const getAllClients = async () => {

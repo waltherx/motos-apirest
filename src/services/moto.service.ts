@@ -1,5 +1,5 @@
 import prisma from "../utils/database.utils";
-import { MotoCreateInput, MotoSelect, MotoUpdateInput } from "../models/moto.model";
+import { MotoCreateInput, MotoSelect, MotoUpdateInput } from "../entities/moto.model";
 
 export const searchMotos = async (input: string) => {
     try {
@@ -124,7 +124,7 @@ export const getMoto = async (id: string) => {
                         ci: true,
                         phone: true,
                         address: true,
-                        user_id: true
+                        //user_id: true
                     }
                 }
             }

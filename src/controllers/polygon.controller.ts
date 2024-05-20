@@ -3,7 +3,7 @@ import { getAllPolygons, createPolygon, updatePolygon, deletePolygon, getPolygon
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { isIdValid } from '../utils/validator.utils';
-import { PolygonCreateInput } from '../models/polygon.model';
+import { PolygonCreateInput } from '../entities/polygon.model';
 
 const router = Router();
 

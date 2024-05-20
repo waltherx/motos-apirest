@@ -1,4 +1,4 @@
-import { PolygonCreateInput, PolygonUpdateInput } from "../models/polygon.model";
+import { PolygonCreateInput, PolygonUpdateInput } from "../entities/polygon.model";
 import prisma from "../utils/database.utils";
 
 export const getAllPolygons = async () => {

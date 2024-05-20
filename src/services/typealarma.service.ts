@@ -1,4 +1,4 @@
-import { TypeAlarmaCreateInput, TypeAlarmaUpdateInput } from "../models/typealarma.model";
+/*import { TypeAlarmaCreateInput, TypeAlarmaUpdateInput } from "../models/typealarma.model";
 import prisma from "../utils/database.utils";
 
 export const getAllTypeAlarmas = async () => {
@@ -51,4 +51,4 @@ export const deleteTypeAlarma = async (id: string): Promise<TypeAlarmaUpdateInpu
     } catch (error) {
         console.error(error.message);
     }
-}
+}*/

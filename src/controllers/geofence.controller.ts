@@ -3,7 +3,7 @@ import { getAllGeofences, createGeofence, updateGeofence, deleteGeofence, getGeo
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { isIdValid } from '../utils/validator.utils';
-import { GeofenceCreateInput } from '../models/geofence.model';
+import { GeofenceCreateInput } from '../entities/geofence.model';
 
 const router = Router();
 

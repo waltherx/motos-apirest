@@ -28,23 +28,14 @@ async function main() {
             users: {
                 create: [{
                     username: 'admin',
-                    //realname: 'admin',
-
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'admin@prisma.io',
-                    cliente: {
-                        create: adminClient
-                    },
                     status: 'ACTIVO',
                     isAdmin: true
 
                 },
                 {
                     username: 'vian1',
-                    //realname: 'Vian Honda',
-                    cliente: {
-                        create: vianClient
-                    },
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'vian@honda.com',
                     status: 'ACTIVO',
@@ -62,7 +53,7 @@ async function main() {
         create: {
             serial: "867959034960467",
             chipgsm: "7312254",
-            estado: 'ENUSO',
+            estado: 'Monitoreo',
             positions: {
                 create: [
                     {
@@ -106,9 +97,7 @@ async function main() {
                     //realname: 'eduardo',
                     password: bcrypt.hashSync('11223344', 8),
                     email: 'Edu@prisma.io',
-                    cliente: {
-                        create: eduClient
-                    },
+
                     status: 'ACTIVO',
 
                 }
@@ -122,37 +111,43 @@ async function main() {
             nombre: 'SUCURSAL HONDA 3ER ANILLO CRISTO REDENTOR',
             direccion: 'Cristo redentor 3er Anillo',
             latitude: -17.7581273,
-            longitude: -63.1790394
+            longitude: -63.1790394,
+            radio: 30
         },
         {
             nombre: 'SUCURSAL HONDA 6TO ANILLO CRISTO REDENTOR',
             direccion: 'Cristo redentor 6to anillo',
             latitude: -17.7415412,
-            longitude: -63.1711989
+            longitude: -63.1711989,
+            radio: 30
         },
         {
             nombre: 'SUCURSAL HONDA 4TO ANILLO VENTURA',
             direccion: '4to anillo zona Ventura Mall',
             latitude: -17.7534277,
-            longitude: -63.1962728
+            longitude: -63.1962728,
+            radio: 30
         },
         {
             nombre: 'SUCURSAL HONDA 2DO ANILLO AV. BRASIL',
             direccion: '2do anillo Av. Brasil',
             latitude: -17.7903577,
-            longitude: -63.1655984
+            longitude: -63.1655984,
+            radio: 30
         },
         {
             nombre: 'SUCURSAL HONDA URUBÓ',
             direccion: 'Carretera Santa Cruz camino a Porongo',
             latitude: -17.7630691,
-            longitude: -63.2357575
+            longitude: -63.2357575,
+            radio: 30
         },
         {
             nombre: 'SUCURSAL HONDA 3ER ANILLO INDANA',
             direccion: 'Av. Roque Aguilera 3er anillo frente comercial Indana',
             latitude: -17.7972818,
-            longitude: -63.2091615
+            longitude: -63.2091615,
+            radio: 30
         }
     ]
     const sucrus = prisma.sucrusal.createMany(

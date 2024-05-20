@@ -1,6 +1,8 @@
+import { Position, PositionCreate, PositionCreateInput, PositionUpdateInput } from "../entities/position.model";
+import { Alarma } from "../entities/alarma.model";
 import prisma from "../utils/database.utils";
-import { Position, PositionCreate, PositionCreateInput, PositionUpdateInput } from "../models/position.model";
 import { createDateFromFormat } from "../utils/dates.utils";
+import { getAlarma, getAllAlarmasActives } from "./alarma.service";
 
 export const getAllPositions = async () => {
     try {
@@ -51,6 +53,16 @@ export const getPositionLimit = async (dispositivo_id: number, limit: number = 5
     }
 }
 
+export const positionValueAlarm = async (position: Position) => {
+    try {
+        const alarma = await getAlarma(position.date.toString());
+        console.log(alarma.id);
+    } catch (error) {
+        console.error(error.message);
+        throw (error.message);
+    }
+}
+
 
 export const getPositionDispositivo = async (dispositivo_id: number) => {
     try {
@@ -60,6 +72,34 @@ export const getPositionDispositivo = async (dispositivo_id: number) => {
     } catch (error) {
         console.error(error.message);
         return [];
+    }
+}
+
+/*
+Validando posicions
+*/
+export const getAlarmasByPosition = async (dispositivo_id: number) => {
+    try {
+        return await prisma.$queryRaw<Alarma[]>`SELECT a.*
+                FROM "MotoDispo" AS md 
+                JOIN "Moto" AS m ON md.moto_id = m.id 
+                JOIN "Sucrusal" AS s ON m.sucrusal_id  = s.id
+                JOIN "Alarma" AS a ON s.id  = a.sucrusal_id 
+                WHERE md.dispositivo_id = ${dispositivo_id};`
+    } catch (error) {
+        console.log(error);
+        throw (error);
+    }
+}
+export const isNofityPosition = async (input: Position): Promise<boolean> => {
+    try {
+        const alarmas = await getAlarmasByPosition(input.dispositivo_id);
+        //alarmas.map()
+        console.log(alarmas);
+        return true;
+    } catch (error) {
+        console.log(error);
+        throw (error);
     }
 }
 

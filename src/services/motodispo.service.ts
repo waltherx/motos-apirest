@@ -1,4 +1,4 @@
-import { MotoDispoCreateInput, MotoDispoUpdateInput } from "../models/motodispo.model";
+import { MotoDispoCreateInput, MotoDispoUpdateInput } from "../entities/motodispo.model";
 import prisma from "../utils/database.utils";
 
 export const getAllMotoDispos = async () => {

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import prisma from "../utils/database.utils";
-import { UserCreateInput, UserUpdateInput } from "../models/user.model";
+import { UserCreateInput, UserUpdateInput } from "../entities/user.model";
 
 export const getAllUsers = async () => {
     try {

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 
-import { MotoCreateInput } from '../models/moto.model';
+import { MotoCreateInput } from '../entities/moto.model';
 import { createMoto, deleteMoto, getAllMotos, getAllPlacas, getMoto, searchMotos, searchMotosByPlaca, searchMotosPlacas, updateMoto } from '../services/moto.service';
 import { isIdValid } from '../utils/validator.utils';
 

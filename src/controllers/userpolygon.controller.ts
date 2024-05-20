@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express';
+/*import { NextFunction, Request, Response, Router } from 'express';
 import { getAllUserPolygons, createUserPolygon, updateUserPolygon, deleteUserPolygon, getUserPolygon } from '../services/userpolygon.service';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
@@ -79,4 +79,4 @@ router.delete('/userpolygon/:id', auth, async (req: Request, res: Response, next
     }
 });
 
-export default router;
+export default router;*/

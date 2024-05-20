@@ -1,10 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import { getAllUserAlarmas, createUserAlarma, updateUserAlarma, deleteUserAlarma, getUserAlarma } from '../services/useralarma.service';
-import httpStatus from 'http-status';
-import { auth } from '../middlewares/auth.middleware';
-import { isIdValid } from '../utils/validator.utils';
-import { UserAlarmaCreateInput } from '../models/useralarma.model';
-
+/*
 const router = Router();
 
 router.get('/useralarma', auth, async (req: Request, res: Response, next: NextFunction) => {
@@ -76,4 +70,4 @@ router.delete('/useralarma/:id', auth, async (req: Request, res: Response, next:
     }
 });
 
-export default router;
+export default router;*/

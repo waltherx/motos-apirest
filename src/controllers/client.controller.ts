@@ -9,7 +9,7 @@ import {
   getClientMotos,
 } from "../services/client.service";
 import { isIdValid } from "../utils/validator.utils";
-import { ClientCreateInput } from "../models/client.model";
+import { ClientCreateInput } from "../entities/client.model";
 import { auth } from "../middlewares/auth.middleware";
 
 const router = Router();

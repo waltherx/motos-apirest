@@ -1,26 +1,20 @@
-import { MotoCreateInput } from "../models/moto.model";
-import joi from "joi";
+import { MotoCreateInput } from "../entities/moto.model";
+import { z, ZodType } from 'zod'
 
-export const motoSchema = joi.object<MotoCreateInput>({
-    marca: joi.string().required(),
-    modelo: joi.string(),
-    anio: joi.number(),
-    placa: joi.string().max(10).alphanum().required(),
-    motor: joi.string(),
-    color: joi.string(),
-    peso: joi.number(),
-    kilometraje: joi.number(),
-    estado: joi.string(),
-    fecha_compra: joi.string().isoDate(),
-    precio_compra: joi.number()
+export const motoSchema = z.object({
+    marca: z.string(),
+    modelo: z.string(),
+    placa: z.string().max(10),
+    litrokm: z.number(),
+    estado: z.string(),
 });
 
 type motoID = {
     id: number;
 }
 
-export const motoIdSchema = joi.object<motoID>({
-    id: joi.number().min(1).required()
+export const motoIdSchema = z.object({
+    id: z.number().min(1)
 });
 
 

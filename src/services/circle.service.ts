@@ -1,4 +1,4 @@
-import { CircleCreateInput, CircleUpdateInput } from "../models/circle.model";
+import { CircleCreateInput, CircleUpdateInput } from "../entities/circle.model";
 import prisma from "../utils/database.utils";
 
 export const getAllCircles = async () => {

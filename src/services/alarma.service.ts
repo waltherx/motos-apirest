@@ -1,4 +1,4 @@
-import { AlarmaCreateInput, AlarmaUpdateInput } from "../models/alarma.model";
+import { AlarmaCreateInput, AlarmaUpdateInput } from "../entities/alarma.model";
 import prisma from "../utils/database.utils";
 import { estadoAlarma } from "../utils/constans";
 

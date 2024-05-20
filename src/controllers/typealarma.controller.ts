@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from 'express';
+/*import { NextFunction, Request, Response, Router } from 'express';
 import { getAllTypeAlarmas, createTypeAlarma, updateTypeAlarma, deleteTypeAlarma, getTypeAlarma } from '../services/typealarma.service';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
@@ -76,4 +76,4 @@ router.delete('/typealarma/:id', auth, async (req: Request, res: Response, next:
     }
 });
 
-export default router;
+export default router;*/

@@ -1,16 +1,15 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
-import { validateSchema } from '../middlewares/schema.middleware';
-import { Position, PositionCreate, PositionCreateInput, PositionSearchDate } from '../models/position.model';
+import { validateData } from '../middlewares/validate.middleware'
+import { PositionCreate, PositionCreateInput, PositionSearchDate } from '../entities/position.model';
 import { positionSearhDateSchema } from '../schemas/position.schema';
 import { getDispositivoSerial } from '../services/dispositivo.service';
-import { createPosition, deletePosition, getAllPositions, getPositionDayBegin, getPositionDayEnd, getPositionDispositivo, getPositionLast, getPositionLimit, updatePosition } from '../services/position.service';
+import { getMoto } from '../services/moto.service';
+import { getMotoDispoById } from '../services/motodispo.service';
+import { createPosition, deletePosition, getAlarmasByPosition, getAllPositions, getPositionDayBegin, getPositionDayEnd, getPositionDispositivo, getPositionLast, getPositionLimit, updatePosition } from '../services/position.service';
 import { radioAllow } from '../utils/distance.utils';
 import { isIdValid } from '../utils/validator.utils';
-import { getMotoDispoById } from '../services/motodispo.service';
-import { getMoto } from '../services/moto.service';
-import { getClient } from '../services/client.service';
 
 const router = Router();
 
@@ -24,6 +23,7 @@ router.get('/position', auth, async (req: Request, res: Response, next: NextFunc
         res.status(500).json({ message: "Error fetching data Position" });
     }
 });
+
 
 router.get('/position/moto/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -84,7 +84,7 @@ router.get('/position/:id/limit/:limit',
 
 router.get('/position/day/begin',
     auth,
-    validateSchema(positionSearhDateSchema),
+    validateData(positionSearhDateSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data = req.body as PositionSearchDate;
@@ -98,13 +98,28 @@ router.get('/position/day/begin',
         }
     });
 
+
+router.get('/position/alarma/:id',
+    //validateSchema(positionSearhDateSchema),
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const id: number = parseInt(req.params.id);
+            const alarmas = await getAlarmasByPosition(id);
+            return res.status(httpStatus.OK).json(alarmas);
+        } catch (error) {
+            console.error(error.message);
+            next(error);
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: "Error Position" })
+        }
+    });
+
 router.get('/position/day/end',
     auth,
-    validateSchema(positionSearhDateSchema),
+    validateData(positionSearhDateSchema),
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const data = req.body as PositionSearchDate;
-            console.log(data);
+            //console.log(data);
             const positions = await getPositionDayEnd(data.id, data.fecha, data?.limit)
             return res.status(httpStatus.OK).json(positions);
         } catch (error) {

@@ -1,4 +1,4 @@
-import { RoleCreateInput, RoleUpdateInput } from "../models/role.model";
+import { RoleCreateInput, RoleUpdateInput } from "../entities/role.model";
 import prisma from "../utils/database.utils";
 
 export const getAllRoles = async () => {

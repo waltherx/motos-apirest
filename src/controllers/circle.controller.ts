@@ -3,7 +3,7 @@ import { getAllCircles, createCircle, updateCircle, deleteCircle, getCircle } fr
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { isIdValid } from '../utils/validator.utils';
-import { CircleCreateInput } from '../models/circle.model';
+import { CircleCreateInput } from '../entities/circle.model';
 
 const router = Router();
 

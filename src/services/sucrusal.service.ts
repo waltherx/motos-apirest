@@ -1,4 +1,4 @@
-import { SucrusalCreateInput, SucrusalUpdateInput } from "../models/sucrusal.model";
+import { SucrusalCreateInput, SucrusalUpdateInput } from "../entities/sucrusal.model";
 import prisma from "../utils/database.utils";
 
 export const getAllSucrusals = async () => {

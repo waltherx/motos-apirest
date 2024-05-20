@@ -1,4 +1,4 @@
-import { UserPolygonCreateInput, UserPolygonUpdateInput } from "../models/userpolygon.model";
+/*import { UserPolygonCreateInput, UserPolygonUpdateInput } from "../models/userpolygon.model";
 import { estadoAlarma } from "../utils/constans";
 import prisma from "../utils/database.utils";
 
@@ -52,4 +52,4 @@ export const deleteUserPolygon = async (id: string): Promise<UserPolygonUpdateIn
     } catch (error) {
         console.error(error.message);
     }
-}
+}*/

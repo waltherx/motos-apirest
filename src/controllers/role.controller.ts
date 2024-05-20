@@ -3,7 +3,7 @@ import { getAllRoles, createRole, updateRole, deleteRole, getRole } from '../ser
 import httpStatus from 'http-status';
 import { auth } from '../middlewares/auth.middleware';
 import { isIdValid } from '../utils/validator.utils';
-import { RoleCreateInput } from '../models/role.model';
+import { RoleCreateInput } from '../entities/role.model';
 
 const router = Router();
 

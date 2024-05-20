@@ -1,7 +1,7 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
 import morgan from 'morgan';
-import routes from "../api/routes.api";
+import routes from "../app/api/routes.api";
 import Logger from "./logger.core";
 
 process.on("uncaughtException", (e) => {
