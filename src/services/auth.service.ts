@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserChangeData, UserCreateInput, UserData } from "../entities/user.model";
+import ApiError from '../utils/apiError';
 import prisma from "../utils/database.utils";
 import { createUser } from "./user.service";
 
@@ -41,7 +42,7 @@ export async function login(userIn: UserData) {
         });
 
         if (!foundUser) {
-            throw new Error('Nombre de Usuario incorrecto..😪');
+            throw new ApiError(404, 'Nombre de Usuario incorrecto..😪');
         }
 
         const isMatch = bcrypt.compareSync(userIn.password, foundUser.password);
@@ -68,7 +69,7 @@ export async function login(userIn: UserData) {
                 token: token
             };
         } else {
-            throw new Error('Contraseña incorrecta');
+            throw new ApiError(400, 'Contraseña incorrecta');
         }
     } catch (error) {
         throw error;
@@ -77,34 +78,9 @@ export async function login(userIn: UserData) {
 
 export async function refresh(token: string) {
     try {
-        verifyRefreshToken(token)
-            .then(({ foundUser }) => {
-
-                const accessToken = jwt.sign(
-                    {
-                        id: foundUser.id?.toString(),
-                        username: foundUser.username,
-                        email: foundUser.email,
-                        isAdmin: foundUser.isAdmin,
-                        avatar: foundUser.avatar,
-                        status: foundUser.status,
-                        role: foundUser.role_id
-                    },
-                    process.env.JWT_SECRET,
-                    { expiresIn: '7 days' }
-                );
-                return {
-                    user: {
-                        id: foundUser.id,
-                        username: foundUser.username,
-                        role: foundUser.role_id
-                    },
-                    token: accessToken
-                };
-            })
-            .catch((err) => { return err });
+        return "no hay nada";
     } catch (error) {
-        throw error;
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -117,14 +93,14 @@ export async function signup(userIn: UserCreateInput) {
         });
 
         if (foundUser) {
-            throw new Error('Nombre de Usuario ya existe..😪');
+            throw new ApiError(400, 'Nombre de Usuario ya existe..😪');
         } else {
             const newUser = await createUser(userIn);
             delete (newUser.password);
             return newUser;
         }
     } catch (error) {
-        throw error;
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -149,12 +125,12 @@ export async function changePassword(userIn: UserChangeData) {
                     }
                 });
             } else {
-                return { "message": "La nueva contraseña es igual a la anterior..😪" };
+                throw new ApiError(404, "La nueva contraseña es igual a la anterior..😪");
             }
         } else {
-            return { "message": "El nombre de usuario que ingresaste no está registrado..😪" };
+            throw new ApiError(404, "El nombre de usuario que ingresaste no está registrado..😪");
         }
     } catch (error) {
-        throw error;
+        throw new ApiError(500, error.message);
     }
 }

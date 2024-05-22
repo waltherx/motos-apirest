@@ -1,9 +1,8 @@
 import { createServer } from "http";
-import { port } from "./config";
+import { port } from "./config/config";
 import app from "./core/app.core";
 import cron from './core/cron.core';
 import Logger from "./core/logger.core";
-
 
 const initServer = async () => {
   cron.start();

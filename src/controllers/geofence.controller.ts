@@ -52,7 +52,7 @@ router.post('/geofence', auth, async (req: Request, res: Response, next: NextFun
 router.put('/geofence/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id as string;
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
 
         const geofence = req.body as GeofenceCreateInput;
         await updateGeofence(id, geofence);
@@ -67,7 +67,7 @@ router.put('/geofence/:id', auth, async (req: Request, res: Response, next: Next
 router.delete('/geofence/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id as string;
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
         await deleteGeofence(id);
         res.status(httpStatus.OK).json({ "message": "Geofence eliminado.." });
     } catch (error) {

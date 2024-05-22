@@ -1,19 +1,5 @@
 import { Router } from 'express';
-
-import alarmaController from '../../controllers/alarma.controller';
-import authController from '../../controllers/auth.controller';
-import clientController from '../../controllers/client.controller';
-import deviceController from '../../controllers/dispositivo.controller';
-import motoController from '../../controllers/moto.controller';
-import positionController from '../../controllers/position.controller';
-import roleController from '../../controllers/role.controller';
-import sucrusalController from '../../controllers/sucrusal.controller';
-import userController from '../../controllers/user.controller';
-import circleController from '../../controllers/circle.controller';
-import geofenceController from '../../controllers/geofence.controller';
-import locationController from '../../controllers/location.controller';
-import polygonController from '../../controllers/polygon.controller';
-import motodispoController from '../../controllers/motodispo.controller';
+import { alarmaController, authController, circleController, clientController, deviceController, geofenceController, locationController, motoController, motodispoController, polygonController, positionController, roleController, sucrusalController, userController } from '../../controllers';
 
 const api = Router()
   .use(userController)

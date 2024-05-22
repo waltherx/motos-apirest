@@ -50,18 +50,19 @@ router.post('/dispositivo', auth, async (req: Request, res: Response, next: Next
     try {
         const dispositivo = req.body as DispositivoCreateInput;
         const newDispositivo = await createDispositivo(dispositivo);
-        res.status(httpStatus.CREATED).json(newDispositivo);
+        if (newDispositivo) res.status(httpStatus.CREATED).json(newDispositivo);
+        else res.status(httpStatus.NOT_FOUND).json({ "error": "no se guardo." })
     } catch (error) {
         console.error(error.message);
         next(error);
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: "Error create Dispositivo" })
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ "error": error.message })
     }
 });
 
 router.put('/dispositivo/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
 
         const dispositivo = req.body as DispositivoCreateInput;
         await updateDispositivo(id, dispositivo);
@@ -76,7 +77,7 @@ router.put('/dispositivo/:id', auth, async (req: Request, res: Response, next: N
 router.delete('/dispositivo/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = parseInt(req.params.id);
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
         await deleteDispositivo(id);
         res.status(httpStatus.OK).json({ "message": "Dispositivo eliminado.." });
     } catch (error) {

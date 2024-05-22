@@ -10,11 +10,11 @@ const router = Router();
 router.post('/login', validateData(userLoginSchema), async (req: Request, res: Response, nx: NextFunction) => {
     try {
         const foundUser = await login(req.body);
-        if (foundUser) return res.status(httpStatus.OK).send(foundUser);
-        else return res.status(httpStatus.OK).send({ "error": "no se encontro" });
+        if (foundUser) res.status(httpStatus.OK).send(foundUser);
+        else res.status(httpStatus.OK).send({ "error": "no se encontro" });
     } catch (error) {
         nx(error);
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
     }
 });
 
@@ -29,27 +29,27 @@ router.post('/refresh', validateData(refreshSchema), async (req: Request, res: R
             .catch((err => res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(err) })));
     } catch (error) {
         nx(error);
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
     }
 });
 
 router.post('/signup', validateData(userSchema), async (req: Request, res: Response, nx: NextFunction) => {
     try {
         const foundUser = await signup(req.body);
-        return res.status(httpStatus.CREATED).send(foundUser);
+        res.status(httpStatus.CREATED).send(foundUser);
     } catch (error) {
         nx(error);
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
     }
 });
 
 router.post('/changepassword', async (req: Request, res: Response, nx: NextFunction) => {
     try {
         const foundUser = await changePassword(req.body);
-        return res.status(httpStatus.CREATED).send(foundUser);
+        res.status(httpStatus.CREATED).send(foundUser);
     } catch (error) {
         nx(error);
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ "error": getErrorMessage(error) });
     }
 });
 

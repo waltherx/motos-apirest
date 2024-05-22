@@ -17,6 +17,10 @@ app.use(morgan('tiny'));
 // Routes
 app.use(routes);
 
+app.all("*", (req: Request, res: Response) => {
+  res.status(404).json({ error: `Ruta ${req.originalUrl} no encontrada` });
+});
+
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Hola 😃" });
 });

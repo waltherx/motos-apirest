@@ -1,5 +1,5 @@
 import { Redis } from 'ioredis';
-import { redisConfig } from '../config';
+import { redisConfig } from '../config/config';
 
 /*const serverQl = new ApolloServer({
      typeDefs,

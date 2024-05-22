@@ -101,7 +101,7 @@ router.post('/moto', auth, async (req: Request, res: Response, next: NextFunctio
 router.put('/moto/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id as string;
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
 
         const client = req.body as MotoCreateInput;
         await updateMoto(id, client);
@@ -116,7 +116,7 @@ router.put('/moto/:id', auth, async (req: Request, res: Response, next: NextFunc
 router.delete('/moto/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id as string;
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
         await deleteMoto(id);
         res.status(httpStatus.OK).json({ "message": "Moto eliminado.." });
     } catch (error) {

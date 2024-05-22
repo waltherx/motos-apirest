@@ -39,7 +39,7 @@ const validarAlarma = async () => {
     }
 }
 
-const task = cron.schedule('0 */03 * * * *', validarAlarma, {
+const task = cron.schedule('0 */09 * * * *', validarAlarma, {
     scheduled: false,
     timezone: 'America/La_Paz'
 });

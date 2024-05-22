@@ -1,12 +1,12 @@
-import { SucrusalCreateInput, SucrusalUpdateInput } from "../entities/sucrusal.model";
+import { SucrusalUpdateInput } from "../entities/sucrusal.model";
+import ApiError from "../utils/apiError";
 import prisma from "../utils/database.utils";
 
 export const getAllSucrusals = async () => {
     try {
         return await prisma.sucrusal.findMany();
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 };
 
@@ -16,7 +16,6 @@ export const getSucrusal = async (id: string): Promise<SucrusalUpdateInput> => {
             where: { id }
         });
     } catch (error) {
-        console.error(error.message);
-        return {};
+        throw new ApiError(500, error.message);
     }
 };

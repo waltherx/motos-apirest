@@ -8,5 +8,5 @@ export function errorHandler(error, req: Request, res: Response, next: NextFunct
         return res.status(httpStatus.NOT_FOUND).send(error.message);
     }
 
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(`Perdón, algo salió mal😞.`);
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(`Algo salió mal😞.`);
 }

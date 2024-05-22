@@ -47,7 +47,7 @@ router.post('/user', auth, async (req: Request, res: Response, next: NextFunctio
 router.put('/user/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id as string;
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
         const user = req.body as UserCreateInput;
         await updateUser(id, user);
         res.status(httpStatus.OK).json({ "message": "User actualizado.." });
@@ -61,7 +61,7 @@ router.put('/user/:id', auth, async (req: Request, res: Response, next: NextFunc
 router.delete('/user/:id', auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id: string = req.params.id as string;
-        if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+        if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
         await deleteUser(id);
         res.status(httpStatus.OK).json({ "message": "User eliminado.." });
     } catch (error) {

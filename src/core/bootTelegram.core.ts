@@ -1,5 +1,5 @@
 import TelegramBot from "node-telegram-bot-api";
-import { bootTelegram, groupTelegram } from "../config";
+import { bootTelegram, groupTelegram } from "../config/config";
 
 class TelegramBotHandler {
   bot: TelegramBot;

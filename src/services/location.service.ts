@@ -1,5 +1,6 @@
 import prisma from "../utils/database.utils";
 import { LocationCreateInput, LocationUpdateInput } from "../entities/location.model";
+import ApiError from "../utils/apiError";
 
 export const getAllLocations = async () => {
     try {
@@ -9,8 +10,7 @@ export const getAllLocations = async () => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -20,7 +20,7 @@ export const getLocation = async (id: string): Promise<LocationUpdateInput> => {
             where: { id },
         });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -28,7 +28,7 @@ export const createLocation = async (input: LocationCreateInput): Promise<Locati
     try {
         return await prisma.location.create({ data: input })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -39,7 +39,7 @@ export const updateLocation = async (id: string, input: LocationCreateInput): Pr
             data: input
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -49,6 +49,6 @@ export const deleteLocation = async (id: string): Promise<LocationUpdateInput> =
             where: { id }
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }

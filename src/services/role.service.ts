@@ -1,4 +1,5 @@
 import { RoleCreateInput, RoleUpdateInput } from "../entities/role.model";
+import ApiError from "../utils/apiError";
 import prisma from "../utils/database.utils";
 
 export const getAllRoles = async () => {
@@ -9,8 +10,7 @@ export const getAllRoles = async () => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -20,7 +20,7 @@ export const getRole = async (id: string): Promise<RoleUpdateInput> => {
             where: { id },
         });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -28,7 +28,7 @@ export const createRole = async (input: RoleCreateInput): Promise<RoleUpdateInpu
     try {
         return await prisma.role.create({ data: input })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -39,7 +39,7 @@ export const updateRole = async (id: string, input: RoleCreateInput): Promise<Ro
             data: input
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -49,6 +49,6 @@ export const deleteRole = async (id: string): Promise<RoleUpdateInput> => {
             where: { id }
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }

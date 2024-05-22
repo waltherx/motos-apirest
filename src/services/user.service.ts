@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
-import prisma from "../utils/database.utils";
 import { UserCreateInput, UserUpdateInput } from "../entities/user.model";
+import ApiError from '../utils/apiError';
+import prisma from "../utils/database.utils";
 
 export const getAllUsers = async () => {
     try {
@@ -10,8 +11,7 @@ export const getAllUsers = async () => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -21,7 +21,7 @@ export const getUser = async (id: string): Promise<UserUpdateInput> => {
             where: { id },
         });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -32,7 +32,7 @@ export const createUser = async (input: UserCreateInput): Promise<UserUpdateInpu
         console.log(input.password);
         return await prisma.user.create({ data: input })
     } catch (error) {
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -43,7 +43,7 @@ export const updateUser = async (id: string, input: UserCreateInput): Promise<Us
             data: input
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -53,6 +53,6 @@ export const deleteUser = async (id: string): Promise<UserUpdateInput> => {
             where: { id }
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }

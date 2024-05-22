@@ -1,28 +1,16 @@
-import { Position, PositionCreate, PositionCreateInput, PositionUpdateInput } from "../entities/position.model";
 import { Alarma } from "../entities/alarma.model";
+import { Position, PositionCreate, PositionCreateInput, PositionUpdateInput } from "../entities/position.model";
+import ApiError from "../utils/apiError";
 import prisma from "../utils/database.utils";
 import { createDateFromFormat } from "../utils/dates.utils";
-import { getAlarma, getAllAlarmasActives } from "./alarma.service";
+import { getAlarma } from "./alarma.service";
 
-export const getAllPositions = async () => {
-    try {
-        return await prisma.position.findMany({
-            orderBy: {
-                id: 'asc'
-            }
-        });
-    } catch (error) {
-        console.error(error.message);
-        return [];
-    }
-}
 
 export const getPositionLast = async (dispositivo_id: number): Promise<Position[]> => {
     try {
         return await prisma.$queryRaw<Position[]>`select * from public."Position" p where p.dispositivo_id =${dispositivo_id} order by p.date desc limit 1;`
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -30,8 +18,7 @@ export const getPositionDayBegin = async (dispositivo_id: number, date: string, 
     try {
         return await prisma.$queryRaw<Position[]>`select * from public."Position" p where p.dispositivo_id = ${dispositivo_id} and DATE(p.date)=${createDateFromFormat(date)} order by p.date asc limit ${limit};`
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -39,8 +26,7 @@ export const getPositionDayEnd = async (dispositivo_id: number, date: string, li
     try {
         return await prisma.$queryRaw<Position>`select * from "Position" p where p.dispositivo_id = ${dispositivo_id} and DATE(p.date) =${createDateFromFormat(date)} order by p.date desc limit ${limit};`
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -48,8 +34,7 @@ export const getPositionLimit = async (dispositivo_id: number, limit: number = 5
     try {
         return await prisma.$queryRaw<Position[]>`select * from public."Position" p where p.dispositivo_id =${dispositivo_id} order by p.date desc limit ${limit};`
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -58,8 +43,7 @@ export const positionValueAlarm = async (position: Position) => {
         const alarma = await getAlarma(position.date.toString());
         console.log(alarma.id);
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -70,8 +54,7 @@ export const getPositionDispositivo = async (dispositivo_id: number) => {
             where: { dispositivo_id },
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -87,8 +70,7 @@ export const getAlarmasByPosition = async (dispositivo_id: number) => {
                 JOIN "Alarma" AS a ON s.id  = a.sucrusal_id 
                 WHERE md.dispositivo_id = ${dispositivo_id};`
     } catch (error) {
-        console.log(error);
-        throw (error);
+        throw new ApiError(500, error.message);
     }
 }
 export const isNofityPosition = async (input: Position): Promise<boolean> => {
@@ -98,8 +80,7 @@ export const isNofityPosition = async (input: Position): Promise<boolean> => {
         console.log(alarmas);
         return true;
     } catch (error) {
-        console.log(error);
-        throw (error);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -107,8 +88,7 @@ export const createPosition = async (input: PositionCreate): Promise<PositionUpd
     try {
         return await prisma.position.create({ data: input })
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -119,8 +99,7 @@ export const updatePosition = async (id: number, input: PositionCreateInput): Pr
             data: input
         })
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -130,7 +109,6 @@ export const deletePosition = async (id: number): Promise<PositionUpdateInput> =
             where: { id }
         })
     } catch (error) {
-        console.error(error.message);
-        throw (error.message);
+        throw new ApiError(500, error.message);
     }
 }

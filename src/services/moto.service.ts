@@ -1,5 +1,6 @@
+import { MotoCreateInput, MotoUpdateInput } from "../entities/moto.model";
+import ApiError from "../utils/apiError";
 import prisma from "../utils/database.utils";
-import { MotoCreateInput, MotoSelect, MotoUpdateInput } from "../entities/moto.model";
 
 export const searchMotos = async (input: string) => {
     try {
@@ -21,8 +22,7 @@ export const searchMotos = async (input: string) => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -42,8 +42,7 @@ export const searchMotosByPlaca = async (input: string) => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return {} as MotoCreateInput;
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -63,8 +62,7 @@ export const searchMotosPlacas = async (input: string) => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -76,8 +74,7 @@ export const getAllPlacas = async () => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -89,8 +86,7 @@ export const getAllMotos = async () => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -107,8 +103,7 @@ export const getMotoDevice = async (id: string) => {
             }
         });
     } catch (error) {
-        console.error(error.message);
-        return {};
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -130,7 +125,7 @@ export const getMoto = async (id: string) => {
             }
         });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -138,7 +133,7 @@ export const createMoto = async (input: MotoCreateInput): Promise<MotoUpdateInpu
     try {
         return await prisma.moto.create({ data: input })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -149,7 +144,7 @@ export const updateMoto = async (id: string, input: MotoCreateInput): Promise<Mo
             data: input
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }
 
@@ -159,6 +154,6 @@ export const deleteMoto = async (id: string): Promise<MotoUpdateInput> => {
             where: { id }
         })
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 }

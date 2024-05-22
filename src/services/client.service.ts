@@ -1,4 +1,5 @@
 import { ClientCreateInput, ClientUpdateInput } from "../entities/client.model";
+import ApiError from "../utils/apiError";
 import prisma from "../utils/database.utils";
 
 export const getAllClients = async () => {
@@ -16,8 +17,7 @@ export const getAllClients = async () => {
       },
     });
   } catch (error) {
-    console.error(error.message);
-    return [];
+    throw new ApiError(500, error.message);
   }
 };
 
@@ -34,7 +34,7 @@ export const getClient = async (id: string): Promise<ClientUpdateInput> => {
       },
     });
   } catch (error) {
-    console.error(error.message);
+    throw new ApiError(500, error.message);
   }
 };
 
@@ -52,7 +52,7 @@ export const getClientMotos = async (id: string) => {
       },
     });
   } catch (error) {
-    console.error(error.message);
+    throw new ApiError(500, error.message);
   }
 };
 
@@ -62,7 +62,7 @@ export const createClient = async (
   try {
     return await prisma.client.create({ data: input });
   } catch (error) {
-    console.error(error.message);
+    throw new ApiError(500, error.message);
   }
 };
 
@@ -76,7 +76,7 @@ export const updateClient = async (
       data: input,
     });
   } catch (error) {
-    console.error(error.message);
+    throw new ApiError(500, error.message);
   }
 };
 
@@ -86,6 +86,6 @@ export const deleteClient = async (id: string): Promise<ClientUpdateInput> => {
       where: { id },
     });
   } catch (error) {
-    console.error(error.message);
+    throw new ApiError(500, error.message);
   }
 };

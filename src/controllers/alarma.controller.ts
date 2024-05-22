@@ -88,7 +88,7 @@ router.put(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = req.params.id;
-            if (!id) return res.sendStatus(httpStatus.BAD_REQUEST);
+            if (!id) res.sendStatus(httpStatus.BAD_REQUEST);
             const alarma = req.body as AlarmaCreateInput;
             await updateAlarma(id, alarma);
             res.status(httpStatus.OK).json({ message: "Alarma actualizado.." });
@@ -108,7 +108,7 @@ router.delete(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = req.params.id;
-            if (!id) return res.sendStatus(httpStatus.BAD_REQUEST);
+            if (!id) res.sendStatus(httpStatus.BAD_REQUEST);
             await deleteAlarma(id);
             res.status(httpStatus.OK).json({ message: "Alarma eliminado.." });
         } catch (error) {

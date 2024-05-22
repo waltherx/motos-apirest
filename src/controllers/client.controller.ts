@@ -58,7 +58,7 @@ router.get(
       const id: string = req.params.id as string;
       const client = await getClientMotos(id);
       res.statusCode = httpStatus.OK;
-      return res.json(client);
+      res.status(httpStatus.OK).json(client);
     } catch (error) {
       console.error(error.message);
       next(error);
@@ -93,8 +93,7 @@ router.put(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: string = req.params.id as string;
-      if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
-
+      if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
       const client = req.body as ClientCreateInput;
       await updateClient(id, client);
       res.status(httpStatus.OK).json({ message: "Cliente actualizado.." });
@@ -114,7 +113,7 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: string = req.params.id as string;
-      if (!isIdValid(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+      if (!isIdValid(id)) res.sendStatus(httpStatus.BAD_REQUEST);
       await deleteClient(id);
       res.status(httpStatus.OK).json({ message: "Cliente eliminado.." });
     } catch (error) {

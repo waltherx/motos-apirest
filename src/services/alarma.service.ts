@@ -1,6 +1,7 @@
 import { AlarmaCreateInput, AlarmaUpdateInput } from "../entities/alarma.model";
 import prisma from "../utils/database.utils";
 import { estadoAlarma } from "../utils/constans";
+import ApiError from "../utils/apiError";
 
 export const getAllAlarmas = async (): Promise<AlarmaUpdateInput[]> => {
     try {
@@ -10,8 +11,7 @@ export const getAllAlarmas = async (): Promise<AlarmaUpdateInput[]> => {
             },
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 };
 
@@ -23,8 +23,7 @@ export const getAllAlarmasActives = async (): Promise<AlarmaUpdateInput[]> => {
             },
         });
     } catch (error) {
-        console.error(error.message);
-        return [];
+        throw new ApiError(500, error.message);
     }
 };
 
@@ -34,7 +33,7 @@ export const getAlarma = async (id: string): Promise<AlarmaUpdateInput> => {
             where: { id }
         });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 };
 
@@ -44,7 +43,7 @@ export const createAlarma = async (
     try {
         return await prisma.alarma.create({ data: input });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 };
 
@@ -58,7 +57,7 @@ export const updateAlarma = async (
             data: input,
         });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 };
 
@@ -68,6 +67,6 @@ export const deleteAlarma = async (id: string): Promise<AlarmaUpdateInput> => {
             where: { id },
         });
     } catch (error) {
-        console.error(error.message);
+        throw new ApiError(500, error.message);
     }
 };
